@@ -19,6 +19,7 @@ import type {
   TwSectorPerf,
 } from "@/app/api/tw-daily-wrap/route";
 import { formatPercent } from "@/lib/format";
+import { LiteUpgradeHint } from "./LiteUpgradeHint";
 import { TwUsCorrelation } from "./TwUsCorrelation";
 
 export function TwDailyWrapUp() {
@@ -114,51 +115,97 @@ export function TwDailyWrapUp() {
         </div>
       )}
 
+      {/* 🆕 AI 法人籌碼 narrative — 解讀法人 + 融資融券動向 */}
+      {data.institutionalNarrative && data.institutionalNarrative.length > 0 && (
+        <div className="mb-3 rounded-md border border-purple-200 bg-purple-50/40 p-3">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-purple-900">
+            <Building2 size={12} className="text-purple-700" />
+            AI 法人籌碼解讀
+            <span className="rounded bg-purple-200 px-1.5 py-0.5 text-[10px] font-bold text-purple-900">
+              AI 整理
+            </span>
+          </div>
+          <ul className="space-y-1 text-xs leading-relaxed text-gray-800">
+            {data.institutionalNarrative.slice(0, 1).map((n, i) => (
+              <li key={i} className="flex items-start gap-1.5">
+                <span className="mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-purple-500" />
+                <span className="flex-1">{n}</span>
+              </li>
+            ))}
+          </ul>
+          {data.institutionalNarrative.length > 1 && (
+            <div className="mt-2 flex justify-center">
+              <LiteUpgradeHint
+                label="完整法人籌碼解讀"
+                hiddenCount={data.institutionalNarrative.length - 1}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
       {/* 強勢 / 弱勢族群 */}
       {(data.strongSectors.length > 0 || data.weakSectors.length > 0) && (
-        <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-2">
-          <SectorListCard
-            title="🔥 領漲族群"
-            sectors={data.strongSectors}
-            tone="bull"
-          />
-          <SectorListCard
-            title="❄️ 領跌族群"
-            sectors={data.weakSectors}
-            tone="bear"
-          />
+        <div className="mb-3 space-y-2">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+            <SectorListCard
+              title="🔥 領漲族群"
+              sectors={data.strongSectors.slice(0, 2).map((s) => ({ ...s, rationale: undefined }))}
+              tone="bull"
+            />
+            <SectorListCard
+              title="❄️ 領跌族群"
+              sectors={data.weakSectors.slice(0, 2).map((s) => ({ ...s, rationale: undefined }))}
+              tone="bear"
+            />
+          </div>
+          <div className="flex justify-center">
+            <LiteUpgradeHint
+              label="完整領漲領跌族群 + AI 催化劑"
+              hiddenCount={
+                Math.max(0, data.strongSectors.length - 2) +
+                Math.max(0, data.weakSectors.length - 2)
+              }
+            />
+          </div>
         </div>
       )}
 
       {/* AI 整理：台股今日 10 大重點事件 — Pro 訂閱才看完整、free 只看第 1 條 */}
       {data.events && data.events.length > 0 && (
-        
-          <div className="mb-3 rounded-md border border-amber-300 bg-amber-50/60 p-3">
-            <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-gray-800">
-              <Sparkles size={12} className="text-amber-700" />
-              AI 整理：今日台股 10 大重點事件
-              {data.source === "ai" ? (
-                <span className="rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-bold text-amber-900">
-                  AI 即時整理
-                </span>
-              ) : (
-                <span className="rounded bg-gray-200 px-1.5 py-0.5 text-[10px] font-bold text-gray-700">
-                  Rule
-                </span>
-              )}
-            </div>
-            <ol className="space-y-1 text-xs leading-relaxed text-gray-800">
-              {data.events.map((e) => (
-                <li key={e.rank} className="flex gap-2">
-                  <span className="w-5 shrink-0 text-right font-bold tabular-nums text-amber-700">
-                    {e.rank}.
-                  </span>
-                  <span className="flex-1">{e.text}</span>
-                </li>
-              ))}
-            </ol>
+        <div className="mb-3 rounded-md border border-amber-300 bg-amber-50/60 p-3">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-gray-800">
+            <Sparkles size={12} className="text-amber-700" />
+            AI 整理：今日台股 10 大重點事件
+            {data.source === "ai" ? (
+              <span className="rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-bold text-amber-900">
+                AI 即時整理
+              </span>
+            ) : (
+              <span className="rounded bg-gray-200 px-1.5 py-0.5 text-[10px] font-bold text-gray-700">
+                Rule
+              </span>
+            )}
           </div>
-        
+          <ol className="space-y-1 text-xs leading-relaxed text-gray-800">
+            {data.events.slice(0, 3).map((e) => (
+              <li key={e.rank} className="flex gap-2">
+                <span className="w-5 shrink-0 text-right font-bold tabular-nums text-amber-700">
+                  {e.rank}.
+                </span>
+                <span className="flex-1">{e.text}</span>
+              </li>
+            ))}
+          </ol>
+          {data.events.length > 3 && (
+            <div className="mt-2 flex justify-center">
+              <LiteUpgradeHint
+                label="完整 10 大重點事件 (AI 整理)"
+                hiddenCount={data.events.length - 3}
+              />
+            </div>
+          )}
+        </div>
       )}
 
       {/* 台美對應個股 — 跨市場聯動參考 */}
@@ -339,7 +386,8 @@ function SectorListCard({
   tone,
 }: {
   title: string;
-  sectors: TwSectorPerf[];
+  // sectors 帶 rationale（AI 一句話催化劑）
+  sectors: (TwSectorPerf & { rationale?: string })[];
   tone: "bull" | "bear";
 }) {
   if (sectors.length === 0) return null;
@@ -350,24 +398,31 @@ function SectorListCard({
       <div className="mb-1.5 flex items-center gap-1 text-xs font-semibold text-gray-700">
         <Icon size={11} className={iconCls} /> {title}
       </div>
-      <ul className="space-y-0.5">
+      <ul className="space-y-1.5">
         {sectors.slice(0, 5).map((s) => {
-          const color =
-            s.avgChange >= 0 ? "text-red-700" : "text-green-700";
+          const color = s.avgChange >= 0 ? "text-red-700" : "text-green-700";
           return (
-            <li key={s.id} className="flex items-baseline justify-between text-xs">
-              <Link
-                href={`/topics/${s.id}`}
-                className="flex-1 truncate text-gray-700 hover:text-blue-700"
-              >
-                {s.label}
-              </Link>
-              <span className={`shrink-0 tabular-nums font-semibold ${color}`}>
-                {formatPercent(s.avgChange)}
-              </span>
-              <span className="ml-1 shrink-0 text-[9px] text-gray-400">
-                {s.stockCount} 檔
-              </span>
+            <li key={s.id} className="text-xs">
+              <div className="flex items-baseline justify-between gap-1">
+                <Link
+                  href={`/topics/${s.id}`}
+                  className="flex-1 truncate text-gray-700 hover:text-blue-700"
+                >
+                  {s.label}
+                </Link>
+                <span className={`shrink-0 tabular-nums font-semibold ${color}`}>
+                  {formatPercent(s.avgChange)}
+                </span>
+                <span className="ml-1 shrink-0 text-[9px] text-gray-400">
+                  {s.stockCount} 檔
+                </span>
+              </div>
+              {/* 🆕 AI 一句話催化劑 */}
+              {s.rationale && (
+                <p className="mt-0.5 text-[10px] leading-snug text-gray-600">
+                  💡 {s.rationale}
+                </p>
+              )}
             </li>
           );
         })}

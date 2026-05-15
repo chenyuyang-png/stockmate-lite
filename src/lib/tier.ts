@@ -71,7 +71,7 @@ export const TIERS: Record<Tier, TierConfig> = {
   },
   pro: {
     label: "Pro 訂閱",
-    priceTwd: 499, // 方案 C：499 全功能 Pro（只剩免費 + Pro 兩個方案）
+    priceTwd: 399, // 方案 D：399 — 對標財報狗 199 略 premium、毛利仍 70-92%
     // 配額升級邏輯：web_search 從 3 → 1、output 從 6000 → 4500、portfolio 不搜尋
     // 單次成本壓到 NT$ 1.0-1.4，配額放大讓使用者更爽
     aiStockPerMonth: 25, // 個股 IB 報告（用滿 NT$ 35）
@@ -169,28 +169,29 @@ export type DurationConfig = {
   saveLabel?: string;
 };
 
-// 方案 C：Pro 月費 499；半年 2,599（433/月，省 13%）；年 4,490（374/月，省 25%，對齊財報狗年費）
-// 確保 月 > 半年 > 年 每月成本梯度單調遞減
+// 方案 D：Pro 月費 399；半年 2,199（366/月，省 8%）；年 3,890（324/月，省 19%）
+// 對標：財報狗 199 / 富果 419 / CMoney 588 / 玩股 599+
+// 399 略 premium 但有 AI + 多市場 + 5 大區塊財務分析，性價比領先
 export const PRO_DURATIONS: Record<Duration, DurationConfig> = {
   month: {
     days: 30,
-    priceTwd: 499,
+    priceTwd: 399,
     label: "月票",
-    perMonth: 499,
+    perMonth: 399,
   },
   halfYear: {
     days: 180,
-    priceTwd: 2599,
+    priceTwd: 2199,
     label: "半年票",
-    perMonth: Math.round(2599 / 6),
-    saveLabel: "省 13%",
+    perMonth: Math.round(2199 / 6),
+    saveLabel: "省 8%",
   },
   year: {
     days: 365,
-    priceTwd: 4490,
+    priceTwd: 3890,
     label: "年票",
-    perMonth: Math.round(4490 / 12),
-    saveLabel: "省 25%（最划算）",
+    perMonth: Math.round(3890 / 12),
+    saveLabel: "省 19%（最划算）",
   },
 };
 

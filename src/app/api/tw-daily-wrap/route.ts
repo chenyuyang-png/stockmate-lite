@@ -65,6 +65,11 @@ export type TwDailyWrapEvent = {
   text: string;
 };
 
+/** 族群帶 AI 一句話催化劑 */
+export type TwSectorPerfWithRationale = TwSectorPerf & {
+  rationale?: string;
+};
+
 export type TwDailyWrapResponse = {
   asOf: number;
   /** 台股交易期 ID YYYY-MM-DD（14:00 TPE 切換到新一輪）*/
@@ -72,43 +77,63 @@ export type TwDailyWrapResponse = {
   indices: TwIndexLine[];
   /** 跨指數 narrative：例：「台股收紅 +1.2%，外資買超 80 億」*/
   oneLineSummary: string;
-  strongSectors: TwSectorPerf[];
-  weakSectors: TwSectorPerf[];
+  strongSectors: TwSectorPerfWithRationale[];
+  weakSectors: TwSectorPerfWithRationale[];
   institutional?: TwInstSummary;
   margin?: TwMarginSummary;
   news: TwNewsHeadline[];
   /** 10 大重點事件（AI Haiku 統整）*/
   events: TwDailyWrapEvent[];
+  /** 🆕 三大法人 + 融資融券 narrative（AI 2-3 句解讀）*/
+  institutionalNarrative?: string[];
   /** ai vs rule */
   source: "ai" | "rule";
   error?: string;
 };
 
-const SYSTEM_PROMPT = `你是台灣財經速報編輯，使用繁體中文。
-任務：根據今日台股盤後資料，整理「今日台股 10 大重點事件」清單。
+// SYSTEM_PROMPT 升級為 3 段結構化輸出：
+//   # SECTOR_NARRATIVE — 強弱族群敘事（領頭 + 一句催化劑）
+//   # INSTITUTIONAL_NARRATIVE — 三大法人 + 融資融券 narrative
+//   # EVENTS — 10 大重點事件
+const SYSTEM_PROMPT = `你是台灣財經速報編輯，使用繁體中文（台灣用語）。
 
-格式硬性要求：
-- 嚴格輸出 10 條，每條一行
-- 每行格式：先公司名 / 主體，再具體事件 + 數字 + 結果
-- 簡潔有力，**每行不超過 35 字**
-- 涵蓋面：個股財報 / 法人動向 / 產業熱點 / 政策利多空 / 國際連動
-- 避免重複主題（例如不要 3 條都是台積電）
-- 不要寫「今天」「最新」「盤後」這種冗詞 — 內容已隱含當下
+任務：根據資料整理輸出 3 個區塊。**嚴格遵守 markdown header 分隔**。
 
+🚨 法律合規：
+- 不可寫「建議買進 / 賣出」「目標價」「該進場」之類措辭
+- 不可寫「我看好 / 看空」「會漲 / 會跌」預測語氣
+- 純粹**事實整理 + 數字陳述**，使用者自行判斷
+
+✅ 輸出格式（嚴格遵守）：
+
+# SECTOR_NARRATIVE
+輸出 4-6 條台股族群輪動敘事。先寫領漲、後寫領跌。每條格式：
+「[族群名] [漲跌幅] — [領頭股] 帶動 / 拖累，[一句催化劑]」
 範例：
-✅ 台積電外資買超 5,200 張，3 日連續吃貨
-✅ 鴻海 11 月營收年增 12%，季增 8% 創高
-✅ 央行升息 0.125 碼，金融股早盤領漲
-❌ 台股今日震盪（沒具體事件）
-❌ AI 概念股有表現（沒數字 / 沒主體）
+- 半導體製造領漲 +2.1% — 台積電 +3% 帶動，受美股費半 +4% 與 N2 製程訂單利多
+- 重電族群 +1.8% — 華城 +5%、東元 +3.2% 帶動，AI 電力需求題材
+- 航運族群 -2.5% — 長榮 -3%、陽明 -2.8% 拖累，運價指數連 3 週跌
 
-輸出格式（純文字，10 行）：
-1. [事件]
-2. [事件]
+# INSTITUTIONAL_NARRATIVE
+輸出 2-3 條法人 + 融資融券解讀。每條 30-40 字。
+範例：
+- 外資買超 +176 億，主買權值股（台積電 +5200 張、聯發科 +1800 張）— 連 3 日買超
+- 投信買超 +143 億創 1 個月新高，集中加碼 AI 散熱、重電族群
+- 融資餘額 -38 萬張，散戶縮手；融券 +873 張（空方持平）
+
+# EVENTS
+輸出 10 條重點事件、編號 1-10。先寫具體公司主體 + 事件 + 數字。
+**避免**：流水帳「台股震盪」「盤後追蹤」，要具體公司 + 數字。
+範例：
+1. 台積電外資買超 5,200 張、3 日連續吃貨
+2. 鴻海 11 月營收年增 12%、創歷史新高
+3. 央行升息 0.125 碼、金融股早盤領漲
 ...
-10. [事件]
 
-最後一行禁止加註解 / 免責聲明 / 多餘文字 — 只要 10 條編號清單。`;
+🚫 三段都禁止：
+- 結尾加免責聲明 / 註解
+- 重複同一主題（例如 3 條都台積電）
+- 「今天」「最新」「盤後」冗詞`;
 
 const TW_INDICES = [
   { symbol: "^TWII", label: "台股加權" },
@@ -361,6 +386,77 @@ function parseEventsFromText(text: string): TwDailyWrapEvent[] {
   return out.slice(0, 10);
 }
 
+/**
+ * 把 AI 結構化輸出（含 # SECTOR_NARRATIVE / # INSTITUTIONAL_NARRATIVE / # EVENTS）拆成 3 段
+ */
+function parseStructuredAi(text: string): {
+  sectorNarrative: string[];
+  institutionalNarrative: string[];
+  events: TwDailyWrapEvent[];
+} {
+  const sections: Record<string, string[]> = {
+    SECTOR_NARRATIVE: [],
+    INSTITUTIONAL_NARRATIVE: [],
+    EVENTS: [],
+  };
+  let current: keyof typeof sections | null = null;
+  for (const rawLine of text.split("\n")) {
+    const line = rawLine.replace(/\r/g, "");
+    const header = line.match(
+      /^#+\s*(SECTOR_NARRATIVE|INSTITUTIONAL_NARRATIVE|EVENTS)/i,
+    );
+    if (header) {
+      current = header[1].toUpperCase() as keyof typeof sections;
+      continue;
+    }
+    if (!current) continue;
+    sections[current].push(line);
+  }
+
+  const sectorNarrative = sections.SECTOR_NARRATIVE.map((l) =>
+    l.replace(/^\s*[-•*]\s*/, "").trim(),
+  ).filter((l) => l.length > 5 && l.length < 200);
+
+  const institutionalNarrative = sections.INSTITUTIONAL_NARRATIVE.map((l) =>
+    l.replace(/^\s*[-•*]\s*/, "").trim(),
+  ).filter((l) => l.length > 5 && l.length < 200);
+
+  const events: TwDailyWrapEvent[] = [];
+  for (const line of sections.EVENTS) {
+    const m = line.match(/^\s*(\d{1,2})[.、)]\s*(.+?)\s*$/);
+    if (m) {
+      const rank = parseInt(m[1], 10);
+      const t = m[2].trim();
+      if (rank >= 1 && rank <= 12 && t.length > 0 && t.length < 80) {
+        events.push({ rank, text: t });
+      }
+    }
+  }
+
+  return {
+    sectorNarrative,
+    institutionalNarrative,
+    events: events.slice(0, 10),
+  };
+}
+
+/**
+ * 把 AI sector narrative 對應回 sector 物件的 rationale
+ * 用中文 label 關鍵字 token-match
+ */
+function mergeTwSectorRationale(
+  perfs: TwSectorPerf[],
+  narratives: string[],
+): TwSectorPerfWithRationale[] {
+  return perfs.map((p) => {
+    const tokens = p.label.split(/[｜|/、]/).map((t) => t.trim());
+    const match = narratives.find((n) =>
+      tokens.some((t) => t.length > 1 && n.includes(t)),
+    );
+    return { ...p, rationale: match };
+  });
+}
+
 // ─── Handler ─────────────────────────────────────────────
 export async function GET(request: Request) {
   const session = twWrapSession();
@@ -392,6 +488,8 @@ export async function GET(request: Request) {
 
   // 用 Claude Haiku 生成 10 大事件（low cost、結構化清單）
   let events: TwDailyWrapEvent[] = [];
+  let sectorNarrative: string[] = [];
+  let institutionalNarrative: string[] = [];
   let source: "ai" | "rule" = "rule";
   let error: string | undefined;
 
@@ -443,17 +541,22 @@ export async function GET(request: Request) {
 - ${indexLine}
 - 三大法人買賣超：${instLine}
 - 融資融券：${marginLine}
-- 領漲族群：${strongLine}
-- 領跌族群：${weakLine}
+
+## 強弱族群（依 sector symbol 漲跌平均排序）
+- 領漲：${strongLine}
+- 領跌：${weakLine}
 
 ## 24 小時內中文財經新聞（${news.length} 條）
 ${news.map((n, i) => `${i + 1}. [${n.source}] ${n.title}`).join("\n")}
 
-請依規定格式輸出 10 條重點事件清單（純文字編號清單，不要 JSON、不要免責聲明）。`;
+請依 system prompt 規定輸出 3 段（# SECTOR_NARRATIVE / # INSTITUTIONAL_NARRATIVE / # EVENTS）。
+- SECTOR_NARRATIVE：4-6 條，描述強弱族群 + 領頭股 + 一句催化劑
+- INSTITUTIONAL_NARRATIVE：2-3 條，描述三大法人 + 融資融券動向
+- EVENTS：10 條重點事件編號清單`;
 
       const resp = await client.messages.create({
         model: "claude-haiku-4-5",
-        max_tokens: 2000,
+        max_tokens: 3000,
         system: [
           {
             type: "text",
@@ -469,9 +572,22 @@ ${news.map((n, i) => `${i + 1}. [${n.source}] ${n.title}`).join("\n")}
         .map((b) => b.text)
         .join("\n");
 
-      events = parseEventsFromText(text);
+      const parsed = parseStructuredAi(text);
+      events = parsed.events;
+      sectorNarrative = parsed.sectorNarrative;
+      institutionalNarrative = parsed.institutionalNarrative;
+
       if (events.length >= 5) source = "ai";
-      else error = "AI 回傳格式異常";
+      else {
+        // AI 沒抓到 events 但 sector / inst 可能還有；嘗試 legacy fallback
+        const legacy = parseEventsFromText(text);
+        if (legacy.length >= 5) {
+          events = legacy;
+          source = "ai";
+        } else {
+          error = "AI 結構化回應不完整、已 fallback";
+        }
+      }
     } catch (e) {
       error = `AI 失敗：${e instanceof Error ? e.message : "未知"}`;
     }
@@ -488,17 +604,28 @@ ${news.map((n, i) => `${i + 1}. [${n.source}] ${n.title}`).join("\n")}
     source = "rule";
   }
 
+  // 把 AI sector narrative 對應回 strongSectors / weakSectors 的 rationale
+  const strongWithRationale = mergeTwSectorRationale(
+    sectorPerf.strong,
+    sectorNarrative,
+  );
+  const weakWithRationale = mergeTwSectorRationale(
+    sectorPerf.weak,
+    sectorNarrative,
+  );
+
   const data: TwDailyWrapResponse = {
     asOf: Date.now(),
     session,
     indices,
     oneLineSummary,
-    strongSectors: sectorPerf.strong,
-    weakSectors: sectorPerf.weak,
+    strongSectors: strongWithRationale,
+    weakSectors: weakWithRationale,
     institutional,
     margin,
     news,
     events,
+    institutionalNarrative,
     source,
     error,
   };

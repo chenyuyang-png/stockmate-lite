@@ -8,11 +8,17 @@ import {
   Check,
   Sparkles,
   Loader2,
+  TrendingUp,
+  TrendingDown,
+  Languages,
+  ExternalLink,
 } from "lucide-react";
 import type {
   DailyWrapResponse,
   IndexLine,
+  UsSectorPerf,
 } from "@/app/api/daily-wrap/route";
+import { LiteUpgradeHint } from "./LiteUpgradeHint";
 import { useHoldings, useWatchlist } from "@/lib/storage";
 import { formatPercent } from "@/lib/format";
 
@@ -149,18 +155,84 @@ export function DailyWrapUp() {
         </div>
       )}
 
+      {/* 🆕 美股族群輪動 — 領漲 / 領跌 Top 3-5 + 領頭股 + AI 一句話催化劑 */}
+      {((data.leaderSectors && data.leaderSectors.length > 0) ||
+        (data.laggardSectors && data.laggardSectors.length > 0)) && (
+        <div className="mb-3 space-y-2">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+            <SectorRotationCard
+              title="🔥 領漲族群"
+              sectors={(data.leaderSectors ?? []).slice(0, 1)}
+              tone="bull"
+            />
+            <SectorRotationCard
+              title="❄️ 領跌族群"
+              sectors={(data.laggardSectors ?? []).slice(0, 1)}
+              tone="bear"
+            />
+          </div>
+          <div className="flex justify-center">
+            <LiteUpgradeHint
+              label="完整領漲 / 領跌族群 + AI 催化劑"
+              hiddenCount={
+                Math.max(0, (data.leaderSectors?.length ?? 0) - 1) +
+                Math.max(0, (data.laggardSectors?.length ?? 0) - 1)
+              }
+            />
+          </div>
+        </div>
+      )}
+
+      {/* 🆕 英文新聞中文摘要 — AI 翻譯 5-8 條重點 */}
+      {data.translatedNews && data.translatedNews.length > 0 && (
+        <div className="mb-3 rounded-md border border-blue-200 bg-blue-50/40 p-3">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-blue-900">
+            <Languages size={12} className="text-blue-700" />
+            英文財經新聞・中文摘要
+            <span className="rounded bg-blue-200 px-1.5 py-0.5 text-[10px] font-bold text-blue-900">
+              AI 翻譯
+            </span>
+          </div>
+          <ul className="space-y-1 text-xs leading-relaxed text-gray-800">
+            {data.translatedNews.slice(0, 2).map((n, i) => (
+              <li key={i} className="flex items-start gap-1.5">
+                <ExternalLink
+                  size={10}
+                  className="mt-0.5 shrink-0 text-blue-500"
+                />
+                <span className="flex-1">
+                  {n.zhSummary}
+                  <span className="ml-1 text-[10px] text-blue-500">
+                    （{n.source}）
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          {data.translatedNews.length > 2 && (
+            <div className="mt-2 flex justify-center">
+              <LiteUpgradeHint
+                label="完整英文翻譯新聞"
+                hiddenCount={data.translatedNews.length - 2}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
       {/* 10 大事項 — Pro 訂閱才看完整 AI 整理 */}
       
         <div className="rounded-md border border-gray-200 bg-white p-3">
-          <h3 className="mb-2 text-xs font-bold text-gray-700">
-            📋 本日重點財經事項{" "}
-            <span className="font-normal text-gray-400">
-              ({data.events.length})
-            </span>
-          </h3>
-          {data.events.length > 0 ? (
+        <h3 className="mb-2 text-xs font-bold text-gray-700">
+          📋 本日重點財經事項{" "}
+          <span className="font-normal text-gray-400">
+            ({data.events.length})
+          </span>
+        </h3>
+        {data.events.length > 0 ? (
+          <>
             <ol className="space-y-1.5 text-sm">
-              {data.events.map((e) => (
+              {data.events.slice(0, 3).map((e) => (
                 <li
                   key={e.rank}
                   className="flex items-start gap-2 leading-snug"
@@ -172,12 +244,21 @@ export function DailyWrapUp() {
                 </li>
               ))}
             </ol>
-          ) : (
-            <p className="py-2 text-center text-xs text-gray-500">
-              目前沒有可用的新聞資料
-            </p>
-          )}
-        </div>
+            {data.events.length > 3 && (
+              <div className="mt-2 flex justify-center">
+                <LiteUpgradeHint
+                  label="完整 10 大重點事件 (AI 整理)"
+                  hiddenCount={data.events.length - 3}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <p className="py-2 text-center text-xs text-gray-500">
+            目前沒有可用的新聞資料
+          </p>
+        )}
+      </div>
       
 
       {data.error && (
@@ -189,6 +270,72 @@ export function DailyWrapUp() {
         資料源：Yahoo Finance + 多家 RSS + Claude Opus 4.7。
       </p>
     </section>
+  );
+}
+
+function SectorRotationCard({
+  title,
+  sectors,
+  tone,
+}: {
+  title: string;
+  sectors: UsSectorPerf[];
+  tone: "bull" | "bear";
+}) {
+  if (sectors.length === 0) return null;
+  const Icon = tone === "bull" ? TrendingUp : TrendingDown;
+  const iconCls = tone === "bull" ? "text-red-600" : "text-green-600";
+  const borderCls =
+    tone === "bull" ? "border-red-200 bg-red-50/30" : "border-green-200 bg-green-50/30";
+  return (
+    <div className={`rounded-md border ${borderCls} p-3`}>
+      <div className="mb-2 flex items-center gap-1 text-xs font-semibold text-gray-700">
+        <Icon size={11} className={iconCls} /> {title}
+      </div>
+      <ul className="space-y-2">
+        {sectors.map((s) => {
+          const color = s.avgChange >= 0 ? "text-red-700" : "text-green-700";
+          return (
+            <li key={s.id} className="rounded border border-gray-200 bg-white p-2">
+              <div className="flex items-baseline justify-between gap-1">
+                <span className="text-xs font-semibold text-gray-800">
+                  {s.label}
+                </span>
+                <span className={`text-xs font-bold tabular-nums ${color}`}>
+                  {s.avgChange >= 0 ? "+" : ""}
+                  {s.avgChange.toFixed(2)}%
+                </span>
+              </div>
+              {/* 領頭股 chips */}
+              <div className="mt-1 flex flex-wrap gap-1">
+                {s.topMovers.slice(0, 3).map((m) => {
+                  const moverColor =
+                    m.changePercent >= 0
+                      ? "bg-red-50 text-red-600"
+                      : "bg-green-50 text-green-600";
+                  return (
+                    <span
+                      key={m.symbol}
+                      className={`rounded px-1.5 py-0.5 text-[10px] tabular-nums ${moverColor}`}
+                      title={m.name}
+                    >
+                      {m.symbol} {m.changePercent >= 0 ? "+" : ""}
+                      {m.changePercent.toFixed(1)}%
+                    </span>
+                  );
+                })}
+              </div>
+              {/* AI 一句話催化劑（如果有）*/}
+              {s.rationale && (
+                <p className="mt-1.5 text-[10px] leading-snug text-gray-600">
+                  💡 {s.rationale}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 

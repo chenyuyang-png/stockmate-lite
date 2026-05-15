@@ -64,7 +64,7 @@ export default function AiPage() {
         </div>
 
         <p className="mt-4 text-[11px] text-gray-500">
-          Pro 版 NT$ 499 / 月、年票 NT$ 4,490（省 25%）— 不綁卡、月票模式、到期自動降回免費版。
+          Pro 版 NT$ 399 / 月、年票 NT$ 3,890（省 19%）— 不綁卡、月票模式、到期自動降回免費版。
         </p>
       </section>
 

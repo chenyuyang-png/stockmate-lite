@@ -122,7 +122,7 @@ export default function AiPage() {
         </div>
 
         <p className="mt-4 text-[11px] text-gray-500">
-          Pro 版 NT$ 499 / 月、年票 NT$ 4,490（省 25%）— 不綁卡、月票模式、到期自動降回免費版。
+          Pro 版 NT$ 399 / 月、年票 NT$ 3,890（省 19%）— 不綁卡、月票模式、到期自動降回免費版。
         </p>
       </section>
 
@@ -237,6 +237,19 @@ node -e "
 const fs = require('fs');
 const p = '$LITE/src/app/stock/[symbol]/page.tsx';
 let s = fs.readFileSync(p, 'utf8');
+
+// 順序很重要：先移除 <PaywallBlur>...<FairValueAnalysis />...</PaywallBlur> 整塊
+// （此時 FairValueAnalysis 還在 JSX、能當 marker 抓到整個 wrap）
+s = s.replace(
+  /\\s*\\{\\/\\* PE 倍數對應股價試算[\\s\\S]+?<\\/PaywallBlur>/,
+  ''
+);
+// 保險：如果上面 marker 沒抓到，用 FairValueAnalysis 為 marker 抓一次
+s = s.replace(/<PaywallBlur[\\s\\S]+?<FairValueAnalysis[\\s\\S]+?<\\/PaywallBlur>/, '');
+// 再保險：移除任何空的 PaywallBlur 包裹（不該存在但保險）
+s = s.replace(/<PaywallBlur[\\s\\S]+?intensity=\"light\"\\s*>\\s*<\\/PaywallBlur>/g, '');
+
+// 接著移除 import + 剩餘 self-closing JSX
 const removeImports = [
   'KlineAiVerdict',
   'StockUpsellBanner',
@@ -244,15 +257,12 @@ const removeImports = [
   'PaywallBlur',
 ];
 for (const name of removeImports) {
-  // import 該元件
   const importRe = new RegExp('import \\\\{ ' + name + ' \\\\} from \"@\\\\/components\\\\/' + name + '\";\\\\n', 'g');
   s = s.replace(importRe, '');
-  // JSX 用法（self-closing）
   const jsxRe = new RegExp('^\\\\s*<' + name + '[^/]*\\\\/>\\\\n', 'gm');
   s = s.replace(jsxRe, '');
 }
-// 處理 <PaywallBlur>...<FairValueAnalysis />...</PaywallBlur> 包裹
-s = s.replace(/<PaywallBlur[\\s\\S]+?<FairValueAnalysis[\\s\\S]+?<\\/PaywallBlur>/, '');
+
 fs.writeFileSync(p, s);
 console.log('  ✓ stock/[symbol]/page.tsx 已移除 AI 元件');
 "
@@ -262,13 +272,15 @@ node -e "
 const fs = require('fs');
 const p = '$LITE/src/components/MarketBrief.tsx';
 let s = fs.readFileSync(p, 'utf8');
-// useUser 由 lite-auth shim 處理（回 null user）→ isPaid 為 false → ExpectedTwChips 顯示半遮罩
-// Lite 版：所有 TW chips 都直接顯示（移除 paywall 判斷）
-// 找 ExpectedTwChips function 替換邏輯
-s = s.replace(
-  /function ExpectedTwChips\\(\\{[\\s\\S]+?^\\}/m,
-  \`function ExpectedTwChips({ twSymbols, quotes }: { twSymbols: string[]; quotes: Record<string, Quote> }) {
-  // Lite 版：所有 chips 都直接可看，無 paywall
+// Lite 版：只替換 ExpectedTwChips function（FullChips / TwStockList 保留）
+// 用 marker 「function ExpectedTwChips(」開始、「function FullChips(」結束
+const startMarker = /function ExpectedTwChips\\(/;
+const endMarker = /function FullChips\\(/;
+const startIdx = s.search(startMarker);
+const endIdx = s.search(endMarker);
+if (startIdx >= 0 && endIdx > startIdx) {
+  const replacement = \`function ExpectedTwChips({ twSymbols, quotes }: { twSymbols: string[]; quotes: Record<string, Quote> }) {
+  // Lite 版：所有 chips 都直接可看，無 paywall（合併原 ExpectedTwChips + FullChips）
   if (twSymbols.length === 0) return null;
   return (
     <div className=\"mt-1.5 flex flex-wrap items-center gap-1\">
@@ -289,8 +301,11 @@ s = s.replace(
       })}
     </div>
   );
-}\`
-);
+}
+
+\`;
+  s = s.slice(0, startIdx) + replacement + s.slice(endIdx);
+}
 fs.writeFileSync(p, s);
 console.log('  ✓ MarketBrief.tsx ExpectedTwChips 已 unlock');
 "
@@ -389,6 +404,251 @@ export function LiteBanner() {
 }
 EOF
 echo "  ✓ LiteBanner.tsx 建立"
+
+echo "▶ Lite 訊息量閹割：DailyWrapUp 限制顯示 + 加 LiteUpgradeHint CTA..."
+node -e "
+const fs = require('fs');
+const p = '$LITE/src/components/DailyWrapUp.tsx';
+let s = fs.readFileSync(p, 'utf8');
+
+// 1. import LiteUpgradeHint
+if (!s.includes('LiteUpgradeHint')) {
+  s = s.replace(
+    /(import type \\{[\\s\\S]+?\\} from \"@\\/app\\/api\\/daily-wrap\\/route\";)/,
+    '\$1\\nimport { LiteUpgradeHint } from \"./LiteUpgradeHint\";'
+  );
+}
+
+// 2. 區塊替換 — 美股族群輪動：包 <> fragment + LiteUpgradeHint
+const SECTOR_BLOCK_RE = /\\{\\(\\(data\\.leaderSectors && data\\.leaderSectors\\.length > 0\\) \\|\\|\\s*\\(data\\.laggardSectors && data\\.laggardSectors\\.length > 0\\)\\) && \\([\\s\\S]+?<SectorRotationCard[\\s\\S]+?<SectorRotationCard[\\s\\S]+?<\\/div>\\s+\\)\\}/;
+const SECTOR_BLOCK_REPLACE = \`{((data.leaderSectors && data.leaderSectors.length > 0) ||
+        (data.laggardSectors && data.laggardSectors.length > 0)) && (
+        <div className=\"mb-3 space-y-2\">
+          <div className=\"grid grid-cols-1 gap-2 md:grid-cols-2\">
+            <SectorRotationCard
+              title=\"🔥 領漲族群\"
+              sectors={(data.leaderSectors ?? []).slice(0, 1)}
+              tone=\"bull\"
+            />
+            <SectorRotationCard
+              title=\"❄️ 領跌族群\"
+              sectors={(data.laggardSectors ?? []).slice(0, 1)}
+              tone=\"bear\"
+            />
+          </div>
+          <div className=\"flex justify-center\">
+            <LiteUpgradeHint
+              label=\"完整領漲 / 領跌族群 + AI 催化劑\"
+              hiddenCount={
+                Math.max(0, (data.leaderSectors?.length ?? 0) - 1) +
+                Math.max(0, (data.laggardSectors?.length ?? 0) - 1)
+              }
+            />
+          </div>
+        </div>
+      )}\`;
+s = s.replace(SECTOR_BLOCK_RE, SECTOR_BLOCK_REPLACE);
+
+// 3. 區塊替換 — 翻譯新聞：限前 2 條 + 加 CTA
+const NEWS_BLOCK_RE = /\\{data\\.translatedNews && data\\.translatedNews\\.length > 0 && \\([\\s\\S]+?<\\/ul>\\s+<\\/div>\\s+\\)\\}/;
+const NEWS_BLOCK_REPLACE = \`{data.translatedNews && data.translatedNews.length > 0 && (
+        <div className=\"mb-3 rounded-md border border-blue-200 bg-blue-50/40 p-3\">
+          <div className=\"mb-2 flex items-center gap-1.5 text-xs font-semibold text-blue-900\">
+            <Languages size={12} className=\"text-blue-700\" />
+            英文財經新聞・中文摘要
+            <span className=\"rounded bg-blue-200 px-1.5 py-0.5 text-[10px] font-bold text-blue-900\">
+              AI 翻譯
+            </span>
+          </div>
+          <ul className=\"space-y-1 text-xs leading-relaxed text-gray-800\">
+            {data.translatedNews.slice(0, 2).map((n, i) => (
+              <li key={i} className=\"flex items-start gap-1.5\">
+                <ExternalLink
+                  size={10}
+                  className=\"mt-0.5 shrink-0 text-blue-500\"
+                />
+                <span className=\"flex-1\">
+                  {n.zhSummary}
+                  <span className=\"ml-1 text-[10px] text-blue-500\">
+                    （{n.source}）
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          {data.translatedNews.length > 2 && (
+            <div className=\"mt-2 flex justify-center\">
+              <LiteUpgradeHint
+                label=\"完整英文翻譯新聞\"
+                hiddenCount={data.translatedNews.length - 2}
+              />
+            </div>
+          )}
+        </div>
+      )}\`;
+s = s.replace(NEWS_BLOCK_RE, NEWS_BLOCK_REPLACE);
+
+// 4. 區塊替換 — 10 大事件：限前 3 條 + 加 CTA
+const EVENTS_BLOCK_RE = /<div className=\"rounded-md border border-gray-200 bg-white p-3\">\\s+<h3[^>]*>\\s+📋 本日重點財經事項[\\s\\S]+?\\)\\}\\s+<\\/div>/;
+const EVENTS_BLOCK_REPLACE = \`<div className=\"rounded-md border border-gray-200 bg-white p-3\">
+        <h3 className=\"mb-2 text-xs font-bold text-gray-700\">
+          📋 本日重點財經事項{\" \"}
+          <span className=\"font-normal text-gray-400\">
+            ({data.events.length})
+          </span>
+        </h3>
+        {data.events.length > 0 ? (
+          <>
+            <ol className=\"space-y-1.5 text-sm\">
+              {data.events.slice(0, 3).map((e) => (
+                <li
+                  key={e.rank}
+                  className=\"flex items-start gap-2 leading-snug\"
+                >
+                  <span className=\"mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-100 text-[10px] font-bold text-orange-800\">
+                    {e.rank}
+                  </span>
+                  <span className=\"flex-1 text-gray-800\">{e.text}</span>
+                </li>
+              ))}
+            </ol>
+            {data.events.length > 3 && (
+              <div className=\"mt-2 flex justify-center\">
+                <LiteUpgradeHint
+                  label=\"完整 10 大重點事件 (AI 整理)\"
+                  hiddenCount={data.events.length - 3}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <p className=\"py-2 text-center text-xs text-gray-500\">
+            目前沒有可用的新聞資料
+          </p>
+        )}
+      </div>\`;
+s = s.replace(EVENTS_BLOCK_RE, EVENTS_BLOCK_REPLACE);
+
+fs.writeFileSync(p, s);
+console.log('  ✓ DailyWrapUp 已加 Lite 限制 + 升級 CTA');
+"
+
+echo "▶ Lite 訊息量閹割：TwDailyWrapUp 限制顯示 + 加 LiteUpgradeHint CTA..."
+node -e "
+const fs = require('fs');
+const p = '$LITE/src/components/TwDailyWrapUp.tsx';
+let s = fs.readFileSync(p, 'utf8');
+
+// 1. import LiteUpgradeHint
+if (!s.includes('LiteUpgradeHint')) {
+  s = s.replace(
+    /(import \\{ formatPercent \\} from \"@\\/lib\\/format\";)/,
+    '\$1\\nimport { LiteUpgradeHint } from \"./LiteUpgradeHint\";'
+  );
+}
+
+// 2. 區塊替換 — 法人籌碼解讀：限第 1 條 + CTA
+const INST_BLOCK_RE = /\\{data\\.institutionalNarrative && data\\.institutionalNarrative\\.length > 0 && \\([\\s\\S]+?<\\/ul>\\s+<\\/div>\\s+\\)\\}/;
+const INST_BLOCK_REPLACE = \`{data.institutionalNarrative && data.institutionalNarrative.length > 0 && (
+        <div className=\"mb-3 rounded-md border border-purple-200 bg-purple-50/40 p-3\">
+          <div className=\"mb-2 flex items-center gap-1.5 text-xs font-semibold text-purple-900\">
+            <Building2 size={12} className=\"text-purple-700\" />
+            AI 法人籌碼解讀
+            <span className=\"rounded bg-purple-200 px-1.5 py-0.5 text-[10px] font-bold text-purple-900\">
+              AI 整理
+            </span>
+          </div>
+          <ul className=\"space-y-1 text-xs leading-relaxed text-gray-800\">
+            {data.institutionalNarrative.slice(0, 1).map((n, i) => (
+              <li key={i} className=\"flex items-start gap-1.5\">
+                <span className=\"mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-purple-500\" />
+                <span className=\"flex-1\">{n}</span>
+              </li>
+            ))}
+          </ul>
+          {data.institutionalNarrative.length > 1 && (
+            <div className=\"mt-2 flex justify-center\">
+              <LiteUpgradeHint
+                label=\"完整法人籌碼解讀\"
+                hiddenCount={data.institutionalNarrative.length - 1}
+              />
+            </div>
+          )}
+        </div>
+      )}\`;
+s = s.replace(INST_BLOCK_RE, INST_BLOCK_REPLACE);
+
+// 3. 區塊替換 — 強弱族群：Top 5 → Top 2，移除 AI rationale 渲染，加 CTA
+const SECTOR_BLOCK_RE = /\\{\\(data\\.strongSectors\\.length > 0 \\|\\| data\\.weakSectors\\.length > 0\\) && \\([\\s\\S]+?<SectorListCard[\\s\\S]+?<SectorListCard[\\s\\S]+?<\\/div>\\s+\\)\\}/;
+const SECTOR_BLOCK_REPLACE = \`{(data.strongSectors.length > 0 || data.weakSectors.length > 0) && (
+        <div className=\"mb-3 space-y-2\">
+          <div className=\"grid grid-cols-1 gap-2 md:grid-cols-2\">
+            <SectorListCard
+              title=\"🔥 領漲族群\"
+              sectors={data.strongSectors.slice(0, 2).map((s) => ({ ...s, rationale: undefined }))}
+              tone=\"bull\"
+            />
+            <SectorListCard
+              title=\"❄️ 領跌族群\"
+              sectors={data.weakSectors.slice(0, 2).map((s) => ({ ...s, rationale: undefined }))}
+              tone=\"bear\"
+            />
+          </div>
+          <div className=\"flex justify-center\">
+            <LiteUpgradeHint
+              label=\"完整領漲領跌族群 + AI 催化劑\"
+              hiddenCount={
+                Math.max(0, data.strongSectors.length - 2) +
+                Math.max(0, data.weakSectors.length - 2)
+              }
+            />
+          </div>
+        </div>
+      )}\`;
+s = s.replace(SECTOR_BLOCK_RE, SECTOR_BLOCK_REPLACE);
+
+// 4. 區塊替換 — 10 大事件：限前 3 條 + CTA
+const EVENTS_BLOCK_RE = /\\{data\\.events && data\\.events\\.length > 0 && \\([\\s\\S]+?AI 整理：今日台股 10 大重點事件[\\s\\S]+?<\\/ol>\\s+<\\/div>\\s+\\)\\}/;
+const EVENTS_BLOCK_REPLACE = \`{data.events && data.events.length > 0 && (
+        <div className=\"mb-3 rounded-md border border-amber-300 bg-amber-50/60 p-3\">
+          <div className=\"mb-2 flex items-center gap-1.5 text-xs font-semibold text-gray-800\">
+            <Sparkles size={12} className=\"text-amber-700\" />
+            AI 整理：今日台股 10 大重點事件
+            {data.source === \"ai\" ? (
+              <span className=\"rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-bold text-amber-900\">
+                AI 即時整理
+              </span>
+            ) : (
+              <span className=\"rounded bg-gray-200 px-1.5 py-0.5 text-[10px] font-bold text-gray-700\">
+                Rule
+              </span>
+            )}
+          </div>
+          <ol className=\"space-y-1 text-xs leading-relaxed text-gray-800\">
+            {data.events.slice(0, 3).map((e) => (
+              <li key={e.rank} className=\"flex gap-2\">
+                <span className=\"w-5 shrink-0 text-right font-bold tabular-nums text-amber-700\">
+                  {e.rank}.
+                </span>
+                <span className=\"flex-1\">{e.text}</span>
+              </li>
+            ))}
+          </ol>
+          {data.events.length > 3 && (
+            <div className=\"mt-2 flex justify-center\">
+              <LiteUpgradeHint
+                label=\"完整 10 大重點事件 (AI 整理)\"
+                hiddenCount={data.events.length - 3}
+              />
+            </div>
+          )}
+        </div>
+      )}\`;
+s = s.replace(EVENTS_BLOCK_RE, EVENTS_BLOCK_REPLACE);
+
+fs.writeFileSync(p, s);
+console.log('  ✓ TwDailyWrapUp 已加 Lite 限制 + 升級 CTA');
+"
 
 echo ""
 echo "✅ Sync 完成！下一步："

@@ -298,7 +298,7 @@ function InfluenceColumn({
  * - Free：半遮罩 + 升級提示，chips 模糊看得到形狀但不可點
  */
 function ExpectedTwChips({ twSymbols, quotes }: { twSymbols: string[]; quotes: Record<string, Quote> }) {
-  // Lite 版：所有 chips 都直接可看，無 paywall
+  // Lite 版：所有 chips 都直接可看，無 paywall（合併原 ExpectedTwChips + FullChips）
   if (twSymbols.length === 0) return null;
   return (
     <div className="mt-1.5 flex flex-wrap items-center gap-1">
@@ -321,7 +321,6 @@ function ExpectedTwChips({ twSymbols, quotes }: { twSymbols: string[]; quotes: R
   );
 }
 
-// Lite 版：FullChips 保留給其他地方用（如果有），不再做 paywall
 function FullChips({
   twSymbols,
   quotes,
