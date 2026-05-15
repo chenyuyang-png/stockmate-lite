@@ -1,0 +1,20 @@
+{
+  "name": "Stockmate",
+  "short_name": "Stockmate",
+  "description": "台美股投資儀表板 — 持股追蹤、產業熱度、AI 深度解讀",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#dc2626",
+  "orientation": "portrait",
+  "lang": "zh-Hant",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

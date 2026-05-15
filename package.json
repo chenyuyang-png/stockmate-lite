@@ -1,0 +1,35 @@
+{
+  "name": "stockmate-lite",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Stockmate Lite — 100% 免費、不登入、純資料整理版。想要 AI 解讀請去 Pro 版。",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "sync": "bash scripts/sync-from-pro.sh"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.95.2",
+    "@upstash/redis": "^1.38.0",
+    "date-fns": "^4.1.0",
+    "lightweight-charts": "^5.2.0",
+    "lucide-react": "^1.14.0",
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "rss-parser": "^3.13.0",
+    "yahoo-finance2": "^3.14.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,23 @@
+# Next.js
+.next/
+out/
+
+# Node
+node_modules/
+*.log
+
+# Env
+.env
+.env.local
+.env*.local
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# tsbuildinfo
+*.tsbuildinfo
+
+# 個人版同步歷史（如果想保留）
+.sync-history/
