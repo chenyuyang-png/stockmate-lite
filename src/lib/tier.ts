@@ -9,7 +9,7 @@ export type TierConfig = {
   label: string;
   /** 月費（TWD） */
   priceTwd: number;
-  /** 個股 IB 級深度報告（每月次數） */
+  /** AI 快速統整個股線上公開資料（每月次數）*/
   aiStockPerMonth: number;
   /** 題材深度解讀（每月次數） */
   aiTopicPerMonth: number;
@@ -24,7 +24,7 @@ export type TierConfig = {
    * - 其他 tier（pro / premium）可省略此欄位、用 aiKlinePerDay
    */
   aiKlineFreeMonthly?: number;
-  /** AI 再平衡建議（每月次數，Premium 專屬）*/
+  /** AI 持股集中度健檢（每月次數，Pro 專屬）*/
   aiRebalancePerMonth: number;
   /** 自選股上限 */
   watchlistLimit: number;
@@ -74,7 +74,7 @@ export const TIERS: Record<Tier, TierConfig> = {
     priceTwd: 399, // 方案 D：399 — 對標財報狗 199 略 premium、毛利仍 70-92%
     // 配額升級邏輯：web_search 從 3 → 1、output 從 6000 → 4500、portfolio 不搜尋
     // 單次成本壓到 NT$ 1.0-1.4，配額放大讓使用者更爽
-    aiStockPerMonth: 25, // 個股 IB 報告（用滿 NT$ 35）
+    aiStockPerMonth: 25, // AI 個股線上資料統整（用滿 NT$ 35）
     aiTopicPerMonth: 20, // 題材深度（用滿 NT$ 20）
     aiPortfolioPerMonth: 20, // 持股健檢（用滿 NT$ 20）
     aiKlinePerDay: 2, // 從 Premium 移下來，2/天 = 60/月（用滿 NT$ 12）
@@ -254,11 +254,11 @@ export type TopupProduct = {
 };
 
 export const TOPUP_PRODUCTS: Record<string, TopupProduct> = {
-  // 個股 IB 報告：1 次 NT$ 2.62 成本 → 賣 1 次 NT$ 5
+  // AI 個股線上資料統整：1 次 NT$ 2.62 成本 → 賣 1 次 NT$ 5
   "stock-10": {
     code: "stock-10",
     feature: "ai-stock",
-    label: "個股 IB 報告 × 10",
+    label: "AI 個股線上資料統整 × 10",
     credits: 10,
     priceTwd: 49,
     estCostTwd: 26,
@@ -267,7 +267,7 @@ export const TOPUP_PRODUCTS: Record<string, TopupProduct> = {
   "stock-30": {
     code: "stock-30",
     feature: "ai-stock",
-    label: "個股 IB 報告 × 30",
+    label: "AI 個股線上資料統整 × 30",
     credits: 30,
     priceTwd: 129,
     estCostTwd: 79,
@@ -329,7 +329,7 @@ export const TIER_COMPARISON: {
     key: "free",
     highlights: [
       "🎁 免費可試 4 種 AI（不綁卡、不自動扣款）",
-      "✨ AI 個股 IB 級報告 3 次 / 月",
+      "✨ AI 快速統整個股線上公開資料 3 次 / 月",
       "✨ AI 題材深度解讀 1 次 / 月",
       "✨ AI 持股健檢 1 次 / 月",
       "✨ AI K 線多空判讀 1 次 / 月",
@@ -338,7 +338,7 @@ export const TIER_COMPARISON: {
       "✓ 基本個股頁（K 線 + 財報 + 籌碼）",
       "✓ 自選股 30 檔 / 持股 10 檔 / 警示 10 個",
       "✗ AI 整理每日盤後 10 大事件（鎖）",
-      "✗ AI 持股再平衡建議（鎖）",
+      "✗ AI 持股集中度健檢（鎖）",
       "✗ AI Web 搜尋催化劑（鎖）",
     ],
   },
@@ -347,11 +347,11 @@ export const TIER_COMPARISON: {
     highlights: [
       "✨ 全部免費功能 +",
       "✓ 技術快照支撐 / 壓力 + 進出場觀察區",
-      "✓ 個股 IB 級深度報告 25 次 / 月（Sonnet 4.6）",
+      "✓ AI 快速統整個股線上公開資料 25 次 / 月（Sonnet 4.6）",
       "✓ 題材深度解讀 20 次 / 月",
       "✓ 持股 AI 健檢 20 次 / 月",
       "🔥 AI K 線多空判讀 2 次 / 天 — 整理 RSI / MACD / KD / 均線狀態",
-      "🔥 AI 持股再平衡建議 3 次 / 月 — 完整描述配置 vs 業界分散標準",
+      "🔥 AI 持股集中度健檢 3 次 / 月 — 完整描述配置 vs 業界分散標準",
       "✓ AI Web 搜尋（即時催化劑 + 同業比較）",
       "✓ 三情境 Bull / Base / Bear 完整報告",
       "✓ 自選 / 持股 / 警示 無上限",
