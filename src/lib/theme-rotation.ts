@@ -775,7 +775,7 @@ AI server 還大量用 PCIe Switch / Retimer：
       { symbol: "5269.TW", name: "祥碩", role: "ASMedia controller (T2)", perfHint: "2 年 +120%" },
       { symbol: "5471.TWO", name: "松翰", role: "IPMI 子卡 + 邊緣管理 IC (T3)" },
     ],
-    relatedNvdaComponents: ["asic-ip"],
+    relatedNvdaComponents: ["bmc-controller", "asic-ip"],
     catalysts: [
       "信驊月營收（BMC ASP 上修變化）",
       "PCIe 6 Retimer 採購單",
