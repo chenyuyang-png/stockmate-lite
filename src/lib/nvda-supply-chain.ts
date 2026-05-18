@@ -1024,10 +1024,28 @@ export const NVDA_COMPONENTS: NvdaComponent[] = [
       "短距 GPU 互連用 DAC (Direct Attach Copper) 銅纜、長距用 AOC 主動光纖線。GB200 NVL72 內部 NVLink 全用銅纜（5184 條）。",
     twSuppliers: [
       {
+        symbol: "3665.TW",
+        name: "貿聯-KY",
+        role: "全球高速 cable 龍頭、NVDA DGX / GB200 主力供應、Tesla 充電樁也是大客戶",
+        tier: 1,
+      },
+      {
+        symbol: "3653.TW",
+        name: "健和興",
+        role: "高速連接器 + cable 整套、AI server 內部互連主力",
+        tier: 1,
+      },
+      {
+        symbol: "3023.TW",
+        name: "信邦",
+        role: "工業 + 醫療 + AI server cable、多腳發展",
+        tier: 1,
+      },
+      {
         symbol: "6153.TW",
         name: "嘉聯益",
         role: "DAC 高速銅纜 + 軟板",
-        tier: 1,
+        tier: 2,
       },
       {
         symbol: "4977.TW",
@@ -1042,7 +1060,46 @@ export const NVDA_COMPONENTS: NvdaComponent[] = [
         tier: 3,
       },
     ],
-    usedIn: ["gb200-nvl72", "gb300", "vera-rubin-nvl144"],
+    usedIn: ["gb200-nvl72", "gb300", "vera-rubin-nvl144", "rubin-ultra"],
+  },
+
+  // ─── BMC + 介面 IC（伺服器主板必備）───
+  {
+    id: "bmc-controller",
+    category: "asic-ip",
+    label: "BMC + PCIe Retimer + Server 介面 IC",
+    description:
+      "BMC (Baseboard Management Controller) 是伺服器主板的「小型管理電腦」 — 負責遠端管理、開關機、監測。每塊伺服器主板必備一顆。AI server 用「升級版 BMC」 — ASP 從 USD 8 拉到 USD 25-40。另外 PCIe Retimer 為 PCIe 6 標配、信驊 + 譜瑞-KY 雙雄。",
+    specHint:
+      "BMC: ASPEED AST2700 / 信驊 自研 / PCIe Retimer: PCIe 5/6 64GT/s",
+    globalSuppliers: ["Microchip / Marvell (Retimer)"],
+    twSuppliers: [
+      {
+        symbol: "5274.TW",
+        name: "信驊",
+        role: "BMC 全球第一 (70%+ 市佔)、AI server 必備",
+        tier: 1,
+      },
+      {
+        symbol: "4966.TWO",
+        name: "譜瑞-KY",
+        role: "PCIe Retimer 全球前三、PCIe 6 為 AI server 標配",
+        tier: 1,
+      },
+      {
+        symbol: "5269.TW",
+        name: "祥碩",
+        role: "ASMedia controller、USB / SATA / PCIe IC",
+        tier: 2,
+      },
+      {
+        symbol: "5471.TWO",
+        name: "松翰",
+        role: "IPMI 子卡 + 邊緣管理 IC",
+        tier: 3,
+      },
+    ],
+    usedIn: ["h100", "b200", "gb200-nvl72", "gb300", "r100", "vera-rubin-nvl144", "rubin-ultra"],
   },
 ];
 

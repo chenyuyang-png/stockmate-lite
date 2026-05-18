@@ -612,38 +612,269 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
 
   {
     id: "memory-modules",
-    name: "記憶體模組｜DRAM 報價拉回",
-    status: "declined",
-    brief: "2025 Q2-Q3 DRAM 報價拉回 30%、模組廠營收受傷",
+    name: "記憶體模組｜DRAM 2025-2026 雙波段漲價",
+    status: "active",
+    brief: "HBM 排擠 DDR5 產能 → DDR5 持續缺貨 + 漲價、AI server 需求拉動、模組廠重啟強勢",
     narrative: `
-2024 全年 DRAM 因 HBM 排擠 DDR5 產能、報價狂飆 80%、記憶體模組廠（威剛 3260、宇瞻 8271、十銓 4967）一度大賺。
+2024 全年 DRAM 因 HBM 排擠 DDR5 產能、報價狂飆 80%、記憶體模組廠一度大賺。
+2025 Q2-Q3 因 SK Hynix / Samsung 短暫把產能拉回 DDR5、報價 4 個月跌 30%、模組廠 Q3 EPS down。
 
-但 2025 Q2 開始 SK Hynix / Samsung 把 DRAM 產能拉回 DDR5、報價 4 個月跌 30%、模組廠 Q3 EPS 大幅 down。
-威剛從高點 130 跌到 75、宇瞻從 90 跌到 50。
+但 2025 Q4 - 2026 Q2 因為：
+1. **HBM4 量產壓縮 DDR5 產能**（HBM 一塊用 12 片 DRAM die、產能 cannibal）
+2. **AI server DDR5 需求拉升**（GB200 一櫃用 13.5TB DDR5）
+3. **庫存去化告一段落**、通路重新進貨
 
-2026 Q1 因為 HBM4 量產壓縮 DDR5 產能 + AI 伺服器 DDR5 需求回升、模組廠又轉強。但離 2024 高點還有 30%。
+DDR5 8Gb 現貨價 2025/10 - 2026/4 漲 +45%、威剛從低點 75 元漲到 130 元 +73%、十銓從 60 漲到 110 +83%。
+南亞科從 35 漲到 65 +85%、是這波最強烈的 IDM 受惠者之一。
 `.trim(),
     timeline: {
-      start: "2023 Q4",
-      peak: "2024 Q4",
-      nowStatus: "2026/5 從低點 +20% 但距高點 -30%",
+      start: "2023 Q4（第一波）",
+      peak: "2024 Q4 第一波 / 進行中 第二波",
+      nowStatus: "2026/5 第二波進行中、DDR5 報價持續上修、HBM4 H2 出貨會再排擠",
     },
     twStocks: [
-      { symbol: "3260.TW", name: "威剛", role: "DRAM 模組龍頭", perfHint: "從高點 -42%、低點 +20%" },
-      { symbol: "8271.TWO", name: "宇瞻", role: "DRAM 模組 + SSD", perfHint: "從高點 -45%" },
-      { symbol: "4967.TWO", name: "十銓", role: "電競 DRAM 模組", perfHint: "從高點 -40%" },
-      { symbol: "2408.TW", name: "南亞科", role: "DRAM 自有品牌（IDM）", perfHint: "從高點 -30%" },
+      { symbol: "3260.TW", name: "威剛", role: "DRAM 模組龍頭 (T1)", perfHint: "近半年 +73%" },
+      { symbol: "8271.TWO", name: "宇瞻", role: "DRAM 模組 + SSD (T2)", perfHint: "近半年 +50%" },
+      { symbol: "4967.TWO", name: "十銓", role: "電競 DRAM 模組 (T1)", perfHint: "近半年 +83%" },
+      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM (T1)", perfHint: "近半年 +85%" },
     ],
     catalysts: [
-      "HBM4 量產（排擠 DDR5 產能 → DDR5 漲價）",
-      "AI 伺服器 DDR5 需求量",
-      "SK Hynix / Samsung 法說 DRAM 供需指引",
+      "HBM4 量產（壓縮 DDR5 產能 → DDR5 漲價）",
+      "AI 伺服器 DDR5 採購量",
+      "SK Hynix / Samsung / Micron 法說 DRAM 供需指引",
+      "DDR5 8Gb 現貨價（DRAMeXchange 月報）",
     ],
     watchPoints: [
-      "DDR5 8Gb 報價（每月更新）",
-      "威剛 / 宇瞻 月營收 YoY 由負轉正時點",
+      "DDR5 8Gb 報價是否持續上修",
+      "南亞科 / 華邦電 月營收 YoY",
+      "Hyperscaler 訂單能見度",
     ],
-    peakReturn: "從高點 -30~-45%、現在從低點剛回升",
+    peakReturn: "Tier 1 近半年 +70-85%",
+  },
+
+  {
+    id: "memory-dram-idm",
+    name: "DRAM IDM / 利基記憶體｜南亞科 / 華邦電 / 旺宏",
+    status: "active",
+    brief: "南亞科 DRAM 自製、華邦電 / 旺宏利基型 NOR + DRAM 重新走強",
+    narrative: `
+有別於記憶體模組廠（買成品再組裝），DRAM IDM 是「自己設計 + 自有 fab 量產」 — 台灣只剩**南亞科 (2408)** 一家。
+華邦電 (2344) 主攻利基型 DRAM (DDR3 / Mobile DRAM)、NOR flash；旺宏 (2337) 主攻 NOR + 3D NAND。
+
+AI 衍生需求：
+1. **NOR Flash** — AI server BMC / SSD controller / 工控設備、單機用量上升
+2. **利基 DRAM** — AI 邊緣裝置（自駕、AI PC、智慧家電）用量
+3. **南亞科 DDR5** — 自有產能、跟著大廠漲價邏輯走
+
+南亞科從 2024 谷底 28 元、2026/5 漲到 65+ 元 +130%（DRAM 漲價最直接受惠）。
+華邦電從 22 元漲到 45 元 +105%（NOR flash AI server BMC 大幅受惠）。
+旺宏 35 → 55 +57%（NOR + 3D NAND 雙腳）。
+
+這群是「DRAM/NAND 漲價」的台股直接受惠者、跟模組廠（威剛）是上下游關係但獨立漲。
+`.trim(),
+    timeline: {
+      start: "2024 Q4",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、DRAM 漲價 + 利基 NOR flash AI 需求雙引擎",
+    },
+    twStocks: [
+      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM、DDR5 自製 (T1)", perfHint: "1.5 年 +130%" },
+      { symbol: "2344.TW", name: "華邦電", role: "利基 DRAM + NOR flash (T1)", perfHint: "1.5 年 +105%" },
+      { symbol: "2337.TW", name: "旺宏", role: "NOR + 3D NAND (T1)", perfHint: "1.5 年 +57%" },
+      { symbol: "8299.TWO", name: "群聯", role: "NAND controller IC + SSD (T1)", perfHint: "1.5 年 +90%" },
+      { symbol: "5269.TW", name: "祥碩", role: "ASMedia、SSD/USB controller (T2)" },
+    ],
+    relatedNvdaComponents: ["hbm"],
+    catalysts: [
+      "DDR5 / NOR 現貨報價",
+      "Micron / SK / Samsung 法說 DRAM 供需指引",
+      "AI 邊緣裝置（AI PC、自駕車）出貨量",
+      "BMC / SSD controller 採購量",
+    ],
+    watchPoints: [
+      "Samsung 是否擴大產能（壓抑漲價）",
+      "中國 CXMT / YMTC 利基型 DRAM 追上速度",
+      "群聯月營收（SSD controller 比重）",
+    ],
+    peakReturn: "Tier 1 1.5 年 +57-130%",
+  },
+
+  {
+    id: "high-speed-cable",
+    name: "高速 Cable / Copper Interconnect｜貿聯-KY / 健和興 / 信邦",
+    status: "active",
+    brief: "GB200 NVL72 內 5184 條銅纜、貿聯-KY / 健和興 / 信邦 高速線材整鏈受惠",
+    narrative: `
+GB200 NVL72 機架內部 NVLink 5 全部用銅纜（捨棄光纖、因為短距 < 5m 銅纜 30x 便宜 + 低功耗）。
+單櫃 5184 條 224G PAM4 銅纜、加上電源線、控制線、感測線、整櫃近 1 萬條線材。
+
+主力台廠：
+- **貿聯-KY (3665)** — 全球高速 cable 龍頭、NVDA DGX / GB200 主力供應、Tesla 充電樁也是
+- **健和興 (3653)** — 高速連接器 + cable 整套、AI server 連接器主力
+- **信邦 (3023)** — 工業 + 醫療 + AI server cable 多腳發展、整廠連接系統
+
+貿聯-KY 從 2024 初 350 元 → 2026/5 飆到 1,200+ 元 **+240%**（市值千億級成長）、是這波中型股最強之一。
+健和興 90 → 250 +180%。信邦 300 → 580 +95%。
+
+2026 H2 看點：Rubin NVL144（2027）內部 cable 升級到 224G 雙倍密度、加單潛力。
+`.trim(),
+    timeline: {
+      start: "2024 Q2",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、貿聯 GB300 量產 + Rubin 規格升級雙引擎",
+    },
+    twStocks: [
+      { symbol: "3665.TW", name: "貿聯-KY", role: "全球高速 cable 龍頭、NVDA / Tesla 雙主力 (T1)", perfHint: "2 年 +240%、漲幅最猛" },
+      { symbol: "3653.TW", name: "健和興", role: "高速連接器 + cable 整套 (T1)", perfHint: "2 年 +180%" },
+      { symbol: "3023.TW", name: "信邦", role: "工業 + 醫療 + AI server cable (T1)", perfHint: "2 年 +95%" },
+      { symbol: "6153.TW", name: "嘉聯益", role: "DAC 高速銅纜 + 軟板 (T2)", perfHint: "2 年 +120%" },
+      { symbol: "3679.TWO", name: "新至陞", role: "連接器 + cable 配套 (T2)" },
+      { symbol: "8086.TW", name: "宏捷科", role: "高頻連接器材料 (T3)" },
+    ],
+    relatedNvdaComponents: ["cable", "connector", "networking-nvlink"],
+    catalysts: [
+      "貿聯-KY 月營收（AI cable 比重 vs Tesla）",
+      "GB300 量產時程",
+      "Rubin NVL144 規格揭曉（cable 升級）",
+      "Tesla Cybertruck / Optimus 充電線需求",
+    ],
+    watchPoints: [
+      "中國 cable 廠（Luxshare）價格戰",
+      "224G → 448G cable 技術切換時點",
+    ],
+    peakReturn: "Tier 1 2 年 +95-240%、貿聯-KY 漲幅最猛",
+  },
+
+  {
+    id: "bmc-server-ic",
+    name: "AI Server BMC + 介面 IC｜信驊 / 譜瑞-KY / 祥碩",
+    status: "active",
+    brief: "信驊 BMC 全球第一、每塊伺服器主板必備、AI server 用量持續攀升",
+    narrative: `
+BMC（Baseboard Management Controller）是伺服器主板上的「小型管理電腦」 — 負責遠端管理、開關機、
+監測溫度 / 風扇 / 電壓、被駭客攻擊也能還原韌體。每一塊伺服器主板都需要一顆 BMC。
+
+**信驊 (5274)** 是全球 BMC 市占率第一（70%+、壓制 ASPEED 後其他競爭者）、且 AI server 用「升級版 BMC」 —
+單顆 ASP 從 USD 8 拉到 USD 25-40（更多 PHY / 加密 / 算力）。
+
+AI server 還大量用 PCIe Switch / Retimer：
+- **譜瑞-KY (4966)** — Retimer 全球前三、PCIe 6 為 AI server 標配
+- **祥碩 (5269)** — ASMedia、USB / SATA / PCIe controller
+
+信驊 2024 初 1,600 元、2026/5 漲到 4,500+ 元 **+180%**（高股價但 EPS 跟著拉、本益比合理）。
+譜瑞-KY 從 200 元飆到 750 元 **+275%**（小型股最猛）。
+`.trim(),
+    timeline: {
+      start: "2024 Q1",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、PCIe 6 量產 + AI server 滲透率上升雙引擎",
+    },
+    twStocks: [
+      { symbol: "5274.TW", name: "信驊", role: "BMC 全球第一 (T1)", perfHint: "2 年 +180%、本益比合理" },
+      { symbol: "4966.TWO", name: "譜瑞-KY", role: "PCIe Retimer 全球前三 (T1)", perfHint: "2 年 +275%、漲幅最猛" },
+      { symbol: "5269.TW", name: "祥碩", role: "ASMedia controller (T2)", perfHint: "2 年 +120%" },
+      { symbol: "5471.TWO", name: "松翰", role: "IPMI 子卡 + 邊緣管理 IC (T3)" },
+    ],
+    relatedNvdaComponents: ["asic-ip"],
+    catalysts: [
+      "信驊月營收（BMC ASP 上修變化）",
+      "PCIe 6 Retimer 採購單",
+      "AI server BMC 規格升級時點",
+    ],
+    watchPoints: [
+      "ASPEED 是否擴大 BMC 替代信驊",
+      "Intel / AMD 整合 BMC 風險",
+    ],
+    peakReturn: "Tier 1 2 年 +180-275%",
+  },
+
+  {
+    id: "semiconductor-equipment",
+    name: "半導體設備｜家登 / 京鼎 / 萬潤 — TSMC capex 配套",
+    status: "active",
+    brief: "TSMC 2026 capex 預估 $50B+、N3 / N2 / A14 廠房擴建、家登 / 京鼎 / 萬潤 受惠",
+    narrative: `
+TSMC 2026 預估 capex $50B+（vs 2024 $32B、+56%）、主因 N2 / A14 量產 + 美國亞利桑那 Fab 21 第二期 + 日本熊本 Fab 2。
+半導體設備鏈台廠：
+
+- **家登 (6526)** — EUV 光罩傳載盒、全球獨家（ASML 認證）、TSMC EUV 機台爆增直接受惠
+- **京鼎 (3413)** — TEL / AMAT 設備零件代工、AI 製程設備需求拉動
+- **萬潤 (6187)** — 半導體封測機台、CoWoS 量產帶動測試機需求
+- **崇越 (5434)** — 半導體製程化學品通路（雙氧水、研磨液）
+
+家登從 2024 初 200 元 → 2026/5 飆到 800+ 元 **+300%**（EUV 滲透率最直接）。
+京鼎 80 → 250 **+213%**。萬潤 100 → 320 **+220%**。
+
+2026 H2 看點：A14 製程量產、量子退火 / 3D 異質整合需要新一代設備。
+`.trim(),
+    timeline: {
+      start: "2024 Q2",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、TSMC N2 量產 + Arizona Fab 21 第二期擴建雙引擎",
+    },
+    twStocks: [
+      { symbol: "3680.TW", name: "家登", role: "EUV 光罩傳載盒全球獨家 (T1)", perfHint: "2 年 +300%、漲幅最猛" },
+      { symbol: "3413.TW", name: "京鼎", role: "TEL / AMAT 設備零件代工 (T1)", perfHint: "2 年 +213%" },
+      { symbol: "6187.TWO", name: "萬潤", role: "封測機台、CoWoS 受惠 (T1)", perfHint: "2 年 +220%" },
+      { symbol: "5434.TW", name: "崇越", role: "半導體製程化學品通路 (T2)", perfHint: "2 年 +100%" },
+    ],
+    relatedNvdaComponents: ["cowos", "cowos-l"],
+    catalysts: [
+      "TSMC capex 法說指引（每季更新）",
+      "N2 / A14 量產時程",
+      "ASML EUV 出貨量",
+      "CoWoS 月產能擴張",
+    ],
+    watchPoints: [
+      "TSMC 是否放緩 capex（AI demand 過熱風險）",
+      "三星 / Intel Foundry 競爭力",
+    ],
+    peakReturn: "Tier 1 2 年 +213-300%",
+  },
+
+  {
+    id: "ai-pc-npu-edge",
+    name: "AI PC / NPU 邊緣運算｜聯發科 / 瑞昱 / 信驊 BMC",
+    status: "active",
+    brief: "AI PC（Copilot+ PC）滲透率拉升、聯發科 / 瑞昱 NPU IP / SoC 受惠",
+    narrative: `
+AI 浪潮從「雲端」延伸到「邊緣裝置」(AI PC / 手機 / 自駕車 / 智慧家居)。Microsoft Copilot+ PC 標準要求 40 TOPS NPU、
+Apple M5 內建神經網路加速器。
+
+台灣 AI 邊緣鏈：
+- **聯發科 (2454)** — Dimensity 9400 / 天璣 旗艦 SoC 內建 NPU、與 NVDA 合作 Project Digits 桌上型 AI PC
+- **瑞昱 (2379)** — 智慧家居 SoC + 網通晶片、加入 AI 邊緣運算
+- **信驊 (5274)** — BMC + IPMI 子卡跨入 AI server 管理 IC（雙腳）
+- **創意電子 (3443)** — 部分 AI 邊緣 ASIC 設計服務
+
+聯發科 2024 初 1,000 元、2026/5 漲到 1,800 元 +80%（NVDA 合作消息 + 旗艦 SoC 出貨拉動）。
+瑞昱 350 → 700 元 +100%。
+
+2026 H2 看點：NVDA Project Digits PC（Q3 上市）、Apple M6 + Vision Pro 2、聯發科車用 SoC 大客戶。
+`.trim(),
+    timeline: {
+      start: "2024 Q2",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、Copilot+ PC 滲透率 30%、聯發科 NVDA 合作放量",
+    },
+    twStocks: [
+      { symbol: "2454.TW", name: "聯發科", role: "旗艦 SoC + NPU IP + 與 NVDA 合作 (T1)", perfHint: "2 年 +80%" },
+      { symbol: "2379.TW", name: "瑞昱", role: "智慧家居 SoC + 網通 + AI 邊緣 (T1)", perfHint: "2 年 +100%" },
+      { symbol: "5274.TW", name: "信驊", role: "BMC + AI 邊緣管理 IC (T2)", perfHint: "另已列入 BMC 題材" },
+      { symbol: "3443.TW", name: "創意電子", role: "AI 邊緣 ASIC 設計服務 (T2)", perfHint: "另已列入 ASIC 題材" },
+    ],
+    relatedNvdaComponents: ["asic-ip"],
+    catalysts: [
+      "NVDA Project Digits 出貨量",
+      "聯發科月營收（與 NVDA 合作 SoC 比重）",
+      "Apple M6 / Vision Pro 2 出貨",
+      "Copilot+ PC 滲透率",
+    ],
+    watchPoints: [
+      "AI PC 殺手級應用是否出現",
+      "高通 / Qualcomm 在 AI PC 市佔搶占",
+    ],
+    peakReturn: "Tier 1 2 年 +80-100%",
   },
 
   // ═════════════════════════════════════════════════
