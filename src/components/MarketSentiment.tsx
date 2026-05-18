@@ -48,22 +48,207 @@ export function MarketSentiment() {
   if (!data || (!data.vix && !data.fearGreed)) return null;
 
   return (
-    <section className="rounded-xl border border-gray-200 bg-white p-4">
+    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+      {/* 🇺🇸 美股市場情緒 */}
+      <section className="rounded-xl border border-purple-200 bg-purple-50/30 p-4">
+        <header className="mb-3 flex items-center gap-2">
+          <Gauge size={16} className="text-purple-700" />
+          <h2 className="text-sm font-bold text-gray-900">🇺🇸 美股市場情緒</h2>
+          <span className="text-[11px] text-gray-500">VIX + F&G</span>
+        </header>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          {data.fearGreed && <FearGreedGauge fg={data.fearGreed} />}
+          {data.vix && <VixCard vix={data.vix} />}
+        </div>
+        <p className="mt-3 text-[10px] text-gray-400">
+          F&G 由 CNN Business Fear & Greed Index 提供；VIX 為芝加哥選擇權交易所恐慌指數（S&P 500 隱含波動率）。
+        </p>
+      </section>
+
+      {/* 🇹🇼 台股市場情緒 */}
+      <TwSentimentCard />
+    </div>
+  );
+}
+
+// 🆕 台股市場情緒卡 — 從 tw-daily-wrap 拉資料合成 panic 分數
+function TwSentimentCard() {
+  type TwWrap = {
+    indices?: { symbol: string; changePercent: number }[];
+    institutional?: { foreign: number; trust: number; dealer: number; total: number };
+    margin?: { marginChange: number; shortChange: number };
+  };
+  const [twData, setTwData] = useState<TwWrap | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await fetch("/api/tw-daily-wrap");
+        const d = (await res.json()) as TwWrap;
+        if (!cancelled) setTwData(d);
+      } catch {
+        /* ignore */
+      }
+    }
+    load();
+    const id = setInterval(load, 60 * 60_000);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+
+  if (!twData) {
+    return (
+      <section className="rounded-xl border border-red-200 bg-red-50/30 p-4 text-center text-xs text-gray-500">
+        載入台股情緒指標…
+      </section>
+    );
+  }
+
+  const twii = twData.indices?.find((i) => i.symbol === "^TWII");
+  const indexChange = twii?.changePercent ?? 0;
+  const inst = twData.institutional;
+  const margin = twData.margin;
+
+  // 合成「台股恐慌分數」0-100（直觀：分數越高越恐慌）
+  // - 加權指數 -3% = +30、-2% = +20、-1% = +10
+  // - 外資 + 投信合計賣超 100 億+ = +30、賣超 50-100 億 = +20、買超 = -10
+  // - 融資餘額月變化 -5 萬張+ = +20、+5 萬張+ = -10（散戶冷靜）
+  let panic = 50; // 中性
+  if (indexChange <= -3) panic += 30;
+  else if (indexChange <= -2) panic += 20;
+  else if (indexChange <= -1) panic += 10;
+  else if (indexChange >= 2) panic -= 20;
+  else if (indexChange >= 1) panic -= 10;
+
+  if (inst) {
+    const instSum = inst.foreign + inst.trust;
+    if (instSum <= -100) panic += 30;
+    else if (instSum <= -50) panic += 20;
+    else if (instSum >= 50) panic -= 15;
+  }
+
+  if (margin) {
+    if (margin.marginChange <= -50000) panic += 20;
+    else if (margin.marginChange >= 50000) panic -= 10;
+  }
+  panic = Math.max(0, Math.min(100, panic));
+
+  const label =
+    panic >= 75
+      ? { text: "極度恐慌", color: "text-green-700", bg: "bg-green-100", ring: "ring-green-300" }
+      : panic >= 55
+        ? { text: "偏空", color: "text-green-700", bg: "bg-green-50", ring: "ring-green-200" }
+        : panic >= 45
+          ? { text: "中性", color: "text-gray-700", bg: "bg-gray-50", ring: "ring-gray-300" }
+          : panic >= 25
+            ? { text: "偏多", color: "text-red-700", bg: "bg-red-50", ring: "ring-red-200" }
+            : { text: "極度貪婪", color: "text-red-700", bg: "bg-red-100", ring: "ring-red-300" };
+
+  return (
+    <section className="rounded-xl border border-red-200 bg-red-50/30 p-4">
       <header className="mb-3 flex items-center gap-2">
-        <Gauge size={16} className="text-indigo-600" />
-        <h2 className="text-sm font-semibold text-gray-800">市場情緒</h2>
-        <span className="text-xs text-gray-500">恐慌指數 + Fear & Greed</span>
+        <Activity size={16} className="text-red-700" />
+        <h2 className="text-sm font-bold text-gray-900">🇹🇼 台股市場情緒</h2>
+        <span className="text-[11px] text-gray-500">大盤 + 法人 + 散戶</span>
       </header>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-        {data.fearGreed && <FearGreedGauge fg={data.fearGreed} />}
-        {data.vix && <VixCard vix={data.vix} />}
+        {/* 恐慌分數 gauge */}
+        <div className={`rounded-md border p-3 ${label.bg} ${label.ring} ring-1`}>
+          <div className="mb-1 flex items-center justify-between">
+            <span className="text-xs font-semibold text-gray-700">台股恐慌分數</span>
+            <span className={`text-[10px] font-bold ${label.color}`}>
+              {label.text}
+            </span>
+          </div>
+          <div className={`text-3xl font-bold tabular-nums ${label.color}`}>
+            {panic}
+            <span className="ml-1 text-xs text-gray-500">/ 100</span>
+          </div>
+          <p className="mt-1 text-[9px] text-gray-500">
+            合成自大盤 / 法人 / 融資 三軸 · 高 = 恐慌 / 低 = 貪婪
+          </p>
+        </div>
+
+        {/* 三軸明細 */}
+        <div className="space-y-1.5 rounded-md border border-gray-200 bg-white p-3 text-[11px]">
+          <SentimentRow
+            label="加權指數"
+            value={`${indexChange >= 0 ? "+" : ""}${indexChange.toFixed(2)}%`}
+            tone={indexChange >= 0 ? "bull" : "bear"}
+            hint={indexChange <= -2 ? "恐慌訊號" : indexChange >= 2 ? "貪婪訊號" : "—"}
+          />
+          {inst && (
+            <SentimentRow
+              label="外資+投信"
+              value={`${inst.foreign + inst.trust >= 0 ? "+" : ""}${(inst.foreign + inst.trust).toFixed(0)} 億`}
+              tone={inst.foreign + inst.trust >= 0 ? "bull" : "bear"}
+              hint={
+                inst.foreign + inst.trust <= -100
+                  ? "大幅賣超"
+                  : inst.foreign + inst.trust >= 100
+                    ? "大幅買超"
+                    : "—"
+              }
+            />
+          )}
+          {margin && (
+            <SentimentRow
+              label="融資餘額"
+              value={`${margin.marginChange >= 0 ? "+" : ""}${(margin.marginChange / 1000).toFixed(1)} 萬張`}
+              tone={margin.marginChange >= 0 ? "warn" : "neutral"}
+              hint={
+                margin.marginChange >= 50000
+                  ? "散戶追價"
+                  : margin.marginChange <= -50000
+                    ? "散戶縮手"
+                    : "—"
+              }
+            />
+          )}
+        </div>
       </div>
 
       <p className="mt-3 text-[10px] text-gray-400">
-        F&G 由 CNN Business Fear & Greed Index 提供；VIX 為芝加哥選擇權交易所恐慌指數（S&P 500 隱含波動率）。
+        資料源：Yahoo Finance（加權指數）+ FinMind v4（三大法人 / 融資融券）。
+        合成分數為內部演算法、僅供市場氛圍對照、不構成投資建議。
       </p>
     </section>
+  );
+}
+
+function SentimentRow({
+  label,
+  value,
+  tone,
+  hint,
+}: {
+  label: string;
+  value: string;
+  tone: "bull" | "bear" | "warn" | "neutral";
+  hint: string;
+}) {
+  const color =
+    tone === "bull"
+      ? "text-red-700"
+      : tone === "bear"
+        ? "text-green-700"
+        : tone === "warn"
+          ? "text-amber-700"
+          : "text-gray-700";
+  return (
+    <div className="flex items-baseline justify-between gap-2">
+      <span className="text-gray-600">{label}</span>
+      <div className="flex items-baseline gap-1.5">
+        <span className={`font-bold tabular-nums ${color}`}>{value}</span>
+        {hint !== "—" && (
+          <span className="text-[9px] text-gray-400">({hint})</span>
+        )}
+      </div>
+    </div>
   );
 }
 

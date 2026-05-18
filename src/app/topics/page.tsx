@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Cpu, ArrowRight } from "lucide-react";
+import { Cpu, ArrowRight, Calendar } from "lucide-react";
 import { TopicCatalog } from "@/components/TopicCatalog";
 import { RankBoard } from "@/components/RankBoard";
 
@@ -16,6 +16,29 @@ export const metadata = {
 export default function TopicsPage() {
   return (
     <main className="mx-auto max-w-7xl space-y-6 px-4 py-4">
+      {/* 🆕 2024-2026 題材輪動時間軸 */}
+      <Link
+        href="/topics/timeline"
+        className="group flex flex-wrap items-center justify-between gap-2 rounded-xl border-2 border-indigo-300 bg-gradient-to-r from-indigo-50 via-blue-50 to-cyan-50 px-4 py-3 shadow-sm transition hover:border-indigo-500 hover:shadow-md"
+      >
+        <div className="flex items-center gap-2">
+          <div className="rounded-lg bg-indigo-600 p-1.5 text-white">
+            <Calendar size={14} />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-gray-900">
+              📅 2024-2026 台股漲價邏輯題材輪動史
+            </p>
+            <p className="text-[11px] text-gray-600">
+              過去 2 年漲過的、跌深的、正在漲的、預期下一波漲的 — 全部依「零組件邏輯」深度盤點（含<strong>功率半導體</strong> / CPO / HVDC 等下波熱點）
+            </p>
+          </div>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-bold text-white group-hover:bg-indigo-700">
+          深度看 <ArrowRight size={11} />
+        </span>
+      </Link>
+
       {/* 🆕 NVIDIA 完整供應鏈深度頁 — featured banner */}
       <Link
         href="/companies/nvda"
