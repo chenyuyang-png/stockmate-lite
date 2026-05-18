@@ -612,91 +612,95 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
 
   {
     id: "memory-modules",
-    name: "記憶體模組｜DRAM 2025-2026 雙波段漲價",
-    status: "active",
-    brief: "HBM 排擠 DDR5 產能 → DDR5 持續缺貨 + 漲價、AI server 需求拉動、模組廠重啟強勢",
+    name: "記憶體模組｜DRAM 漲過後拉回中",
+    status: "declined",
+    brief: "2024-2025 H1 漲過後、2026 Q1 起 DDR5 報價拉回 + 模組廠股價回檔",
     narrative: `
 2024 全年 DRAM 因 HBM 排擠 DDR5 產能、報價狂飆 80%、記憶體模組廠一度大賺。
-2025 Q2-Q3 因 SK Hynix / Samsung 短暫把產能拉回 DDR5、報價 4 個月跌 30%、模組廠 Q3 EPS down。
+2025 Q4 - 2026 Q1 因 AI server DDR5 補單衝高、短暫第二波漲價。
 
-但 2025 Q4 - 2026 Q2 因為：
-1. **HBM4 量產壓縮 DDR5 產能**（HBM 一塊用 12 片 DRAM die、產能 cannibal）
-2. **AI server DDR5 需求拉升**（GB200 一櫃用 13.5TB DDR5）
-3. **庫存去化告一段落**、通路重新進貨
+但 2026 Q1 末因為：
+1. **SK Hynix / Samsung 重新把產能拉回 DDR5**（HBM 良率提升、HBM3e 庫存堆積）
+2. **AI server 採購節奏放緩**（部分 Hyperscaler 觀望 Rubin 規格）
+3. **PC / 手機需求疲弱**（消費市場庫存仍高）
 
-DDR5 8Gb 現貨價 2025/10 - 2026/4 漲 +45%、威剛從低點 75 元漲到 130 元 +73%、十銓從 60 漲到 110 +83%。
-南亞科從 35 漲到 65 +85%、是這波最強烈的 IDM 受惠者之一。
+DDR5 8Gb 現貨價 2026/2-2026/5 跌 -25%、威剛從 130 元跌回 95 元 -27%、十銓從 110 跌到 85 -23%。
+南亞科從 65 跌到 50 -23%（DRAM IDM 也受拖累、但跌幅較淺）。
+
+題材現處於「跌深整理」階段、等 HBM4 量產（2026 H2）再次排擠 DDR5 才有反彈契機。
 `.trim(),
     timeline: {
-      start: "2023 Q4（第一波）",
-      peak: "2024 Q4 第一波 / 進行中 第二波",
-      nowStatus: "2026/5 第二波進行中、DDR5 報價持續上修、HBM4 H2 出貨會再排擠",
+      start: "2023 Q4",
+      peak: "2026 Q1 第二波（短）",
+      nowStatus: "2026/5 從近期高點 -23~-27%、跌深整理中、等 HBM4 H2 量產帶起第三波",
     },
     twStocks: [
-      { symbol: "3260.TW", name: "威剛", role: "DRAM 模組龍頭 (T1)", perfHint: "近半年 +73%" },
-      { symbol: "8271.TWO", name: "宇瞻", role: "DRAM 模組 + SSD (T2)", perfHint: "近半年 +50%" },
-      { symbol: "4967.TWO", name: "十銓", role: "電競 DRAM 模組 (T1)", perfHint: "近半年 +83%" },
-      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM (T1)", perfHint: "近半年 +85%" },
+      { symbol: "3260.TW", name: "威剛", role: "DRAM 模組龍頭 (T1)", perfHint: "從近期高點 -27%" },
+      { symbol: "8271.TWO", name: "宇瞻", role: "DRAM 模組 + SSD (T2)", perfHint: "從高點 -30%" },
+      { symbol: "4967.TWO", name: "十銓", role: "電競 DRAM 模組 (T1)", perfHint: "從高點 -23%" },
+      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM (T1)", perfHint: "從高點 -23%" },
     ],
     catalysts: [
-      "HBM4 量產（壓縮 DDR5 產能 → DDR5 漲價）",
-      "AI 伺服器 DDR5 採購量",
+      "HBM4 量產時點（壓縮 DDR5 產能、預期 2026 H2）",
+      "AI 伺服器 DDR5 採購補單",
       "SK Hynix / Samsung / Micron 法說 DRAM 供需指引",
       "DDR5 8Gb 現貨價（DRAMeXchange 月報）",
     ],
     watchPoints: [
-      "DDR5 8Gb 報價是否持續上修",
-      "南亞科 / 華邦電 月營收 YoY",
-      "Hyperscaler 訂單能見度",
+      "DDR5 8Gb 報價何時止跌",
+      "南亞科 / 華邦電 月營收 YoY 何時由負轉正",
+      "Hyperscaler 訂單回升訊號",
     ],
-    peakReturn: "Tier 1 近半年 +70-85%",
+    peakReturn: "從高點 -23-30%、跌深整理中",
   },
 
   {
     id: "memory-dram-idm",
-    name: "DRAM IDM / 利基記憶體｜南亞科 / 華邦電 / 旺宏",
-    status: "active",
-    brief: "南亞科 DRAM 自製、華邦電 / 旺宏利基型 NOR + DRAM 重新走強",
+    name: "DRAM IDM / 利基記憶體｜南亞科 / 華邦電 / 旺宏 — 漲過後拉回",
+    status: "declined",
+    brief: "南亞科 / 華邦電 / 旺宏 2024-2025 漲完一波後、2026 Q1 末隨 DRAM 整體拉回",
     narrative: `
-有別於記憶體模組廠（買成品再組裝），DRAM IDM 是「自己設計 + 自有 fab 量產」 — 台灣只剩**南亞科 (2408)** 一家。
+有別於記憶體模組廠（買成品再組裝）、DRAM IDM 是「自己設計 + 自有 fab 量產」 — 台灣只剩**南亞科 (2408)** 一家。
 華邦電 (2344) 主攻利基型 DRAM (DDR3 / Mobile DRAM)、NOR flash；旺宏 (2337) 主攻 NOR + 3D NAND。
 
-AI 衍生需求：
-1. **NOR Flash** — AI server BMC / SSD controller / 工控設備、單機用量上升
-2. **利基 DRAM** — AI 邊緣裝置（自駕、AI PC、智慧家電）用量
-3. **南亞科 DDR5** — 自有產能、跟著大廠漲價邏輯走
+過去一年強勢期（2024 Q4 - 2026 Q1）：
+- 南亞科從 28 → 65 元 +130%
+- 華邦電從 22 → 45 元 +105%
+- 旺宏 35 → 55 +57%
+- 群聯 (8299) 1.5 年 +90%
 
-南亞科從 2024 谷底 28 元、2026/5 漲到 65+ 元 +130%（DRAM 漲價最直接受惠）。
-華邦電從 22 元漲到 45 元 +105%（NOR flash AI server BMC 大幅受惠）。
-旺宏 35 → 55 +57%（NOR + 3D NAND 雙腳）。
+但 2026 Q1 末隨 DRAM 報價拉回 + HBM 良率提升釋出產能：
+- 南亞科從近期高點 65 跌回 50 元 **-23%**
+- 華邦電從 45 跌到 36 -20%
+- 旺宏從 55 跌到 44 -20%
 
-這群是「DRAM/NAND 漲價」的台股直接受惠者、跟模組廠（威剛）是上下游關係但獨立漲。
+題材跟模組廠一樣處於跌深整理。等 HBM4 量產（2026 H2）再次壓縮 DDR5/利基 DRAM 才有反彈。
 `.trim(),
     timeline: {
       start: "2024 Q4",
-      peak: "進行中",
-      nowStatus: "2026/5 仍強勢、DRAM 漲價 + 利基 NOR flash AI 需求雙引擎",
+      peak: "2026 Q1",
+      nowStatus: "2026/5 從高點 -20~-23%、跌深整理中、等 HBM4 H2 量產帶起反彈",
     },
     twStocks: [
-      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM、DDR5 自製 (T1)", perfHint: "1.5 年 +130%" },
-      { symbol: "2344.TW", name: "華邦電", role: "利基 DRAM + NOR flash (T1)", perfHint: "1.5 年 +105%" },
-      { symbol: "2337.TW", name: "旺宏", role: "NOR + 3D NAND (T1)", perfHint: "1.5 年 +57%" },
-      { symbol: "8299.TWO", name: "群聯", role: "NAND controller IC + SSD (T1)", perfHint: "1.5 年 +90%" },
+      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM、DDR5 自製 (T1)", perfHint: "從高點 -23%" },
+      { symbol: "2344.TW", name: "華邦電", role: "利基 DRAM + NOR flash (T1)", perfHint: "從高點 -20%" },
+      { symbol: "2337.TW", name: "旺宏", role: "NOR + 3D NAND (T1)", perfHint: "從高點 -20%" },
+      { symbol: "8299.TWO", name: "群聯", role: "NAND controller IC + SSD (T1)", perfHint: "從高點 -15%" },
       { symbol: "5269.TW", name: "祥碩", role: "ASMedia、SSD/USB controller (T2)" },
     ],
     relatedNvdaComponents: ["hbm"],
     catalysts: [
-      "DDR5 / NOR 現貨報價",
+      "HBM4 量產時點（壓縮 DDR5 + 利基 DRAM）",
       "Micron / SK / Samsung 法說 DRAM 供需指引",
-      "AI 邊緣裝置（AI PC、自駕車）出貨量",
-      "BMC / SSD controller 採購量",
+      "AI 邊緣裝置（AI PC、自駕車）BMC / NOR 採購",
+      "群聯月營收 SSD controller 比重",
     ],
     watchPoints: [
+      "南亞科 / 華邦電 月營收 YoY 何時由負轉正",
       "Samsung 是否擴大產能（壓抑漲價）",
       "中國 CXMT / YMTC 利基型 DRAM 追上速度",
-      "群聯月營收（SSD controller 比重）",
     ],
-    peakReturn: "Tier 1 1.5 年 +57-130%",
+    peakReturn: "從高點 -15-23%、跌深整理中",
   },
 
   {
@@ -1221,4 +1225,11 @@ export function allThemeTwSymbols(): string[] {
     for (const s of t.twStocks) set.add(s.symbol);
   }
   return Array.from(set);
+}
+
+/** 找出哪些 timeline 題材對應到指定 NVDA 組件 ID */
+export function findThemesByNvdaComponent(nvdaComponentId: string): ThemeEntry[] {
+  return THEMES.filter((t) =>
+    t.relatedNvdaComponents?.includes(nvdaComponentId),
+  );
 }

@@ -32,6 +32,10 @@ import {
 } from "@/lib/nvda-supply-chain";
 import { useQuotes } from "@/lib/useQuotes";
 import { changeColor, formatPercent, formatPrice } from "@/lib/format";
+import {
+  findThemesByNvdaComponent,
+  STATUS_META as THEME_STATUS_META,
+} from "@/lib/theme-rotation";
 
 export function NvdaDeepDive() {
   // 預先抓所有相關台股的即時報價
@@ -356,6 +360,7 @@ function ComponentCard({
   component: NvdaComponent;
   quotes: QuoteMap;
 }) {
+  const relatedThemes = findThemesByNvdaComponent(component.id);
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-3">
       <header className="mb-2">
@@ -369,6 +374,34 @@ function ComponentCard({
       <p className="text-xs leading-relaxed text-gray-700">
         {component.description}
       </p>
+
+      {/* 📅 對應到「台股漲價邏輯題材輪動」的哪些題材 */}
+      {relatedThemes.length > 0 && (
+        <div className="mt-2 rounded-md border border-indigo-200 bg-indigo-50/40 p-2">
+          <p className="mb-1 text-[10px] font-semibold text-indigo-900">
+            📅 對應台股漲價邏輯題材輪動：
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {relatedThemes.map((t) => {
+              const meta = THEME_STATUS_META[t.status];
+              return (
+                <Link
+                  key={t.id}
+                  href={`/topics/timeline?theme=${t.id}`}
+                  className="inline-flex items-center gap-1 rounded border border-indigo-300 bg-white px-1.5 py-0.5 text-[10px] font-medium text-indigo-800 hover:bg-indigo-100"
+                  title={t.brief}
+                >
+                  <span>{meta.emoji}</span>
+                  <span>{t.name.split("｜")[0]}</span>
+                  <span className="text-[9px] text-gray-500">
+                    · {meta.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* 國際供應商 */}
       {component.globalSuppliers && component.globalSuppliers.length > 0 && (
