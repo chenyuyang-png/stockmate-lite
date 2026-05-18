@@ -96,7 +96,7 @@ GB200 NVL72 整櫃用約 25 萬顆 MLCC。電感方面 Hopper 一張卡 20 顆�
       { symbol: "6173.TWO", name: "信昌電", role: "MLCC 介電粉上游 (T2)", perfHint: "2 年 +150%" },
       { symbol: "2308.TW", name: "台達電", role: "PSU 一體化 + 部分被動元件自製 (T2)", perfHint: "2 年 +180%" },
     ],
-    relatedNvdaComponents: ["power-semi", "power-psu"],
+    relatedNvdaComponents: ["passive-mlcc", "passive-inductor", "passive-cap-alum"],
     catalysts: [
       "國巨 / 華新科月營收 YoY 變化",
       "MLCC 報價月變動（聯傳 / 國巨報價公告）",

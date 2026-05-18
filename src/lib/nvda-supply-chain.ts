@@ -267,6 +267,7 @@ export type ComponentCategory =
   | "packaging"
   | "pcb"
   | "power-semi"
+  | "passive"
   | "power-psu"
   | "thermal"
   | "networking"
@@ -495,6 +496,120 @@ export const NVDA_COMPONENTS: NvdaComponent[] = [
         symbol: "6138.TW",
         name: "茂達",
         role: "電源管理 IC，伺服器類比 IC 供應",
+        tier: 2,
+      },
+    ],
+    usedIn: ["b200", "gb200-nvl72", "gb300", "r100", "vera-rubin-nvl144", "rubin-ultra"],
+  },
+
+  // ─── 被動元件 — 整鏈每塊主板都用、AI server 用量爆炸 ───
+  {
+    id: "passive-mlcc",
+    category: "passive",
+    label: "MLCC 多層陶瓷電容（高容量 / 車規 / 高頻）",
+    description:
+      "AI 伺服器一塊 GPU 主板用 MLCC 4,000-5,000 顆（傳統 server 1,000 顆）、GB200 NVL72 整櫃用約 25 萬顆 MLCC。Blackwell / Rubin 需求更高容量 (X7R 22µF) + 高頻特性。國巨 / 華新科吃下日廠 Murata / TDK 留下的中高階訂單。",
+    specHint:
+      "0402 / 0603 / 1206 高容量 X5R/X7R/X8R / 22µF-100µF / 車規 AEC-Q200",
+    globalSuppliers: [
+      "Murata (日，全球第一)",
+      "Samsung Electro-Mechanics (韓)",
+      "TDK (日)",
+      "Taiyo Yuden (日)",
+    ],
+    twSuppliers: [
+      {
+        symbol: "2327.TW",
+        name: "國巨",
+        role: "MLCC 全球前三、車規 + 高容量領導、AI server 主力供應",
+        tier: 1,
+      },
+      {
+        symbol: "2492.TW",
+        name: "華新科",
+        role: "MLCC 全球前五、AI server + 工控 MLCC 供應",
+        tier: 1,
+      },
+      {
+        symbol: "6173.TWO",
+        name: "信昌電",
+        role: "MLCC 上游介電粉、為國巨 / 華新科供料",
+        tier: 2,
+      },
+      {
+        symbol: "2347.TW",
+        name: "聯強",
+        role: "電子元件通路，MLCC 配套",
+        tier: 3,
+      },
+    ],
+    usedIn: ["h100", "b200", "gb200-nvl72", "gb300", "r100", "vera-rubin-nvl144", "rubin-ultra"],
+  },
+
+  {
+    id: "passive-inductor",
+    category: "passive",
+    label: "Power 電感（合金粉芯 / Molded Choke）",
+    description:
+      "GPU VRM 供電用 — Hopper 一張卡 20 顆 power inductor、Blackwell 升級到 30 顆、Rubin 預估 40 顆。需高飽和電流（80A+）、低 DCR、極低 EMI。奇力新是全球 metal-alloy power inductor 第二大、AI server 用量最猛。",
+    specHint:
+      "合金粉芯 0.22µH-1µH / 80-150A 飽和 / 低 DCR ~0.5mΩ / 一體成型 Molded",
+    globalSuppliers: ["TDK", "Vishay", "Coilcraft (美)"],
+    twSuppliers: [
+      {
+        symbol: "2456.TW",
+        name: "奇力新",
+        role: "Power 電感全球前二、AI server VRM 主力供應、漲幅最猛",
+        tier: 1,
+      },
+      {
+        symbol: "5285.TWO",
+        name: "界霖",
+        role: "Power 電感 + 共模扼流圈，AI server 周邊磁性元件",
+        tier: 2,
+      },
+      {
+        symbol: "8064.TWO",
+        name: "東捷",
+        role: "電感 + 高頻磁性元件代工",
+        tier: 3,
+      },
+    ],
+    usedIn: ["h100", "b200", "gb200-nvl72", "gb300", "r100", "vera-rubin-nvl144", "rubin-ultra"],
+  },
+
+  {
+    id: "passive-cap-alum",
+    category: "passive",
+    label: "鋁電解 / 固態 / 鉭電容（PSU 用）",
+    description:
+      "Server PSU 大電解電容 — 5500W Titanium 級 PSU 用 8-12 顆 470µF / 450V 鋁電解 + 數十顆固態電容濾波。Hyperscaler 也要求軍規鉭電容（高可靠度）。立隆電 / 鈺邦受惠 GB200 NVL72 每櫃 33 顆 PSU 帶來的爆量。",
+    specHint:
+      "鋁電解 470µF-1500µF / 400-500V / 固態高分子 / 鉭電容 100µF / 50V 軍規",
+    globalSuppliers: ["Nichicon (日)", "Rubycon (日)", "KEMET (美)"],
+    twSuppliers: [
+      {
+        symbol: "2472.TW",
+        name: "立隆電",
+        role: "鋁電解電容、Server PSU 配套主力，AI server 受惠最大",
+        tier: 1,
+      },
+      {
+        symbol: "2375.TW",
+        name: "智寶",
+        role: "鋁電解電容、車用 + 工控雙腳",
+        tier: 1,
+      },
+      {
+        symbol: "6449.TWO",
+        name: "鈺邦",
+        role: "固態 + 鉭電容、軍規 / 高可靠度市場",
+        tier: 1,
+      },
+      {
+        symbol: "2308.TW",
+        name: "台達電",
+        role: "PSU 一體化、部分被動元件自製",
         tier: 2,
       },
     ],
@@ -961,41 +1076,47 @@ export const CATEGORY_META: Record<
     color: "border-red-300 bg-red-50",
     order: 4,
   },
+  passive: {
+    label: "被動元件（MLCC / 電感 / 鋁電容）",
+    emoji: "🪙",
+    color: "border-yellow-300 bg-yellow-50",
+    order: 5,
+  },
   "power-psu": {
     label: "電源供應器 PSU",
     emoji: "🔌",
     color: "border-orange-300 bg-orange-50",
-    order: 5,
+    order: 6,
   },
   thermal: {
     label: "散熱（3D VC / 液冷）",
     emoji: "❄️",
     color: "border-sky-300 bg-sky-50",
-    order: 6,
+    order: 7,
   },
   networking: {
     label: "網路 / 光通訊",
     emoji: "🌐",
     color: "border-violet-300 bg-violet-50",
-    order: 7,
+    order: 8,
   },
   "asic-ip": {
     label: "ASIC IP / 設計服務",
     emoji: "🔬",
     color: "border-fuchsia-300 bg-fuchsia-50",
-    order: 8,
+    order: 9,
   },
   odm: {
     label: "整機 ODM",
     emoji: "🏭",
     color: "border-emerald-300 bg-emerald-50",
-    order: 9,
+    order: 10,
   },
   connector: {
     label: "連接器 / 線材",
     emoji: "🔗",
     color: "border-slate-300 bg-slate-50",
-    order: 10,
+    order: 11,
   },
 };
 
