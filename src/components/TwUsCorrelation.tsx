@@ -100,15 +100,24 @@ export function TwUsCorrelation() {
       </button>
 
       {/* 圖例 */}
-      <div className="mt-2 flex flex-wrap gap-1.5 text-[9px] text-gray-600">
-        {(["direct", "supplier", "peer", "theme"] as PairRelation[]).map((r) => (
-          <span
-            key={r}
-            className={`rounded border px-1.5 py-0.5 ${RELATION_BADGE[r]}`}
-          >
-            {relationLabel(r)}
-          </span>
-        ))}
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-1.5 text-[9px] text-gray-600">
+        <div className="flex flex-wrap gap-1.5">
+          {(["direct", "supplier", "peer", "theme"] as PairRelation[]).map((r) => (
+            <span
+              key={r}
+              className={`rounded border px-1.5 py-0.5 ${RELATION_BADGE[r]}`}
+            >
+              {relationLabel(r)}
+            </span>
+          ))}
+        </div>
+        {/* 🆕 NVIDIA 完整供應鏈深度頁 CTA */}
+        <Link
+          href="/companies/nvda"
+          className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 hover:bg-emerald-200"
+        >
+          📖 NVIDIA 完整供應鏈 + 台股族群 →
+        </Link>
       </div>
     </div>
   );
