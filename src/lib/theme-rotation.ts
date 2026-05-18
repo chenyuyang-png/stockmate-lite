@@ -59,6 +59,59 @@ export const THEMES: ThemeEntry[] = [
   // ═════════════════════════════════════════════════
 
   {
+    id: "passive-components",
+    name: "被動元件｜MLCC + 電感 + 鋁電容 全面缺貨",
+    status: "active",
+    brief: "AI 伺服器單機被動元件用量 4-8x、車用 EV 化 10x、國巨 / 華新科 / 奇力新 / 立隆電 整鏈創高",
+    narrative: `
+被動元件是「沒人注意但實際漲最猛」的一波。AI 伺服器一塊 GPU 主板用 MLCC 4,000-5,000 顆（傳統 server 1,000 顆）、
+GB200 NVL72 整櫃用約 25 萬顆 MLCC。電感方面 Hopper 一張卡 20 顆、Blackwell 升級到 30 顆 power inductor。
+鋁電解電容用在 PSU、單顆 5500W PSU 用 8-12 顆大顆鋁電解。
+
+3 重邏輯交疊：
+1. **AI 需求爆炸** — 單機被動元件用量 vs 傳統 server 4-8x
+2. **EV 滲透率** — 一台 EV 用 MLCC 10,000+ 顆、燃油車 3,000 顆
+3. **中國供應品質還沒到位** — 車規 / AI 等級 MLCC 還是台廠 + 日廠寡佔
+
+📈 兩年漲幅：
+- **國巨 (2327)** — 2024 初 270 元 → 2026/5 約 600+ 元 **+120%**
+- **華新科 (2492)** — 130 → 280 **+115%**
+- **奇力新 (2456)** — 35 → 130 **+270%**（power inductor 在 AI server 用量最大、漲幅最猛）
+- **立隆電 (2472)** — 18 → 65 **+260%**（鋁電解 + PSU 配套）
+
+2026 Q1 起 MLCC 報價第二波上修（國巨 1206 高容量加價 8-15%）、業界預估缺貨延續到 2027。
+`.trim(),
+    timeline: {
+      start: "2024 Q1",
+      peak: "2025 Q4 第一波 / 2026 H2 預期第二波",
+      nowStatus: "2026/5 整鏈仍強勢、MLCC 報價二度上修、電感缺貨加劇",
+    },
+    twStocks: [
+      { symbol: "2327.TW", name: "國巨", role: "MLCC 全球前三、車規 + 高容量領導 (T1)", perfHint: "2 年 +120%" },
+      { symbol: "2492.TW", name: "華新科", role: "MLCC 全球前五 (T1)", perfHint: "2 年 +115%" },
+      { symbol: "2456.TW", name: "奇力新", role: "Power 電感全球前二、AI server 主力 (T1)", perfHint: "2 年 +270%、漲幅最猛" },
+      { symbol: "2472.TW", name: "立隆電", role: "鋁電解電容、PSU 配套 (T1)", perfHint: "2 年 +260%" },
+      { symbol: "2375.TW", name: "智寶", role: "鋁電解電容、車用 (T2)", perfHint: "2 年 +180%" },
+      { symbol: "6449.TWO", name: "鈺邦", role: "固態 + 鉭電容、軍規 (T2)", perfHint: "2 年 +220%" },
+      { symbol: "6173.TWO", name: "信昌電", role: "MLCC 介電粉上游 (T2)", perfHint: "2 年 +150%" },
+      { symbol: "2308.TW", name: "台達電", role: "PSU 一體化 + 部分被動元件自製 (T2)", perfHint: "2 年 +180%" },
+    ],
+    relatedNvdaComponents: ["power-semi", "power-psu"],
+    catalysts: [
+      "國巨 / 華新科月營收 YoY 變化",
+      "MLCC 報價月變動（聯傳 / 國巨報價公告）",
+      "AI server 出貨量（廣達 / 緯創月營收）",
+      "EV 銷量（車用 MLCC 需求）",
+    ],
+    watchPoints: [
+      "中國 MLCC 廠（風華高科 / 三環）品質追上的速度",
+      "Murata / TDK 是否擴產（傳統日廠寡占被打破中）",
+      "AI server 滲透率天花板（目前約佔全球 server 35%）",
+    ],
+    peakReturn: "Tier 1 2 年 +120-270%、奇力新 / 立隆電 漲幅最猛",
+  },
+
+  {
     id: "power-semi",
     name: "功率半導體｜AI 伺服器電源轉換鏈",
     status: "active",
@@ -231,6 +284,124 @@ Broadcom 的 AI ASIC 設計大量委託世芯-KY (3661) 做後段 IP 整合 + �
       "中國機器人廠進口替代速度",
     ],
     peakReturn: "Tier 1（上銀 / 鴻海）1.5 年 +60~120%",
+  },
+
+  {
+    id: "thermal-fan",
+    name: "散熱風扇｜AI server 高轉速 DC fan 結構性需求",
+    status: "active",
+    brief: "AI 機架雙倍風扇用量、高轉速 + 高靜壓設計、建準 / 奇鋐 / 元山 受惠",
+    narrative: `
+雖然液冷是 GB200 主流敘事、但實際 AI server 仍有 50%+ 機架用「全氣冷」(H100 / L40S / 部分 B200)、
+加上液冷機架也需「輔助風扇」（給 CPU / DIMM / 周邊散熱）、整體 AI server 風扇用量 vs 傳統 server
+反而是「同步成長」、單價 +30%。
+
+GB200 NVL72 整櫃用 32 顆高轉速 DC fan、單顆 ASP 從 USD 12 上升到 USD 25-30
+（高轉速 + 高靜壓 + 雙滾珠軸承）。建準 (2421) 是全球 server fan 出貨量第二（僅次於 Delta）、
+奇鋐 (3017) 從散熱模組廠跨入 fan 整合、元山 (6275) 主攻車用 + 工控 fan。
+
+2026 預期 fan ASP 再上一階（NVDA Rubin 採用 PWM 4-pin 智慧調速 + 雙轉子）。
+`.trim(),
+    timeline: {
+      start: "2024 Q2",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、Rubin 規格升級驅動 ASP 再上修",
+    },
+    twStocks: [
+      { symbol: "2421.TW", name: "建準", role: "Server DC Fan 全球第二 (T1)", perfHint: "2 年 +180%" },
+      { symbol: "3017.TW", name: "奇鋐", role: "散熱模組 + Fan 整合 (T1)", perfHint: "2 年 +320%" },
+      { symbol: "6275.TWO", name: "元山", role: "車用 + 工控 fan (T2)", perfHint: "2 年 +120%" },
+      { symbol: "1614.TW", name: "三洋電", role: "散熱風扇 + 馬達 (T3)" },
+    ],
+    relatedNvdaComponents: ["thermal-3dvc"],
+    catalysts: [
+      "Rubin 風扇規格揭曉時點",
+      "GB300 出貨量爬升",
+      "NVDA / Hyperscaler 機房擴張節奏",
+    ],
+    watchPoints: [
+      "液冷滲透率（過快會稀釋風扇單機用量）",
+      "中國風扇廠（Sunon / 三巨）價格戰",
+    ],
+    peakReturn: "Tier 1 2 年 +180-320%",
+  },
+
+  {
+    id: "ccl-substrate-upstream",
+    name: "CCL 高頻銅箔基板｜HBM / CoWoS / 800G Switch 上游原物料",
+    status: "active",
+    brief: "AI / 高速網路用高頻 CCL (Low Dk/Df) 結構性放量、台光電 / 聯茂 / 台燿 受惠",
+    narrative: `
+CCL（Copper Clad Laminate、銅箔基板）是所有 PCB 的「上游原物料」。AI server 用「高頻 CCL」 — 介電常數 Dk 要低、
+損耗 Df 要小 — 因為 224G PAM4 訊號在 PCB 上跑、過去一般 FR4 已經不行、要用 Megtron 6/7 / Megtron Plus / Rogers
+等高頻料。這些料價格是 FR4 的 5-10 倍、毛利率也高 30-40%。
+
+**台光電 (2383)** 是全球高頻 CCL 第三大（僅次於日本 Panasonic、Isola）、近 70% 營收來自 AI server。
+**聯茂 (6213)** 主攻 networking switch + ABF substrate 用 CCL。**台燿 (6274)** 主攻網通 + 高頻 5G CCL。
+
+2026 H1 看到台光電 Megtron 7 等級 CCL 進入 NVDA Spectrum-X 主板 / Quantum-X800 InfiniBand 主板、第二波加單。
+`.trim(),
+    timeline: {
+      start: "2024 Q3",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、台光電 H2 高頻 CCL 訂單能見度看到 2027",
+    },
+    twStocks: [
+      { symbol: "2383.TW", name: "台光電", role: "高頻 CCL 全球第三、AI server 主力 (T1)", perfHint: "2 年 +250%" },
+      { symbol: "6213.TW", name: "聯茂", role: "ABF + networking CCL (T2)", perfHint: "2 年 +180%" },
+      { symbol: "6274.TW", name: "台燿", role: "高頻網通 CCL (T2)", perfHint: "2 年 +220%" },
+      { symbol: "1303.TW", name: "南亞", role: "玻纖布 + 基礎 CCL 上游 (T3)" },
+    ],
+    relatedNvdaComponents: ["abf-substrate", "networking-optical"],
+    catalysts: [
+      "台光電月營收 + 客戶集中度揭露",
+      "Broadcom Tomahawk 6 / NVDA Spectrum-X 量產",
+      "Megtron 7 / Megtron Plus 採用率",
+    ],
+    watchPoints: [
+      "日本 Panasonic Megtron 7 擴產情況",
+      "傳統 PCB 廠（金像 / 健鼎）能否吃到高頻訂單",
+    ],
+    peakReturn: "Tier 1 2 年 +250%",
+  },
+
+  {
+    id: "ai-networking-switch",
+    name: "AI 網路交換器｜800G / 1.6T 白牌 Switch",
+    status: "active",
+    brief: "Hyperscaler 採用白牌 800G / 1.6T Switch、智邦 / 明泰 / 中磊 ODM 卡位",
+    narrative: `
+AI Data Center 內網從 400G → 800G → 2026 H2 拉到 1.6T。GB200 NVL72 內部用 InfiniBand NDR 400G、
+跨機架 / 跨機房用 Ethernet 800G。Hyperscaler（Google / Meta / Microsoft）不買 Cisco / Arista 整機、
+直接買「白牌 switch」(ODM 設計 + 自己刷 Linux OS、SONiC)、剛好台灣 ODM 是這領域龍頭。
+
+**智邦 (2345)** 是 Meta / Microsoft 800G switch ODM 主力、近 50% 營收來自 AI switch。
+**明泰 (3380)** 是 Google 自研 TPU pod 配套 networking ODM。**中磊 (5388)** 主攻 5G + AI 邊緣 networking。
+
+2026 H1 看到 1.6T switch 開始出貨（Broadcom Tomahawk 6）、智邦先吃到第一波樣品 + 量產訂單。
+`.trim(),
+    timeline: {
+      start: "2024 Q2",
+      peak: "進行中",
+      nowStatus: "2026/5 仍強勢、1.6T 量產拉動第二波",
+    },
+    twStocks: [
+      { symbol: "2345.TW", name: "智邦", role: "Meta / MS 白牌 switch ODM 主力 (T1)", perfHint: "2 年 +220%" },
+      { symbol: "3380.TW", name: "明泰", role: "Google TPU pod 配套 networking (T2)", perfHint: "2 年 +150%" },
+      { symbol: "5388.TW", name: "中磊", role: "5G + AI 邊緣 networking (T2)", perfHint: "2 年 +120%" },
+      { symbol: "6285.TW", name: "啟碁", role: "AI Server NIC + switch SoC (T3)", perfHint: "2 年 +90%" },
+    ],
+    relatedNvdaComponents: ["networking-optical", "networking-cpo"],
+    catalysts: [
+      "Broadcom Tomahawk 6 量產時程",
+      "Hyperscaler 800G → 1.6T 升級節奏",
+      "智邦月營收（AI switch 比重）",
+    ],
+    watchPoints: [
+      "Cisco / Arista 反擊白牌（價格戰）",
+      "CPO 取代純電 switch 的時程（會吃掉部分 ASIC switch 需求）",
+    ],
+    peakReturn: "Tier 1 2 年 +150-220%",
   },
 
   // ═════════════════════════════════════════════════
@@ -649,6 +820,47 @@ NVDA 跟 Microsoft / Google 聯合推 800V HVDC（高壓直流）架構 — 可�
       "商業應用 PoC 案例增加",
     ],
     peakReturn: "難預估、視突破事件而定",
+  },
+
+  {
+    id: "bess-energy-storage",
+    name: "電池儲能 BESS｜AI Data Center UPS + 電網削峰填谷",
+    status: "anticipated",
+    brief: "AI 機房需「分鐘級不斷電 + 削峰填谷儲能」、UPS 規模從 MWh → GWh 級跳升",
+    narrative: `
+AI Data Center 一機房 100 MW 用電、若停電 1 分鐘要 1.7 MWh 不斷電容量 — 相當於 100 顆 EV 電池。
+傳統 server 用「短秒級 UPS + 柴油發電機」的架構、AI Data Center 改用「鋰電 BESS（分鐘級）+ 燃料電池備援」雙系統。
+
+更大需求來自「電網側」 — Hyperscaler 自建太陽能 + 風電後、需 BESS 削峰填谷（白天充電、晚上放電）。
+特斯拉 Megapack 一櫃 3.9 MWh、市場規模 2026 預估 $25B、2030 上看 $100B。
+
+台股 BESS 鏈：**順達 (3211)** 鋰電池 pack、**新普 (6121)** 大型 BESS 系統、**康舒 (6282)** 儲能變流器（PCS）、
+**台達電 (2308)** BESS 一體化（含 PCS + EMS）。
+
+2026 H1 多數還在「題材階段」、少數股票（康舒）開始有實質 BESS 出貨營收揭露。預期 2026 H2 看到大規模採購單。
+`.trim(),
+    timeline: {
+      start: "2026 Q1（剛起漲）",
+      nowStatus: "2026/5 剛點火、AI Data Center 採購規模未顯現",
+    },
+    twStocks: [
+      { symbol: "3211.TWO", name: "順達", role: "BESS 用鋰電池 pack (T1)" },
+      { symbol: "6121.TWO", name: "新普", role: "大型 BESS 系統整合 (T1)" },
+      { symbol: "6282.TWO", name: "康舒", role: "儲能變流器 PCS (T1)" },
+      { symbol: "2308.TW", name: "台達電", role: "BESS 一體化（PCS + EMS）(T1)" },
+      { symbol: "5202.TWO", name: "力新", role: "BESS 控制系統 (T3)" },
+    ],
+    catalysts: [
+      "Microsoft / Google 公告 BESS 採購規模",
+      "台電 2026 開放 1GW BESS 招標",
+      "美國 IRA 儲能稅收抵免政策延續",
+      "順達 / 新普月營收 BESS 比重首次揭露",
+    ],
+    watchPoints: [
+      "鋰電池價格（碳酸鋰下跌 → BESS 成本下降）",
+      "美中關稅是否擴及 BESS 整機",
+      "Tesla Megapack 2026 出貨指引",
+    ],
   },
 
   // ═════════════════════════════════════════════════
