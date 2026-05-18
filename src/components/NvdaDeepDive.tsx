@@ -32,6 +32,7 @@ import {
 } from "@/lib/nvda-supply-chain";
 import { useQuotes } from "@/lib/useQuotes";
 import { changeColor, formatPercent, formatPrice } from "@/lib/format";
+import { NvdaComponentDiagram, hasNvdaDiagram } from "@/components/NvdaComponentDiagram";
 
 export function NvdaDeepDive() {
   // 預先抓所有相關台股的即時報價
@@ -369,6 +370,11 @@ function ComponentCard({
       <p className="text-xs leading-relaxed text-gray-700">
         {component.description}
       </p>
+
+      {/* 📐 模組示意圖 + 材料對應 */}
+      {hasNvdaDiagram(component.id) && (
+        <NvdaComponentDiagram componentId={component.id} />
+      )}
 
       {/* 國際供應商 */}
       {component.globalSuppliers && component.globalSuppliers.length > 0 && (
