@@ -41,6 +41,10 @@ export type ThemeEntry = {
   twStocks: ThemeStock[];
   /** 對應 NVDA 零組件分類 ID (reference nvda-supply-chain.ts) */
   relatedNvdaComponents?: string[];
+  /** 深度頁連結 (可選 — 例如 /topics/leo-satellite, /companies/nvda) */
+  deepDiveHref?: string;
+  /** 深度頁連結標籤 (例如 "🛰️ 進入 LEO 衛星完整供應鏈頁") */
+  deepDiveLabel?: string;
   /** 觸發催化劑（事件 / 數據 / 政策）*/
   catalysts: string[];
   /** 觀察點 / 風險（你要看什麼數據確認趨勢續強 vs 反轉）*/
@@ -684,6 +688,8 @@ SpaceX Starlink 月發射 50+ 顆衛星、Amazon Project Kuiper 2024 開始大�
       "中國低軌衛星競爭",
     ],
     peakReturn: "Tier 1 2 年 +200~250%、距高點 -25%",
+    deepDiveHref: "/topics/leo-satellite",
+    deepDiveLabel: "🛰️ 進入 LEO 衛星完整供應鏈頁",
   },
 
   {

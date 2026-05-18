@@ -319,6 +319,16 @@ function ThemeCard({
                   🔗 對應 NVIDIA 零組件供應鏈頁 →
                 </Link>
               )}
+
+            {/* Theme-specific deep-dive page (e.g. LEO satellite) */}
+            {theme.deepDiveHref && (
+              <Link
+                href={theme.deepDiveHref}
+                className="ml-2 inline-flex items-center gap-1 rounded-md border border-violet-300 bg-violet-50 px-2.5 py-1 text-[11px] font-semibold text-violet-800 hover:bg-violet-100"
+              >
+                {theme.deepDiveLabel || "深度頁"} →
+              </Link>
+            )}
           </div>
         )}
       </div>

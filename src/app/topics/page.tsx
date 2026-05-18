@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Cpu, ArrowRight, Calendar } from "lucide-react";
+import { Cpu, ArrowRight, Calendar, Satellite } from "lucide-react";
 import { TopicCatalog } from "@/components/TopicCatalog";
 import { RankBoard } from "@/components/RankBoard";
 
@@ -35,6 +35,29 @@ export default function TopicsPage() {
           </div>
         </div>
         <span className="inline-flex items-center gap-1 rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-bold text-white group-hover:bg-indigo-700">
+          深度看 <ArrowRight size={11} />
+        </span>
+      </Link>
+
+      {/* 🆕 低軌衛星 LEO 完整供應鏈深度頁 — featured banner */}
+      <Link
+        href="/topics/leo-satellite"
+        className="group flex flex-wrap items-center justify-between gap-2 rounded-xl border-2 border-violet-300 bg-gradient-to-r from-violet-50 via-purple-50 to-fuchsia-50 px-4 py-3 shadow-sm transition hover:border-violet-500 hover:shadow-md"
+      >
+        <div className="flex items-center gap-2">
+          <div className="rounded-lg bg-violet-600 p-1.5 text-white">
+            <Satellite size={14} />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-gray-900">
+              🛰️ 低軌衛星 LEO 完整供應鏈
+            </p>
+            <p className="text-[11px] text-gray-600">
+              Starlink V2 Mini / V3 / Direct-to-Cell + Kuiper / OneWeb / 中國國網 + 台灣 B5G — 10 大零組件分類 + 30+ 檔台股受惠（含<strong>相位陣列天線</strong> / 高頻 PCB / RF 連接器）
+            </p>
+          </div>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-md bg-violet-600 px-3 py-1.5 text-xs font-bold text-white group-hover:bg-violet-700">
           深度看 <ArrowRight size={11} />
         </span>
       </Link>
