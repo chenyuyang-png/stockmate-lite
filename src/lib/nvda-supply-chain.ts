@@ -356,10 +356,10 @@ export const NVDA_COMPONENTS: NvdaComponent[] = [
   {
     id: "cowos-l",
     category: "packaging",
-    label: "CoWoS-L 局部矽中介層（Blackwell/Rubin）",
+    label: "CoWoS-L 局部矽中介層（Blackwell/Rubin/三層蛋糕中層）",
     description:
-      "新世代 CoWoS — 用 LSI (Local Silicon Interconnect) 取代整片矽中介層，可做更大尺寸（雙 die GPU）。B200 用 CoWoS-L 把兩顆 GPU 合成一顆。產能仍由 TSMC 主導。",
-    specHint: "支援尺寸：~3.3x reticle（vs CoWoS-S 1.5x）",
+      "新世代 CoWoS — 用 LSI (Local Silicon Interconnect) 取代整片矽中介層，可做更大尺寸（雙 die GPU）。B200 用 CoWoS-L 把兩顆 GPU 合成一顆。📐 **TSMC 三層蛋糕架構中的「中層」** — 多顆 compute chiplet 並排、LSI bridge 連接。產能仍由 TSMC 主導。",
+    specHint: "支援尺寸：~3.3x reticle（vs CoWoS-S 1.5x）／2027 SoW-X 上看 6x reticle",
     globalSuppliers: ["TSMC（唯一）"],
     twSuppliers: [
       {
@@ -382,6 +382,120 @@ export const NVDA_COMPONENTS: NvdaComponent[] = [
       },
     ],
     usedIn: ["b200", "gb200-nvl72", "gb300", "r100", "vera-rubin-nvl144", "rubin-ultra", "feynman"],
+  },
+
+  // ─── SoIC-X 3D 直接打件（三層蛋糕「頂層」、Rubin Ultra 標配）───
+  {
+    id: "soic-x",
+    category: "packaging",
+    label: "SoIC-X 3D 異質整合（HBM4 + 輔助 chiplet 頂層）",
+    description:
+      "TSMC 2026 Tech Symposium 公布的「三層蛋糕」最頂層技術 — 用 Cu-Cu hybrid bonding 把 HBM4 跟小型 I/O / Cache chiplet 直接 3D 打件到 compute die 上方。vs 傳統 HBM microbump：連接密度高 100x、頻寬大 5x、功耗低 50%。Rubin Ultra (2027) 標配、Feynman (2028) 全面用。",
+    specHint: "Cu-Cu hybrid bonding 9µm pitch / HBM4 12-Hi / 連接密度 100x microbump",
+    globalSuppliers: ["TSMC（唯一）"],
+    twSuppliers: [
+      {
+        symbol: "2330.TW",
+        name: "台積電",
+        role: "SoIC-X 唯一量產商、三層蛋糕「頂層」核心",
+        tier: 1,
+      },
+      {
+        symbol: "1560.TW",
+        name: "中砂",
+        role: "CMP / TSV 製程研磨料、3D 堆疊上下層接合必需",
+        tier: 1,
+      },
+      {
+        symbol: "2449.TW",
+        name: "京元電子",
+        role: "SoIC-X 量產 + 3D 堆疊後段測試",
+        tier: 2,
+      },
+      {
+        symbol: "6187.TWO",
+        name: "萬潤",
+        role: "3D 封測機台（Rubin Ultra 量產配套）",
+        tier: 2,
+      },
+    ],
+    usedIn: ["rubin-ultra", "feynman"],
+  },
+
+  // ─── A14 製程 + BSPDN 背面供電（次世代 1.4nm-class）───
+  {
+    id: "process-a14",
+    category: "packaging",
+    label: "A14 製程 + BSPDN 背面供電（次世代 1.4nm-class）",
+    description:
+      "TSMC 2026 Tech Symposium 公布 A14 完整路徑、2028 量產目標。最大突破是 **BSPDN（Backside Power Delivery Network）** — 電源從晶片背面進、減少前端線路擁塞、性能 +10-15% / 功耗 -20%。Feynman (2028) 首發用 A14。",
+    specHint: "A14: 1.4nm-class / NanoFlex 增強 / BSPDN 背面供電 / 預期 2028 H2 量產",
+    globalSuppliers: ["TSMC（唯一）"],
+    twSuppliers: [
+      {
+        symbol: "2330.TW",
+        name: "台積電",
+        role: "A14 製程 + BSPDN 唯一量產商",
+        tier: 1,
+      },
+      {
+        symbol: "3680.TW",
+        name: "家登",
+        role: "EUV 光罩傳載盒（A14 EUV 機台爆增直接受惠）",
+        tier: 1,
+      },
+      {
+        symbol: "3413.TW",
+        name: "京鼎",
+        role: "TEL / AMAT A14 製程設備零件代工",
+        tier: 1,
+      },
+      {
+        symbol: "5434.TW",
+        name: "崇越",
+        role: "A14 製程化學品通路（雙氧水、研磨液 30 種以上）",
+        tier: 2,
+      },
+    ],
+    usedIn: ["feynman"],
+  },
+
+  // ─── SoW-X 大尺寸晶圓級封裝（三層蛋糕「載體」）───
+  {
+    id: "sow-x",
+    category: "packaging",
+    label: "SoW-X 系統級晶圓封裝（一片裝 6x reticle）",
+    description:
+      "TSMC 2026 Tech Symposium 公布的「巨型封裝」 — 一張整片晶圓裝下 6x reticle（傳統 CoWoS 最大 3.3x）、相當於 200x200mm 大小、可一次封 8 顆 GPU + 多顆 HBM。Cerebras 風格但 TSMC 量產化、Feynman / Feynman Ultra 採用。",
+    specHint: "支援尺寸：~6x reticle / 約 200x200mm / 可整合 8+ GPU + 多顆 HBM4",
+    globalSuppliers: ["TSMC（唯一）"],
+    twSuppliers: [
+      {
+        symbol: "2330.TW",
+        name: "台積電",
+        role: "SoW-X 唯一量產商",
+        tier: 1,
+      },
+      {
+        symbol: "3037.TW",
+        name: "欣興",
+        role: "ABF 大尺寸載板（200x200mm 規格量產）",
+        tier: 1,
+      },
+      {
+        symbol: "8046.TW",
+        name: "南電",
+        role: "ABF 大尺寸載板",
+        tier: 1,
+      },
+      {
+        symbol: "2383.TW",
+        name: "台光電",
+        role: "高頻 CCL（SoW-X 大板上游）",
+        tier: 1,
+      },
+    ],
+    usedIn: ["feynman"],
   },
 
   // ─── ABF 載板 ───

@@ -453,9 +453,9 @@ GB200 NVL72 整機櫃單櫃售價 ~NT$ 9000 萬、毛利率 9-12%（比傳統伺
 
   {
     id: "cowos-packaging",
-    name: "CoWoS 先進封裝｜TSMC + 後段測試",
+    name: "CoWoS 先進封裝｜TSMC + 後段測試（含三層蛋糕升級路徑）",
     status: "peaked",
-    brief: "TSMC 持續擴 CoWoS 產能、相關後段測試廠營收創高、但股價已大漲",
+    brief: "TSMC 持續擴 CoWoS 產能、後段測試廠營收創高、2026 H2 升級到「三層蛋糕 SoIC-X」",
     narrative: `
 CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸。TSMC (2330) 從 2024 月產 ~20K 片擴到
 2026 預期 ~150K 片、CapEx 數百億美元。CoWoS 後段測試（京元電 2449）也跟著大成長。
@@ -1055,6 +1055,92 @@ NVDA 跟 Microsoft / Google 聯合推 800V HVDC（高壓直流）架構 — 可�
       "商業應用 PoC 案例增加",
     ],
     peakReturn: "難預估、視突破事件而定",
+  },
+
+  {
+    id: "tsmc-3d-cake",
+    name: "TSMC 三層蛋糕封裝｜A14 + SoW-X + SoIC-X (Rubin/Feynman 標配)",
+    status: "anticipated",
+    brief: "TSMC 2026 Tech Symposium 公布的 3D Fabric 完整架構、Rubin Ultra (2027) 標配、Feynman (2028) 全面用",
+    narrative: `
+TSMC 2026/4/28-29 北美 Tech Symposium 公布完整 3D Fabric 藍圖、市場稱為「三層蛋糕」。
+這是繼 CoWoS-L 之後的下一步、Rubin Ultra (2027 H2) 第一個量產採用、Feynman (2028) 全面用。
+
+🎂 **三層蛋糕架構（由下到上）**：
+
+**第三層（最頂）— 記憶體 + 輔助晶片**
+- HBM4 12-Hi 堆疊 + 小型 I/O / Cache chiplet
+- 透過 **SoIC-X**（3D 直接打件、Cu-Cu hybrid bonding）跟下層連接
+- vs 傳統 HBM 用 microbump → SoIC-X 連接密度高 100x、頻寬大 5x
+
+**第二層（中間）— Compute Chiplet**
+- 多顆 GPU compute chiplet 並排
+- 透過 **CoWoS-L LSI Bridge** 連接（不需大 Si interposer、cost down）
+- TSMC 2027 CoWoS-L 月產能上看 100K 片
+
+**第一層（最底）— I/O + 電源 + 載板**
+- I/O die（PCIe / NVLink 介面）獨立
+- ABF Substrate 大尺寸（傳統 100x100mm → SoW-X 200x200mm）
+- 部分高階產品開始導入 **玻璃載板**（cost 比 ABF -30%）
+
+🆕 **三層蛋糕還搭配 3 大新技術**：
+1. **A14 製程**（1.4nm-class、TSMC 2028 量產目標）— 配合 NanoFlex 提升 PPA
+2. **BSPDN 背面供電**（A14 + 之後）— 電源從晶片背面進、減少前端線路擁塞
+3. **SoW-X**（System on Wafer eXtended）— 一張整片晶圓裝 6x reticle、Cerebras 風格但 TSMC 量產化
+
+📈 **題材時點**：目前（2026/5）所有相關概念股已開始反應、但真正出貨要看：
+- Rubin Ultra 2027 H2 量產（NVDA GTC 2026 揭規格）
+- 玻璃載板 2027 H2 試產
+- A14 製程 2028 量產
+`.trim(),
+    timeline: {
+      start: "2026 Q2（剛點火）",
+      peak: "預期 2027 H2 - 2028（Rubin Ultra / Feynman 量產）",
+      nowStatus: "2026/5 TSMC Tech Symposium 剛公告、相關股波段啟動",
+    },
+    twStocks: [
+      // 三層蛋糕製造主軸
+      { symbol: "2330.TW", name: "台積電", role: "三層蛋糕製造核心（CoWoS-L + SoIC-X + A14） (T1)", perfHint: "—（大型權值）" },
+      // 後段封測
+      { symbol: "2449.TW", name: "京元電子", role: "CoWoS-L 量產 + SoIC-X 後段測試 (T1)", perfHint: "2 年 +180%" },
+      { symbol: "3711.TW", name: "日月光投控", role: "進階封裝 + 異質整合 (T1)", perfHint: "2 年 +130%" },
+      { symbol: "6147.TWO", name: "頎邦", role: "Driver IC + 進階封裝 (T2)", perfHint: "2 年 +90%" },
+      // 半導體設備
+      { symbol: "3680.TW", name: "家登", role: "EUV 光罩傳載盒、A14 EUV 必備 (T1)", perfHint: "2 年 +300%" },
+      { symbol: "3413.TW", name: "京鼎", role: "TEL / AMAT 設備零件代工 (T1)", perfHint: "2 年 +213%" },
+      { symbol: "6187.TWO", name: "萬潤", role: "封測機台、CoWoS / SoIC 量產 (T1)", perfHint: "2 年 +220%" },
+      // 材料 / 載板
+      { symbol: "1560.TWO", name: "中砂", role: "CMP / TSV 製程研磨液 + 矽研磨片 (T1)", perfHint: "2 年 +180%" },
+      { symbol: "3037.TW", name: "欣興", role: "ABF 載板（SoW-X 大尺寸） (T1)", perfHint: "距高點 -25%" },
+      { symbol: "8046.TW", name: "南電", role: "ABF 載板 (T1)", perfHint: "距高點 -30%" },
+      { symbol: "3189.TW", name: "景碩", role: "ABF + IC 基板 (T1)", perfHint: "距高點 -20%" },
+      // CCL 上游
+      { symbol: "2383.TW", name: "台光電", role: "高頻 CCL（SoW-X 大板上游） (T1)", perfHint: "2 年 +250%" },
+    ],
+    relatedNvdaComponents: [
+      "soic-x",
+      "process-a14",
+      "sow-x",
+      "cowos-l",
+      "cowos",
+      "abf-substrate",
+      "hbm",
+    ],
+    deepDiveHref: "/companies/nvda",
+    deepDiveLabel: "📖 對應 NVIDIA Rubin / Feynman 完整供應鏈頁",
+    catalysts: [
+      "NVDA GTC 2026（3 月）揭 Rubin NVL144 / Rubin Ultra 規格",
+      "TSMC 法說公告 CoWoS-L 月產能擴張節奏",
+      "玻璃載板廠（不二化學 / 達運 / Intel）試產進度",
+      "A14 製程量產時程（預期 2028）",
+      "SoIC-X 良率公告",
+    ],
+    watchPoints: [
+      "Rubin Ultra 規格延遲風險（NVDA 過去多次跳票）",
+      "玻璃載板 vs ABF 替代速度（影響欣興 / 南電）",
+      "Samsung / Intel 同類技術（SAINT / 3D Foveros）競爭",
+      "TSMC CapEx 是否再上修",
+    ],
   },
 
   {
