@@ -16,7 +16,7 @@ export type ThemeStock = {
   name: string;
   /** 在這個題材中扮演的角色（一句話）*/
   role: string;
-  /** 從本題材起漲到現在的累計漲幅描述 — approximate, narrative */
+  /** @deprecated 改用 useQuotes 即時報價、不再寫死漲幅 */
   perfHint?: string;
 };
 
@@ -87,14 +87,14 @@ GB200 NVL72 整櫃用約 25 萬顆 MLCC。電感方面 Hopper 一張卡 20 顆�
       nowStatus: "2026/5 整鏈仍強勢、MLCC 報價二度上修、電感缺貨加劇",
     },
     twStocks: [
-      { symbol: "2327.TW", name: "國巨", role: "MLCC 全球前三、車規 + 高容量領導 (T1)", perfHint: "2 年 +120%" },
-      { symbol: "2492.TW", name: "華新科", role: "MLCC 全球前五 (T1)", perfHint: "2 年 +115%" },
-      { symbol: "2456.TW", name: "奇力新", role: "Power 電感全球前二、AI server 主力 (T1)", perfHint: "2 年 +270%、漲幅最猛" },
-      { symbol: "2472.TW", name: "立隆電", role: "鋁電解電容、PSU 配套 (T1)", perfHint: "2 年 +260%" },
-      { symbol: "2375.TW", name: "智寶", role: "鋁電解電容、車用 (T2)", perfHint: "2 年 +180%" },
-      { symbol: "6449.TWO", name: "鈺邦", role: "固態 + 鉭電容、軍規 (T2)", perfHint: "2 年 +220%" },
-      { symbol: "6173.TWO", name: "信昌電", role: "MLCC 介電粉上游 (T2)", perfHint: "2 年 +150%" },
-      { symbol: "2308.TW", name: "台達電", role: "PSU 一體化 + 部分被動元件自製 (T2)", perfHint: "2 年 +180%" },
+      { symbol: "2327.TW", name: "國巨", role: "MLCC 全球前三、車規 + 高容量領導 (T1)" },
+      { symbol: "2492.TW", name: "華新科", role: "MLCC 全球前五 (T1)" },
+      { symbol: "2456.TW", name: "奇力新", role: "Power 電感全球前二、AI server 主力 (T1)" },
+      { symbol: "2472.TW", name: "立隆電", role: "鋁電解電容、PSU 配套 (T1)" },
+      { symbol: "2375.TW", name: "智寶", role: "鋁電解電容、車用 (T2)" },
+      { symbol: "6449.TWO", name: "鈺邦", role: "固態 + 鉭電容、軍規 (T2)" },
+      { symbol: "6173.TWO", name: "信昌電", role: "MLCC 介電粉上游 (T2)" },
+      { symbol: "2308.TW", name: "台達電", role: "PSU 一體化 + 部分被動元件自製 (T2)" },
     ],
     relatedNvdaComponents: ["passive-mlcc", "passive-inductor", "passive-cap-alum"],
     catalysts: [
@@ -108,7 +108,7 @@ GB200 NVL72 整櫃用約 25 萬顆 MLCC。電感方面 Hopper 一張卡 20 顆�
       "Murata / TDK 是否擴產（傳統日廠寡占被打破中）",
       "AI server 滲透率天花板（目前約佔全球 server 35%）",
     ],
-    peakReturn: "Tier 1 2 年 +120-270%、奇力新 / 立隆電 漲幅最猛",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -134,15 +134,15 @@ $5000 億、Meta Hyperion 等大案）、估算 2026-2028 全球 AI Data Center 
       nowStatus: "2026/5 仍在飆漲，個股股價已創高",
     },
     twStocks: [
-      { symbol: "3707.TWO", name: "漢磊", role: "SiC / GaN 晶圓代工 IDM", perfHint: "6 個月 +180%" },
-      { symbol: "6286.TW", name: "立錡", role: "多相 VRM controller 主力", perfHint: "6 個月 +120%" },
-      { symbol: "6415.TW", name: "矽力*-KY", role: "DC-DC controller 大廠", perfHint: "6 個月 +90%" },
-      { symbol: "8255.TW", name: "朋程", role: "整流 / 二極體模組（PSU）", perfHint: "6 個月 +60%" },
-      { symbol: "2481.TW", name: "強茂", role: "MOSFET + 二極體", perfHint: "6 個月 +50%" },
-      { symbol: "8261.TW", name: "富鼎", role: "Power MOSFET 設計", perfHint: "6 個月 +45%" },
-      { symbol: "3016.TWO", name: "嘉晶", role: "SiC / GaN 上游磊晶", perfHint: "6 個月 +40%" },
-      { symbol: "8081.TW", name: "致新", role: "POL 多相 VRM", perfHint: "6 個月 +35%" },
-      { symbol: "6138.TW", name: "茂達", role: "電源管理類比 IC", perfHint: "6 個月 +30%" },
+      { symbol: "3707.TWO", name: "漢磊", role: "SiC / GaN 晶圓代工 IDM" },
+      { symbol: "6286.TW", name: "立錡", role: "多相 VRM controller 主力" },
+      { symbol: "6415.TW", name: "矽力*-KY", role: "DC-DC controller 大廠" },
+      { symbol: "8255.TW", name: "朋程", role: "整流 / 二極體模組（PSU）" },
+      { symbol: "2481.TW", name: "強茂", role: "MOSFET + 二極體" },
+      { symbol: "8261.TW", name: "富鼎", role: "Power MOSFET 設計" },
+      { symbol: "3016.TWO", name: "嘉晶", role: "SiC / GaN 上游磊晶" },
+      { symbol: "8081.TW", name: "致新", role: "POL 多相 VRM" },
+      { symbol: "6138.TW", name: "茂達", role: "電源管理類比 IC" },
     ],
     relatedNvdaComponents: ["power-semi", "power-psu"],
     catalysts: [
@@ -157,7 +157,7 @@ $5000 億、Meta Hyperion 等大案）、估算 2026-2028 全球 AI Data Center 
       "立錡 / 矽力*-KY 毛利率走勢（高毛利伺服器佔比）",
       "美國對 SiC 出口管制變動",
     ],
-    peakReturn: "Tier 1（漢磊 / 立錡）6 個月 +100~180%、Tier 2 +30~60%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -181,12 +181,12 @@ Rubin NVL144（2027）預估每櫃 ~600kW、液冷需求量再翻倍。CPO 共�
       nowStatus: "2026/5 維持高基期、靠 Rubin 預期延伸",
     },
     twStocks: [
-      { symbol: "3324.TWO", name: "雙鴻", role: "液冷板 + CDU 雙領域龍頭", perfHint: "2 年 +400%" },
-      { symbol: "8996.TW", name: "高力", role: "板式熱交換器 + 液冷模組", perfHint: "2 年 +500%" },
-      { symbol: "3017.TW", name: "奇鋐", role: "散熱模組 + CDU 整合", perfHint: "2 年 +280%" },
-      { symbol: "3653.TW", name: "健策", role: "液冷板 + 模組中堅", perfHint: "2 年 +200%" },
-      { symbol: "2421.TW", name: "建準", role: "風扇 + 液冷 hybrid", perfHint: "2 年 +150%" },
-      { symbol: "3402.TW", name: "漢科", role: "Quick Disconnect 接頭", perfHint: "2 年 +180%" },
+      { symbol: "3324.TWO", name: "雙鴻", role: "液冷板 + CDU 雙領域龍頭" },
+      { symbol: "8996.TW", name: "高力", role: "板式熱交換器 + 液冷模組" },
+      { symbol: "3017.TW", name: "奇鋐", role: "散熱模組 + CDU 整合" },
+      { symbol: "3653.TW", name: "健策", role: "液冷板 + 模組中堅" },
+      { symbol: "2421.TW", name: "建準", role: "風扇 + 液冷 hybrid" },
+      { symbol: "3402.TW", name: "漢科", role: "Quick Disconnect 接頭" },
     ],
     relatedNvdaComponents: ["thermal-liquid", "thermal-cdu"],
     catalysts: [
@@ -200,7 +200,7 @@ Rubin NVL144（2027）預估每櫃 ~600kW、液冷需求量再翻倍。CPO 共�
       "GB300 / Rubin 出貨時程",
       "中國液冷對手（中興、英維克）出口能力",
     ],
-    peakReturn: "Tier 1（雙鴻 / 高力 / 奇鋐）2 年 +280~500%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -224,11 +224,11 @@ Broadcom 的 AI ASIC 設計大量委託世芯-KY (3661) 做後段 IP 整合 + �
       nowStatus: "2026/5 強勢、新客戶（OpenAI / TikTok）放話自研 ASIC 帶來想像空間",
     },
     twStocks: [
-      { symbol: "3661.TWO", name: "世芯-KY", role: "Broadcom + AMD ASIC 設計主力", perfHint: "2 年 +600%" },
-      { symbol: "3443.TW", name: "創意電子", role: "TSMC 設計服務、Meta MTIA 主供", perfHint: "2 年 +350%" },
-      { symbol: "3035.TW", name: "智原", role: "聯電旗下、IP / 設計服務", perfHint: "2 年 +180%" },
-      { symbol: "3529.TW", name: "力旺", role: "embedded NVM IP", perfHint: "2 年 +220%" },
-      { symbol: "6643.TWO", name: "M31", role: "Foundation IP", perfHint: "2 年 +150%" },
+      { symbol: "3661.TWO", name: "世芯-KY", role: "Broadcom + AMD ASIC 設計主力" },
+      { symbol: "3443.TW", name: "創意電子", role: "TSMC 設計服務、Meta MTIA 主供" },
+      { symbol: "3035.TW", name: "智原", role: "聯電旗下、IP / 設計服務" },
+      { symbol: "3529.TW", name: "力旺", role: "embedded NVM IP" },
+      { symbol: "6643.TWO", name: "M31", role: "Foundation IP" },
     ],
     relatedNvdaComponents: ["asic-ip"],
     catalysts: [
@@ -242,7 +242,7 @@ Broadcom 的 AI ASIC 設計大量委託世芯-KY (3661) 做後段 IP 整合 + �
       "創意 Meta MTIA 訂單續單",
       "NVDA 對 ASIC 反擊（推出更小晶片或降毛利）",
     ],
-    peakReturn: "Tier 1（世芯）2 年 +600%、創意 +350%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -266,11 +266,11 @@ Broadcom 的 AI ASIC 設計大量委託世芯-KY (3661) 做後段 IP 整合 + �
       nowStatus: "2026/5 進行中、Optimus 試量產時程是關鍵",
     },
     twStocks: [
-      { symbol: "2049.TW", name: "上銀", role: "諧波減速機 + 線性傳動", perfHint: "1.5 年 +120%" },
-      { symbol: "2317.TW", name: "鴻海", role: "Optimus 代工試產 + MIH 平台", perfHint: "1.5 年 +60%" },
-      { symbol: "2359.TW", name: "所羅門", role: "工業機器手臂 vision system", perfHint: "1.5 年 +90%" },
-      { symbol: "4763.TW", name: "材料-KY", role: "機器人複合材料 + 結構件", perfHint: "1.5 年 +110%" },
-      { symbol: "1597.TW", name: "直得", role: "線性滑軌", perfHint: "1.5 年 +70%" },
+      { symbol: "2049.TW", name: "上銀", role: "諧波減速機 + 線性傳動" },
+      { symbol: "2317.TW", name: "鴻海", role: "Optimus 代工試產 + MIH 平台" },
+      { symbol: "2359.TW", name: "所羅門", role: "工業機器手臂 vision system" },
+      { symbol: "4763.TW", name: "材料-KY", role: "機器人複合材料 + 結構件" },
+      { symbol: "1597.TW", name: "直得", role: "線性滑軌" },
     ],
     catalysts: [
       "特斯拉 Q4 Optimus 試量產數量公告",
@@ -283,7 +283,7 @@ Broadcom 的 AI ASIC 設計大量委託世芯-KY (3661) 做後段 IP 整合 + �
       "上銀月營收 YoY（諧波減速機佔比變化）",
       "中國機器人廠進口替代速度",
     ],
-    peakReturn: "Tier 1（上銀 / 鴻海）1.5 年 +60~120%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -308,9 +308,9 @@ GB200 NVL72 整櫃用 32 顆高轉速 DC fan、單顆 ASP 從 USD 12 上升到 U
       nowStatus: "2026/5 仍強勢、Rubin 規格升級驅動 ASP 再上修",
     },
     twStocks: [
-      { symbol: "2421.TW", name: "建準", role: "Server DC Fan 全球第二 (T1)", perfHint: "2 年 +180%" },
-      { symbol: "3017.TW", name: "奇鋐", role: "散熱模組 + Fan 整合 (T1)", perfHint: "2 年 +320%" },
-      { symbol: "6275.TWO", name: "元山", role: "車用 + 工控 fan (T2)", perfHint: "2 年 +120%" },
+      { symbol: "2421.TW", name: "建準", role: "Server DC Fan 全球第二 (T1)" },
+      { symbol: "3017.TW", name: "奇鋐", role: "散熱模組 + Fan 整合 (T1)" },
+      { symbol: "6275.TWO", name: "元山", role: "車用 + 工控 fan (T2)" },
       { symbol: "1614.TW", name: "三洋電", role: "散熱風扇 + 馬達 (T3)" },
     ],
     relatedNvdaComponents: ["thermal-3dvc"],
@@ -323,7 +323,7 @@ GB200 NVL72 整櫃用 32 顆高轉速 DC fan、單顆 ASP 從 USD 12 上升到 U
       "液冷滲透率（過快會稀釋風扇單機用量）",
       "中國風扇廠（Sunon / 三巨）價格戰",
     ],
-    peakReturn: "Tier 1 2 年 +180-320%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -347,9 +347,9 @@ CCL（Copper Clad Laminate、銅箔基板）是所有 PCB 的「上游原物料�
       nowStatus: "2026/5 仍強勢、台光電 H2 高頻 CCL 訂單能見度看到 2027",
     },
     twStocks: [
-      { symbol: "2383.TW", name: "台光電", role: "高頻 CCL 全球第三、AI server 主力 (T1)", perfHint: "2 年 +250%" },
-      { symbol: "6213.TW", name: "聯茂", role: "ABF + networking CCL (T2)", perfHint: "2 年 +180%" },
-      { symbol: "6274.TW", name: "台燿", role: "高頻網通 CCL (T2)", perfHint: "2 年 +220%" },
+      { symbol: "2383.TW", name: "台光電", role: "高頻 CCL 全球第三、AI server 主力 (T1)" },
+      { symbol: "6213.TW", name: "聯茂", role: "ABF + networking CCL (T2)" },
+      { symbol: "6274.TW", name: "台燿", role: "高頻網通 CCL (T2)" },
       { symbol: "1303.TW", name: "南亞", role: "玻纖布 + 基礎 CCL 上游 (T3)" },
     ],
     relatedNvdaComponents: ["abf-substrate", "networking-optical"],
@@ -362,7 +362,7 @@ CCL（Copper Clad Laminate、銅箔基板）是所有 PCB 的「上游原物料�
       "日本 Panasonic Megtron 7 擴產情況",
       "傳統 PCB 廠（金像 / 健鼎）能否吃到高頻訂單",
     ],
-    peakReturn: "Tier 1 2 年 +250%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -386,10 +386,10 @@ AI Data Center 內網從 400G → 800G → 2026 H2 拉到 1.6T。GB200 NVL72 內
       nowStatus: "2026/5 仍強勢、1.6T 量產拉動第二波",
     },
     twStocks: [
-      { symbol: "2345.TW", name: "智邦", role: "Meta / MS 白牌 switch ODM 主力 (T1)", perfHint: "2 年 +220%" },
-      { symbol: "3380.TW", name: "明泰", role: "Google TPU pod 配套 networking (T2)", perfHint: "2 年 +150%" },
-      { symbol: "5388.TW", name: "中磊", role: "5G + AI 邊緣 networking (T2)", perfHint: "2 年 +120%" },
-      { symbol: "6285.TW", name: "啟碁", role: "AI Server NIC + switch SoC (T3)", perfHint: "2 年 +90%" },
+      { symbol: "2345.TW", name: "智邦", role: "Meta / MS 白牌 switch ODM 主力 (T1)" },
+      { symbol: "3380.TW", name: "明泰", role: "Google TPU pod 配套 networking (T2)" },
+      { symbol: "5388.TW", name: "中磊", role: "5G + AI 邊緣 networking (T2)" },
+      { symbol: "6285.TW", name: "啟碁", role: "AI Server NIC + switch SoC (T3)" },
     ],
     relatedNvdaComponents: ["networking-optical", "networking-cpo"],
     catalysts: [
@@ -401,7 +401,7 @@ AI Data Center 內網從 400G → 800G → 2026 H2 拉到 1.6T。GB200 NVL72 內
       "Cisco / Arista 反擊白牌（價格戰）",
       "CPO 取代純電 switch 的時程（會吃掉部分 ASIC switch 需求）",
     ],
-    peakReturn: "Tier 1 2 年 +150-220%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   // ═════════════════════════════════════════════════
@@ -430,12 +430,12 @@ GB200 NVL72 整機櫃單櫃售價 ~NT$ 9000 萬、毛利率 9-12%（比傳統伺
       nowStatus: "2026/5 高基期橫盤、等下一個 catalyst（Rubin）",
     },
     twStocks: [
-      { symbol: "2382.TW", name: "廣達", role: "GB200 NVL72 最大 ODM", perfHint: "2 年 +500%、高點 -20%" },
-      { symbol: "2317.TW", name: "鴻海", role: "GB200 ODM + Bluefield 組裝", perfHint: "2 年 +120%" },
-      { symbol: "3231.TW", name: "緯創", role: "GB200 ODM + AI Diamond 大單", perfHint: "2 年 +400%、高點 -25%" },
-      { symbol: "6669.TW", name: "緯穎", role: "Meta / Microsoft 客製 AI 伺服器", perfHint: "2 年 +350%" },
-      { symbol: "2356.TW", name: "英業達", role: "AI 伺服器代工 Tier 2", perfHint: "2 年 +180%" },
-      { symbol: "2376.TW", name: "技嘉", role: "HGX 主機板 + 整機", perfHint: "2 年 +200%、高點 -30%" },
+      { symbol: "2382.TW", name: "廣達", role: "GB200 NVL72 最大 ODM" },
+      { symbol: "2317.TW", name: "鴻海", role: "GB200 ODM + Bluefield 組裝" },
+      { symbol: "3231.TW", name: "緯創", role: "GB200 ODM + AI Diamond 大單" },
+      { symbol: "6669.TW", name: "緯穎", role: "Meta / Microsoft 客製 AI 伺服器" },
+      { symbol: "2356.TW", name: "英業達", role: "AI 伺服器代工 Tier 2" },
+      { symbol: "2376.TW", name: "技嘉", role: "HGX 主機板 + 整機" },
     ],
     relatedNvdaComponents: ["odm-hgx", "odm-rack"],
     catalysts: [
@@ -448,7 +448,7 @@ GB200 NVL72 整機櫃單櫃售價 ~NT$ 9000 萬、毛利率 9-12%（比傳統伺
       "Rubin 試產時 ODM 重新洗牌",
       "中國禁令對 NVDA 出口（影響台廠代工）",
     ],
-    peakReturn: "Tier 1（廣達 / 緯創 / 緯穎）2 年 +350~500%、已從高點回 20-30%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -471,11 +471,11 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       nowStatus: "2026/5 高基期、靜待 N2 + Rubin 落地",
     },
     twStocks: [
-      { symbol: "2330.TW", name: "台積電", role: "CoWoS 唯一供應商", perfHint: "2 年 +180%" },
-      { symbol: "2449.TW", name: "京元電子", role: "CoWoS 後段測試", perfHint: "2 年 +250%" },
-      { symbol: "3711.TW", name: "日月光投控", role: "後段封裝測試", perfHint: "2 年 +90%" },
-      { symbol: "6239.TW", name: "力成", role: "DRAM / NAND 後段", perfHint: "2 年 +100%" },
-      { symbol: "1560.TW", name: "中砂", role: "CMP 拋光研磨料", perfHint: "2 年 +200%" },
+      { symbol: "2330.TW", name: "台積電", role: "CoWoS 唯一供應商" },
+      { symbol: "2449.TW", name: "京元電子", role: "CoWoS 後段測試" },
+      { symbol: "3711.TW", name: "日月光投控", role: "後段封裝測試" },
+      { symbol: "6239.TW", name: "力成", role: "DRAM / NAND 後段" },
+      { symbol: "1560.TW", name: "中砂", role: "CMP 拋光研磨料" },
     ],
     relatedNvdaComponents: ["cowos", "cowos-l"],
     catalysts: [
@@ -488,7 +488,7 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       "Intel / Samsung 先進封裝追趕進度",
       "美國 CHIPS Act 補貼台廠美國設廠進度",
     ],
-    peakReturn: "Tier 1（TSMC / 京元電 / 中砂）2 年 +180~250%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -508,9 +508,9 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       nowStatus: "2026/5 從谷底回升中、但離前高還有 20%",
     },
     twStocks: [
-      { symbol: "3037.TW", name: "欣興", role: "全球 ABF 第三大", perfHint: "2 年 +120%、距高點 -25%" },
-      { symbol: "8046.TW", name: "南電", role: "ABF 第二大", perfHint: "2 年 +90%、距高點 -30%" },
-      { symbol: "3189.TW", name: "景碩", role: "ABF 第三家 + IC 基板", perfHint: "2 年 +110%、距高點 -20%" },
+      { symbol: "3037.TW", name: "欣興", role: "全球 ABF 第三大" },
+      { symbol: "8046.TW", name: "南電", role: "ABF 第二大" },
+      { symbol: "3189.TW", name: "景碩", role: "ABF 第三家 + IC 基板" },
     ],
     relatedNvdaComponents: ["abf-substrate"],
     catalysts: [
@@ -523,7 +523,7 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       "AI ASIC 板用量 vs 傳統 CPU 板",
       "日廠 Ibiden 擴產進度（價格戰風險）",
     ],
-    peakReturn: "Tier 1（欣興 / 南電）距前高 25-30%、現在從低點 +40%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   // ═════════════════════════════════════════════════
@@ -551,11 +551,11 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       nowStatus: "2026/5 持續低迷、等 iPhone 18 / Vision Pro 2",
     },
     twStocks: [
-      { symbol: "3008.TW", name: "大立光", role: "iPhone 鏡頭模組", perfHint: "2 年 -10%（持續低迷）" },
-      { symbol: "3406.TWO", name: "玉晶光", role: "iPhone + AR 鏡頭", perfHint: "2 年 -15%" },
-      { symbol: "2317.TW", name: "鴻海", role: "iPhone 組裝（其他事業抵消）", perfHint: "靠 AI / 機器人撐" },
-      { symbol: "2474.TW", name: "可成", role: "iPhone 金屬機殼", perfHint: "2 年 -20%" },
-      { symbol: "2354.TW", name: "鴻準", role: "iPhone 金屬件", perfHint: "2 年 -5%" },
+      { symbol: "3008.TW", name: "大立光", role: "iPhone 鏡頭模組" },
+      { symbol: "3406.TWO", name: "玉晶光", role: "iPhone + AR 鏡頭" },
+      { symbol: "2317.TW", name: "鴻海", role: "iPhone 組裝（其他事業抵消）" },
+      { symbol: "2474.TW", name: "可成", role: "iPhone 金屬機殼" },
+      { symbol: "2354.TW", name: "鴻準", role: "iPhone 金屬件" },
     ],
     catalysts: [
       "iPhone 18 規格 + 出貨預估（2026 Q3 法說）",
@@ -568,7 +568,7 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       "Apple Intelligence 中國上市時程",
       "鴻海蘋果業務佔比下降程度",
     ],
-    peakReturn: "純蘋果鏈 2 年 -10~-20%、跑輸大盤甚遠",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -593,9 +593,9 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       nowStatus: "2026/5 持續低迷、等關稅戰落幕",
     },
     twStocks: [
-      { symbol: "3481.TW", name: "群創", role: "面板（中國 + 蘋果代工）", perfHint: "2 年 -25%" },
-      { symbol: "2409.TW", name: "友達", role: "面板", perfHint: "2 年 -20%" },
-      { symbol: "3231.TW", name: "緯創", role: "中國 PC 代工（其他 AI 業務撐）", perfHint: "純中國業務 -10%" },
+      { symbol: "3481.TW", name: "群創", role: "面板（中國 + 蘋果代工）" },
+      { symbol: "2409.TW", name: "友達", role: "面板" },
+      { symbol: "3231.TW", name: "緯創", role: "中國 PC 代工（其他 AI 業務撐）" },
     ],
     catalysts: [
       "中國消費刺激政策（家電以舊換新 2.0）",
@@ -607,7 +607,7 @@ CoWoS（Chip-on-Wafer-on-Substrate）是 NVDA H100 / B200 量產的最大瓶頸�
       "阿里巴巴 / 拼多多季營收成長",
       "面板報價（IT / TV 雙弱）",
     ],
-    peakReturn: "純中國代工 -10~-25%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -635,10 +635,10 @@ DDR5 8Gb 現貨價 2026/2-2026/5 跌 -25%、威剛從 130 元跌回 95 元 -27%�
       nowStatus: "2026/5 從近期高點 -23~-27%、跌深整理中、等 HBM4 H2 量產帶起第三波",
     },
     twStocks: [
-      { symbol: "3260.TW", name: "威剛", role: "DRAM 模組龍頭 (T1)", perfHint: "從近期高點 -27%" },
-      { symbol: "8271.TWO", name: "宇瞻", role: "DRAM 模組 + SSD (T2)", perfHint: "從高點 -30%" },
-      { symbol: "4967.TWO", name: "十銓", role: "電競 DRAM 模組 (T1)", perfHint: "從高點 -23%" },
-      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM (T1)", perfHint: "從高點 -23%" },
+      { symbol: "3260.TW", name: "威剛", role: "DRAM 模組龍頭 (T1)" },
+      { symbol: "8271.TWO", name: "宇瞻", role: "DRAM 模組 + SSD (T2)" },
+      { symbol: "4967.TWO", name: "十銓", role: "電競 DRAM 模組 (T1)" },
+      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM (T1)" },
     ],
     catalysts: [
       "HBM4 量產時點（壓縮 DDR5 產能、預期 2026 H2）",
@@ -651,7 +651,7 @@ DDR5 8Gb 現貨價 2026/2-2026/5 跌 -25%、威剛從 130 元跌回 95 元 -27%�
       "南亞科 / 華邦電 月營收 YoY 何時由負轉正",
       "Hyperscaler 訂單回升訊號",
     ],
-    peakReturn: "從高點 -23-30%、跌深整理中",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -682,10 +682,10 @@ DDR5 8Gb 現貨價 2026/2-2026/5 跌 -25%、威剛從 130 元跌回 95 元 -27%�
       nowStatus: "2026/5 從高點 -20~-23%、跌深整理中、等 HBM4 H2 量產帶起反彈",
     },
     twStocks: [
-      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM、DDR5 自製 (T1)", perfHint: "從高點 -23%" },
-      { symbol: "2344.TW", name: "華邦電", role: "利基 DRAM + NOR flash (T1)", perfHint: "從高點 -20%" },
-      { symbol: "2337.TW", name: "旺宏", role: "NOR + 3D NAND (T1)", perfHint: "從高點 -20%" },
-      { symbol: "8299.TWO", name: "群聯", role: "NAND controller IC + SSD (T1)", perfHint: "從高點 -15%" },
+      { symbol: "2408.TW", name: "南亞科", role: "DRAM IDM、DDR5 自製 (T1)" },
+      { symbol: "2344.TW", name: "華邦電", role: "利基 DRAM + NOR flash (T1)" },
+      { symbol: "2337.TW", name: "旺宏", role: "NOR + 3D NAND (T1)" },
+      { symbol: "8299.TWO", name: "群聯", role: "NAND controller IC + SSD (T1)" },
       { symbol: "5269.TW", name: "祥碩", role: "ASMedia、SSD/USB controller (T2)" },
     ],
     relatedNvdaComponents: ["hbm"],
@@ -700,7 +700,7 @@ DDR5 8Gb 現貨價 2026/2-2026/5 跌 -25%、威剛從 130 元跌回 95 元 -27%�
       "Samsung 是否擴大產能（壓抑漲價）",
       "中國 CXMT / YMTC 利基型 DRAM 追上速度",
     ],
-    peakReturn: "從高點 -15-23%、跌深整理中",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -728,10 +728,10 @@ GB200 NVL72 機架內部 NVLink 5 全部用銅纜（捨棄光纖、因為短距 
       nowStatus: "2026/5 仍強勢、貿聯 GB300 量產 + Rubin 規格升級雙引擎",
     },
     twStocks: [
-      { symbol: "3665.TW", name: "貿聯-KY", role: "全球高速 cable 龍頭、NVDA / Tesla 雙主力 (T1)", perfHint: "2 年 +240%、漲幅最猛" },
-      { symbol: "3653.TW", name: "健和興", role: "高速連接器 + cable 整套 (T1)", perfHint: "2 年 +180%" },
-      { symbol: "3023.TW", name: "信邦", role: "工業 + 醫療 + AI server cable (T1)", perfHint: "2 年 +95%" },
-      { symbol: "6153.TW", name: "嘉聯益", role: "DAC 高速銅纜 + 軟板 (T2)", perfHint: "2 年 +120%" },
+      { symbol: "3665.TW", name: "貿聯-KY", role: "全球高速 cable 龍頭、NVDA / Tesla 雙主力 (T1)" },
+      { symbol: "3653.TW", name: "健和興", role: "高速連接器 + cable 整套 (T1)" },
+      { symbol: "3023.TW", name: "信邦", role: "工業 + 醫療 + AI server cable (T1)" },
+      { symbol: "6153.TW", name: "嘉聯益", role: "DAC 高速銅纜 + 軟板 (T2)" },
       { symbol: "3679.TWO", name: "新至陞", role: "連接器 + cable 配套 (T2)" },
       { symbol: "8086.TW", name: "宏捷科", role: "高頻連接器材料 (T3)" },
     ],
@@ -746,7 +746,7 @@ GB200 NVL72 機架內部 NVLink 5 全部用銅纜（捨棄光纖、因為短距 
       "中國 cable 廠（Luxshare）價格戰",
       "224G → 448G cable 技術切換時點",
     ],
-    peakReturn: "Tier 1 2 年 +95-240%、貿聯-KY 漲幅最猛",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -774,9 +774,9 @@ AI server 還大量用 PCIe Switch / Retimer：
       nowStatus: "2026/5 仍強勢、PCIe 6 量產 + AI server 滲透率上升雙引擎",
     },
     twStocks: [
-      { symbol: "5274.TW", name: "信驊", role: "BMC 全球第一 (T1)", perfHint: "2 年 +180%、本益比合理" },
-      { symbol: "4966.TWO", name: "譜瑞-KY", role: "PCIe Retimer 全球前三 (T1)", perfHint: "2 年 +275%、漲幅最猛" },
-      { symbol: "5269.TW", name: "祥碩", role: "ASMedia controller (T2)", perfHint: "2 年 +120%" },
+      { symbol: "5274.TW", name: "信驊", role: "BMC 全球第一 (T1)" },
+      { symbol: "4966.TWO", name: "譜瑞-KY", role: "PCIe Retimer 全球前三 (T1)" },
+      { symbol: "5269.TW", name: "祥碩", role: "ASMedia controller (T2)" },
       { symbol: "5471.TWO", name: "松翰", role: "IPMI 子卡 + 邊緣管理 IC (T3)" },
     ],
     relatedNvdaComponents: ["bmc-controller", "asic-ip"],
@@ -789,7 +789,7 @@ AI server 還大量用 PCIe Switch / Retimer：
       "ASPEED 是否擴大 BMC 替代信驊",
       "Intel / AMD 整合 BMC 風險",
     ],
-    peakReturn: "Tier 1 2 年 +180-275%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -817,10 +817,10 @@ TSMC 2026 預估 capex $50B+（vs 2024 $32B、+56%）、主因 N2 / A14 量產 +
       nowStatus: "2026/5 仍強勢、TSMC N2 量產 + Arizona Fab 21 第二期擴建雙引擎",
     },
     twStocks: [
-      { symbol: "3680.TW", name: "家登", role: "EUV 光罩傳載盒全球獨家 (T1)", perfHint: "2 年 +300%、漲幅最猛" },
-      { symbol: "3413.TW", name: "京鼎", role: "TEL / AMAT 設備零件代工 (T1)", perfHint: "2 年 +213%" },
-      { symbol: "6187.TWO", name: "萬潤", role: "封測機台、CoWoS 受惠 (T1)", perfHint: "2 年 +220%" },
-      { symbol: "5434.TW", name: "崇越", role: "半導體製程化學品通路 (T2)", perfHint: "2 年 +100%" },
+      { symbol: "3680.TW", name: "家登", role: "EUV 光罩傳載盒全球獨家 (T1)" },
+      { symbol: "3413.TW", name: "京鼎", role: "TEL / AMAT 設備零件代工 (T1)" },
+      { symbol: "6187.TWO", name: "萬潤", role: "封測機台、CoWoS 受惠 (T1)" },
+      { symbol: "5434.TW", name: "崇越", role: "半導體製程化學品通路 (T2)" },
     ],
     relatedNvdaComponents: ["cowos", "cowos-l"],
     catalysts: [
@@ -833,7 +833,7 @@ TSMC 2026 預估 capex $50B+（vs 2024 $32B、+56%）、主因 N2 / A14 量產 +
       "TSMC 是否放緩 capex（AI demand 過熱風險）",
       "三星 / Intel Foundry 競爭力",
     ],
-    peakReturn: "Tier 1 2 年 +213-300%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -862,10 +862,10 @@ Apple M5 內建神經網路加速器。
       nowStatus: "2026/5 仍強勢、Copilot+ PC 滲透率 30%、聯發科 NVDA 合作放量",
     },
     twStocks: [
-      { symbol: "2454.TW", name: "聯發科", role: "旗艦 SoC + NPU IP + 與 NVDA 合作 (T1)", perfHint: "2 年 +80%" },
-      { symbol: "2379.TW", name: "瑞昱", role: "智慧家居 SoC + 網通 + AI 邊緣 (T1)", perfHint: "2 年 +100%" },
-      { symbol: "5274.TW", name: "信驊", role: "BMC + AI 邊緣管理 IC (T2)", perfHint: "另已列入 BMC 題材" },
-      { symbol: "3443.TW", name: "創意電子", role: "AI 邊緣 ASIC 設計服務 (T2)", perfHint: "另已列入 ASIC 題材" },
+      { symbol: "2454.TW", name: "聯發科", role: "旗艦 SoC + NPU IP + 與 NVDA 合作 (T1)" },
+      { symbol: "2379.TW", name: "瑞昱", role: "智慧家居 SoC + 網通 + AI 邊緣 (T1)" },
+      { symbol: "5274.TW", name: "信驊", role: "BMC + AI 邊緣管理 IC (T2)" },
+      { symbol: "3443.TW", name: "創意電子", role: "AI 邊緣 ASIC 設計服務 (T2)" },
     ],
     relatedNvdaComponents: ["asic-ip"],
     catalysts: [
@@ -878,7 +878,7 @@ Apple M5 內建神經網路加速器。
       "AI PC 殺手級應用是否出現",
       "高通 / Qualcomm 在 AI PC 市佔搶占",
     ],
-    peakReturn: "Tier 1 2 年 +80-100%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   // ═════════════════════════════════════════════════
@@ -908,13 +908,13 @@ CPO 大量導入還有 1-2 年、預期 2026 H2 - 2027 H1 之間有 2 波大漲�
       nowStatus: "2026/5 開始啟動、波段震盪向上",
     },
     twStocks: [
-      { symbol: "2330.TW", name: "台積電", role: "CPO 光引擎 ASIC 製造 + 矽光子整合", perfHint: "—（在大盤裡）" },
-      { symbol: "3450.TWO", name: "聯鈞", role: "光收發 + CPO 光引擎合作", perfHint: "1 年 +60%" },
-      { symbol: "4977.TW", name: "眾達-KY", role: "矽光子 CPO 整合 + AOC", perfHint: "1 年 +90%" },
-      { symbol: "3081.TW", name: "聯亞", role: "雷射晶粒（CPO 上游）", perfHint: "1 年 +80%" },
-      { symbol: "4979.TWO", name: "華星光通", role: "800G / 1.6T 模組", perfHint: "1 年 +70%" },
-      { symbol: "3163.TWO", name: "波若威", role: "光被動元件", perfHint: "1 年 +50%" },
-      { symbol: "3363.TWO", name: "上詮", role: "矽光子模組整合", perfHint: "1 年 +60%" },
+      { symbol: "2330.TW", name: "台積電", role: "CPO 光引擎 ASIC 製造 + 矽光子整合" },
+      { symbol: "3450.TWO", name: "聯鈞", role: "光收發 + CPO 光引擎合作" },
+      { symbol: "4977.TW", name: "眾達-KY", role: "矽光子 CPO 整合 + AOC" },
+      { symbol: "3081.TW", name: "聯亞", role: "雷射晶粒（CPO 上游）" },
+      { symbol: "4979.TWO", name: "華星光通", role: "800G / 1.6T 模組" },
+      { symbol: "3163.TWO", name: "波若威", role: "光被動元件" },
+      { symbol: "3363.TWO", name: "上詮", role: "矽光子模組整合" },
     ],
     relatedNvdaComponents: ["networking-cpo", "networking-optical"],
     catalysts: [
@@ -927,7 +927,7 @@ CPO 大量導入還有 1-2 年、預期 2026 H2 - 2027 H1 之間有 2 波大漲�
       "光模組廠對 CPO 衝擊評估（替代效應）",
       "2026 GTC NVDA 公告（3 月）",
     ],
-    peakReturn: "預期 1-2 年再 +60~150%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -953,10 +953,10 @@ HBM4 上游題材還沒被充分炒。預期 2026 Q3-Q4 在 HBM4 試產時會起
       nowStatus: "2026/5 隱性題材、尚未充分炒作",
     },
     twStocks: [
-      { symbol: "3037.TW", name: "欣興", role: "HBM 載板技術合作", perfHint: "尚未充分反映" },
-      { symbol: "8046.TW", name: "南電", role: "HBM 載板 Tier 1", perfHint: "尚未充分反映" },
-      { symbol: "8358.TWO", name: "金居", role: "高純度銅箔（HBM 用）", perfHint: "尚未充分反映" },
-      { symbol: "1718.TW", name: "中纖", role: "上游材料供應", perfHint: "—" },
+      { symbol: "3037.TW", name: "欣興", role: "HBM 載板技術合作" },
+      { symbol: "8046.TW", name: "南電", role: "HBM 載板 Tier 1" },
+      { symbol: "8358.TWO", name: "金居", role: "高純度銅箔（HBM 用）" },
+      { symbol: "1718.TW", name: "中纖", role: "上游材料供應" },
     ],
     relatedNvdaComponents: ["hbm", "abf-substrate"],
     catalysts: [
@@ -969,7 +969,7 @@ HBM4 上游題材還沒被充分炒。預期 2026 Q3-Q4 在 HBM4 試產時會起
       "Micron HBM4 追趕進度",
       "ABF / PCB 廠 HBM 相關營收佔比披露",
     ],
-    peakReturn: "預期 1-2 年 +50~120%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -998,11 +998,11 @@ NVDA 跟 Microsoft / Google 聯合推 800V HVDC（高壓直流）架構 — 可�
       nowStatus: "2026/5 醞釀中、台達電法說有提及",
     },
     twStocks: [
-      { symbol: "2308.TW", name: "台達電", role: "HVDC 整體方案 + 整流模組", perfHint: "尚未反映新題材" },
-      { symbol: "2301.TW", name: "光寶", role: "HVDC PSU + Power Shelf", perfHint: "—" },
-      { symbol: "1503.TW", name: "士電", role: "HVDC 變壓器 / 開關櫃", perfHint: "—" },
-      { symbol: "1519.TW", name: "華城", role: "高壓變壓器", perfHint: "已漲過、但 HVDC 是新故事" },
-      { symbol: "1504.TW", name: "東元", role: "重電 + 馬達", perfHint: "—" },
+      { symbol: "2308.TW", name: "台達電", role: "HVDC 整體方案 + 整流模組" },
+      { symbol: "2301.TW", name: "光寶", role: "HVDC PSU + Power Shelf" },
+      { symbol: "1503.TW", name: "士電", role: "HVDC 變壓器 / 開關櫃" },
+      { symbol: "1519.TW", name: "華城", role: "高壓變壓器" },
+      { symbol: "1504.TW", name: "東元", role: "重電 + 馬達" },
     ],
     relatedNvdaComponents: ["power-psu", "power-semi"],
     catalysts: [
@@ -1014,7 +1014,7 @@ NVDA 跟 Microsoft / Google 聯合推 800V HVDC（高壓直流）架構 — 可�
       "全球第一個 HVDC AI Data Center 落地時點",
       "中國對 HVDC 採用（中國電網本身就 800V）",
     ],
-    peakReturn: "預期 1-2 年 +40~80%",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -1041,9 +1041,9 @@ NVDA 跟 Microsoft / Google 聯合推 800V HVDC（高壓直流）架構 — 可�
       nowStatus: "2026/5 沉睡中、隨新聞短炒",
     },
     twStocks: [
-      { symbol: "6510.TWO", name: "中華精測", role: "量子晶片測試", perfHint: "波動大、隨新聞短炒" },
-      { symbol: "3707.TWO", name: "漢磊", role: "量子位元低溫元件", perfHint: "已被功率半導體題材帶動" },
-      { symbol: "2308.TW", name: "台達電", role: "量子電腦低溫冷卻", perfHint: "—" },
+      { symbol: "6510.TWO", name: "中華精測", role: "量子晶片測試" },
+      { symbol: "3707.TWO", name: "漢磊", role: "量子位元低溫元件" },
+      { symbol: "2308.TW", name: "台達電", role: "量子電腦低溫冷卻" },
     ],
     catalysts: [
       "Google / IBM 量子位元數突破公告",
@@ -1054,7 +1054,7 @@ NVDA 跟 Microsoft / Google 聯合推 800V HVDC（高壓直流）架構 — 可�
       "IBM Roadmap 2027 1121 qubit 達成",
       "商業應用 PoC 案例增加",
     ],
-    peakReturn: "難預估、視突破事件而定",
+    peakReturn: "—（請以即時報價為準）",
   },
 
   {
@@ -1100,22 +1100,22 @@ TSMC 2026/4/28-29 北美 Tech Symposium 公布完整 3D Fabric 藍圖、市場�
     },
     twStocks: [
       // 三層蛋糕製造主軸
-      { symbol: "2330.TW", name: "台積電", role: "三層蛋糕製造核心（CoWoS-L + SoIC-X + A14） (T1)", perfHint: "—（大型權值）" },
+      { symbol: "2330.TW", name: "台積電", role: "三層蛋糕製造核心（CoWoS-L + SoIC-X + A14） (T1)" },
       // 後段封測
-      { symbol: "2449.TW", name: "京元電子", role: "CoWoS-L 量產 + SoIC-X 後段測試 (T1)", perfHint: "2 年 +180%" },
-      { symbol: "3711.TW", name: "日月光投控", role: "進階封裝 + 異質整合 (T1)", perfHint: "2 年 +130%" },
-      { symbol: "6147.TWO", name: "頎邦", role: "Driver IC + 進階封裝 (T2)", perfHint: "2 年 +90%" },
+      { symbol: "2449.TW", name: "京元電子", role: "CoWoS-L 量產 + SoIC-X 後段測試 (T1)" },
+      { symbol: "3711.TW", name: "日月光投控", role: "進階封裝 + 異質整合 (T1)" },
+      { symbol: "6147.TWO", name: "頎邦", role: "Driver IC + 進階封裝 (T2)" },
       // 半導體設備
-      { symbol: "3680.TW", name: "家登", role: "EUV 光罩傳載盒、A14 EUV 必備 (T1)", perfHint: "2 年 +300%" },
-      { symbol: "3413.TW", name: "京鼎", role: "TEL / AMAT 設備零件代工 (T1)", perfHint: "2 年 +213%" },
-      { symbol: "6187.TWO", name: "萬潤", role: "封測機台、CoWoS / SoIC 量產 (T1)", perfHint: "2 年 +220%" },
+      { symbol: "3680.TW", name: "家登", role: "EUV 光罩傳載盒、A14 EUV 必備 (T1)" },
+      { symbol: "3413.TW", name: "京鼎", role: "TEL / AMAT 設備零件代工 (T1)" },
+      { symbol: "6187.TWO", name: "萬潤", role: "封測機台、CoWoS / SoIC 量產 (T1)" },
       // 材料 / 載板
-      { symbol: "1560.TWO", name: "中砂", role: "CMP / TSV 製程研磨液 + 矽研磨片 (T1)", perfHint: "2 年 +180%" },
-      { symbol: "3037.TW", name: "欣興", role: "ABF 載板（SoW-X 大尺寸） (T1)", perfHint: "距高點 -25%" },
-      { symbol: "8046.TW", name: "南電", role: "ABF 載板 (T1)", perfHint: "距高點 -30%" },
-      { symbol: "3189.TW", name: "景碩", role: "ABF + IC 基板 (T1)", perfHint: "距高點 -20%" },
+      { symbol: "1560.TWO", name: "中砂", role: "CMP / TSV 製程研磨液 + 矽研磨片 (T1)" },
+      { symbol: "3037.TW", name: "欣興", role: "ABF 載板（SoW-X 大尺寸） (T1)" },
+      { symbol: "8046.TW", name: "南電", role: "ABF 載板 (T1)" },
+      { symbol: "3189.TW", name: "景碩", role: "ABF + IC 基板 (T1)" },
       // CCL 上游
-      { symbol: "2383.TW", name: "台光電", role: "高頻 CCL（SoW-X 大板上游） (T1)", perfHint: "2 年 +250%" },
+      { symbol: "2383.TW", name: "台光電", role: "高頻 CCL（SoW-X 大板上游） (T1)" },
     ],
     relatedNvdaComponents: [
       "soic-x",
@@ -1206,10 +1206,10 @@ SpaceX Starlink 月發射 50+ 顆衛星、Amazon Project Kuiper 2024 開始大�
       nowStatus: "2026/5 第二波啟動中、規模不如 2024",
     },
     twStocks: [
-      { symbol: "3491.TW", name: "昇達科", role: "微波元件", perfHint: "2 年 +250%、距高點 -25%" },
-      { symbol: "2314.TW", name: "台揚", role: "CPE 終端", perfHint: "2 年 +150%" },
-      { symbol: "8064.TWO", name: "東捷", role: "衛星地面站", perfHint: "2 年 +180%" },
-      { symbol: "6153.TW", name: "嘉聯益", role: "高頻 PCB", perfHint: "2 年 +200%" },
+      { symbol: "3491.TW", name: "昇達科", role: "微波元件" },
+      { symbol: "2314.TW", name: "台揚", role: "CPE 終端" },
+      { symbol: "8064.TWO", name: "東捷", role: "衛星地面站" },
+      { symbol: "6153.TW", name: "嘉聯益", role: "高頻 PCB" },
     ],
     catalysts: [
       "SpaceX Starlink 月發射量",
@@ -1220,7 +1220,7 @@ SpaceX Starlink 月發射 50+ 顆衛星、Amazon Project Kuiper 2024 開始大�
       "SpaceX 上市時程",
       "中國低軌衛星競爭",
     ],
-    peakReturn: "Tier 1 2 年 +200~250%、距高點 -25%",
+    peakReturn: "—（請以即時報價為準）",
     deepDiveHref: "/topics/leo-satellite",
     deepDiveLabel: "🛰️ 進入 LEO 衛星完整供應鏈頁",
   },
@@ -1245,11 +1245,11 @@ NVDA GB200 NVL72 單櫃 120kW、全球 AI Data Center 用電預估 2030 達 1000
       nowStatus: "2026/5 從高點 -25~-35%、等 HVDC 第二波",
     },
     twStocks: [
-      { symbol: "1519.TW", name: "華城", role: "高壓變壓器龍頭", perfHint: "2 年 +800%、現距高點 -30%" },
-      { symbol: "1503.TW", name: "士電", role: "變壓器 + 開關櫃", perfHint: "2 年 +400%、距高點 -25%" },
-      { symbol: "1513.TW", name: "中興電", role: "開關櫃 + GIS", perfHint: "2 年 +500%、距高點 -30%" },
-      { symbol: "1504.TW", name: "東元", role: "重電 + 馬達", perfHint: "2 年 +250%" },
-      { symbol: "1521.TW", name: "大億", role: "馬達 + 重電", perfHint: "2 年 +200%" },
+      { symbol: "1519.TW", name: "華城", role: "高壓變壓器龍頭" },
+      { symbol: "1503.TW", name: "士電", role: "變壓器 + 開關櫃" },
+      { symbol: "1513.TW", name: "中興電", role: "開關櫃 + GIS" },
+      { symbol: "1504.TW", name: "東元", role: "重電 + 馬達" },
+      { symbol: "1521.TW", name: "大億", role: "馬達 + 重電" },
     ],
     catalysts: [
       "美國變壓器交期變化",
@@ -1260,7 +1260,7 @@ NVDA GB200 NVL72 單櫃 120kW、全球 AI Data Center 用電預估 2030 達 1000
       "Microsoft / Google 資本支出指引（資料中心擴張續強？）",
       "電力設備供需是否轉鬆",
     ],
-    peakReturn: "Tier 1（華城）2 年 +800%、距高點 -30%",
+    peakReturn: "—（請以即時報價為準）",
   },
 ];
 

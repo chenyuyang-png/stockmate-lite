@@ -267,8 +267,11 @@ function ThemeCard({
           <div className="mt-3 space-y-3">
             {/* Narrative */}
             <div className="rounded-md border border-gray-200 bg-white p-3">
-              <h3 className="mb-1 text-[11px] font-bold uppercase text-gray-500">
+              <h3 className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase text-gray-500">
                 📖 漲價邏輯
+                <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[9px] font-normal normal-case text-amber-800">
+                  ⚠️ 內文百分比為大致整理、實際請以下方即時報價為準
+                </span>
               </h3>
               <p className="whitespace-pre-line text-xs leading-relaxed text-gray-800">
                 {theme.narrative}
@@ -340,7 +343,7 @@ function StockChip({
   stock,
   quote,
 }: {
-  stock: { symbol: string; name: string; role: string; perfHint?: string };
+  stock: { symbol: string; name: string; role: string };
   quote?: { price: number; change: number; changePercent: number };
 }) {
   const code = stock.symbol.replace(/\.(TW|TWO)$/i, "");
@@ -348,7 +351,7 @@ function StockChip({
     <Link
       href={`/stock/${encodeURIComponent(stock.symbol)}`}
       className="group flex items-baseline gap-1.5 rounded-md border border-gray-200 bg-white px-2 py-1 text-[11px] hover:border-indigo-400"
-      title={`${stock.name} ${code} — ${stock.role}${stock.perfHint ? "\n表現：" + stock.perfHint : ""}`}
+      title={`${stock.name} ${code} — ${stock.role}`}
     >
       <span className="font-semibold text-gray-800 group-hover:text-indigo-700">
         {stock.name}
