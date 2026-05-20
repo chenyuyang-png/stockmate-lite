@@ -714,11 +714,11 @@ GB200 NVL72 機架內部 NVLink 5 全部用銅纜（捨棄光纖、因為短距 
 
 主力台廠：
 - **貿聯-KY (3665)** — 全球高速 cable 龍頭、NVDA DGX / GB200 主力供應、Tesla 充電樁也是
-- **健和興 (3653)** — 高速連接器 + cable 整套、AI server 連接器主力
+- **健和興 (3003)** — 高速連接器 + cable 整套、AI server 連接器主力
 - **信邦 (3023)** — 工業 + 醫療 + AI server cable 多腳發展、整廠連接系統
 
 貿聯-KY 從 2024 初 350 元 → 2026/5 飆到 1,200+ 元 **+240%**（市值千億級成長）、是這波中型股最強之一。
-健和興 90 → 250 +180%。信邦 300 → 580 +95%。
+健和興、信邦也跟著走強。
 
 2026 H2 看點：Rubin NVL144（2027）內部 cable 升級到 224G 雙倍密度、加單潛力。
 `.trim(),
@@ -729,7 +729,7 @@ GB200 NVL72 機架內部 NVLink 5 全部用銅纜（捨棄光纖、因為短距 
     },
     twStocks: [
       { symbol: "3665.TW", name: "貿聯-KY", role: "全球高速 cable 龍頭、NVDA / Tesla 雙主力 (T1)" },
-      { symbol: "3653.TW", name: "健和興", role: "高速連接器 + cable 整套 (T1)" },
+      { symbol: "3003.TW", name: "健和興", role: "高速連接器 + cable 整套 (T1)" },
       { symbol: "3023.TW", name: "信邦", role: "工業 + 醫療 + AI server cable (T1)" },
       { symbol: "6153.TW", name: "嘉聯益", role: "DAC 高速銅纜 + 軟板 (T2)" },
       { symbol: "3679.TWO", name: "新至陞", role: "連接器 + cable 配套 (T2)" },
@@ -1190,35 +1190,79 @@ AI Data Center 一機房 100 MW 用電、若停電 1 分鐘要 1.7 MWh 不斷電
 
   {
     id: "satellite-low-orbit",
-    name: "低軌衛星 LEO｜StarLink + Kuiper",
-    status: "peaked",
-    brief: "2024 SpaceX Starlink + Amazon Kuiper 大發射、台廠衛星鏈受惠",
+    name: "低軌衛星 LEO｜Starlink V3 + Direct-to-Cell + Kuiper 第二波",
+    status: "active",
+    brief: "Starlink V3 量產 + Direct-to-Cell 全球試運、Kuiper 加入戰局、台廠衛星鏈第二波啟動",
     narrative: `
-SpaceX Starlink 月發射 50+ 顆衛星、Amazon Project Kuiper 2024 開始大規模發射。每顆衛星裡的微波 PCB、
-高頻連接器、地面接收終端（CPE）都需要台廠零組件。
+2024 SpaceX Starlink 第一波（V2 Mini 月發射 50+ 顆）、2026 進入「**Starlink V3 量產 + Direct-to-Cell 商用**」第二波。
+Amazon Project Kuiper 也開始大規模發射、OneWeb Gen2 補位、中國國網 + 千帆星座 2026-2027 全面追趕、市場供應商需求結構性放大。
 
-昇達科 (3491) 微波元件、嘉聯益 (6153) 高頻 PCB、台揚 (2314) CPE 都是受惠。2024 Q3 達高峰、2025 H2 因 SpaceX
-資本支出放緩拉回 30%、2026 因 Kuiper 接棒重啟、但漲幅不如 2024。
+🛰️ **三大新催化（2026 H1 - 2027）**：
+1. **Starlink V3** — 每顆衛星載荷 5x V2 Mini、需要更多高功率 RF 元件、相位陣列天線
+2. **Direct-to-Cell** — 手機直連衛星、台灣大 / 遠傳 已試運、聯發科出 IC、台揚 / 鐳洋 出地面整合
+3. **台灣 B5G 國防衛星** — 中科院 + 工研院主導、漢翔 / 經緯航太 / 雷虎 配套
+
+💡 **台廠供應鏈分四大塊**：
+- **微波 / RF 元件**：昇達科 (3491、龍頭)、公準、立積、禾瑞亞
+- **高頻 PCB / CCL**：台光電、台燿、嘉聯益、欣興
+- **地面終端 + CPE**：台揚、啟碁、中磊、智易
+- **連接器 / 天線**：正崴、嘉澤、信邦、健和興、鐳洋（相位陣列天線）
+
+電信端：中華電（與 OneWeb 合作）、遠傳、台灣大（SpaceX Direct-to-Cell）。
 `.trim(),
     timeline: {
-      start: "2023 Q4",
-      peak: "2024 Q3",
-      nowStatus: "2026/5 第二波啟動中、規模不如 2024",
+      start: "2023 Q4（第一波）",
+      peak: "2024 Q3 第一波 / 2026-2027 第二波進行中",
+      nowStatus: "2026/5 第二波啟動、Starlink V3 + Direct-to-Cell 雙引擎",
     },
     twStocks: [
-      { symbol: "3491.TW", name: "昇達科", role: "微波元件" },
-      { symbol: "2314.TW", name: "台揚", role: "CPE 終端" },
-      { symbol: "8064.TWO", name: "東捷", role: "衛星地面站" },
-      { symbol: "6153.TW", name: "嘉聯益", role: "高頻 PCB" },
+      // Tier 1 — 微波 / RF 主力
+      { symbol: "3491.TW", name: "昇達科", role: "微波元件龍頭、Starlink 供應鏈確認 (T1)" },
+      { symbol: "2392.TW", name: "正崴", role: "RF 連接器 + LEO 天線整合 (T1)" },
+      { symbol: "2314.TW", name: "台揚", role: "衛星 CPE 終端 + Ku/Ka 波段 RF (T1)" },
+      { symbol: "6980.TWO", name: "鐳洋", role: "相位陣列天線整合（地面站 + 終端）(T1)" },
+      // Tier 1 — 連接器 / 通訊終端
+      { symbol: "3533.TWO", name: "嘉澤", role: "高頻連接器（衛星 + AI 共用）(T1)" },
+      { symbol: "6285.TW", name: "啟碁科技", role: "Starlink / Kuiper 終端 ODM 主力 (T1)" },
+      { symbol: "5388.TW", name: "中磊", role: "通訊網路設備 + 衛星終端 (T1)" },
+      { symbol: "2454.TW", name: "聯發科", role: "Direct-to-Cell SoC + 衛星基頻 IC (T1)" },
+      // Tier 1 — 電信運營
+      { symbol: "2412.TW", name: "中華電", role: "與 OneWeb 合作、國防衛星合約 (T1)" },
+      // Tier 2 — 中規模
+      { symbol: "3178.TWO", name: "公準", role: "微波 RF 元件（衛星 + 雷達）(T2)" },
+      { symbol: "4968.TWO", name: "立積", role: "RF 功率放大器 IC (T2)" },
+      { symbol: "2383.TW", name: "台光電", role: "高頻 CCL（5G + 衛星）(T2)" },
+      { symbol: "6274.TWO", name: "台燿", role: "高頻 CCL 銅箔基板 (T2)" },
+      { symbol: "6153.TW", name: "嘉聯益", role: "高頻軟板 + PCB (T2)" },
+      { symbol: "3023.TW", name: "信邦", role: "通訊 cable + 連接器整合 (T2)" },
+      { symbol: "3596.TW", name: "智易", role: "CPE 終端 + 路由器 (T2)" },
+      { symbol: "2634.TW", name: "漢翔", role: "國防自主衛星整合 (T2)" },
+      // Tier 3 — 邊緣 / 觀察
+      { symbol: "8064.TWO", name: "東捷", role: "衛星地面站 + 載荷測試 (T3)" },
+      { symbol: "8466.TW", name: "經緯航太", role: "衛星測試 + 無人機系統 (T3)" },
+      { symbol: "8033.TWO", name: "雷虎科技", role: "無人機 + 衛星整合 (T3)" },
+      { symbol: "3556.TWO", name: "禾瑞亞", role: "高頻 RF IC 設計 (T3)" },
+      { symbol: "3037.TW", name: "欣興", role: "高密度 PCB（衛星 + AI 共用）(T3)" },
+      { symbol: "4904.TW", name: "遠傳", role: "OneWeb 合作 + 5G NTN 試運 (T3)" },
+      { symbol: "3045.TW", name: "台灣大", role: "與 SpaceX Direct-to-Cell 合作試運 (T3)" },
+      { symbol: "6271.TW", name: "同欣電", role: "衛星級半導體封測 (T3)" },
+      { symbol: "3094.TWO", name: "聯傑", role: "電源 IC + 衛星模組 IC (T3)" },
+      { symbol: "2419.TW", name: "仲琦", role: "通訊終端代工 (T3)" },
+      { symbol: "3003.TW", name: "健和興", role: "電源 + 訊號連接器 (T3)" },
     ],
     catalysts: [
-      "SpaceX Starlink 月發射量",
-      "Amazon Kuiper 商用上線",
-      "中華電信 / 國防部低軌衛星合約",
+      "Starlink V3 量產時程 + 月發射量",
+      "Direct-to-Cell 全球試運 → 商用化新聞",
+      "Amazon Kuiper 商用上線時程",
+      "中華電 / 遠傳 / 台灣大 衛星合作公告",
+      "中科院 / 國防部 B5G 自主衛星合約",
+      "聯發科 衛星基頻 IC 出貨",
     ],
     watchPoints: [
-      "SpaceX 上市時程",
-      "中國低軌衛星競爭",
+      "SpaceX 上市時程（重大事件）",
+      "中國國網 / 千帆 競爭加劇",
+      "Starlink V3 試射成功率",
+      "昇達科 月營收（衛星比重變化）",
     ],
     peakReturn: "—（請以即時報價為準）",
     deepDiveHref: "/topics/leo-satellite",

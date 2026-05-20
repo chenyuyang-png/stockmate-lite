@@ -1144,7 +1144,7 @@ export const NVDA_COMPONENTS: NvdaComponent[] = [
         tier: 1,
       },
       {
-        symbol: "3653.TW",
+        symbol: "3003.TW",
         name: "健和興",
         role: "高速連接器 + cable 整套、AI server 內部互連主力",
         tier: 1,
