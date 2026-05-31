@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Cpu, ArrowRight, Calendar, Satellite } from "lucide-react";
+import { Cpu, ArrowRight, Calendar, Satellite, BookOpen } from "lucide-react";
 import { TopicCatalog } from "@/components/TopicCatalog";
 import { RankBoard } from "@/components/RankBoard";
 
@@ -16,6 +16,29 @@ export const metadata = {
 export default function TopicsPage() {
   return (
     <main className="mx-auto max-w-7xl space-y-6 px-4 py-4">
+      {/* 🆕 法人怎麼看財報 + 預估 EPS — 教學頁 */}
+      <Link
+        href="/learn/valuation"
+        className="group flex flex-wrap items-center justify-between gap-2 rounded-xl border-2 border-fuchsia-300 bg-gradient-to-r from-fuchsia-50 via-pink-50 to-rose-50 px-4 py-3 shadow-sm transition hover:border-fuchsia-500 hover:shadow-md"
+      >
+        <div className="flex items-center gap-2">
+          <div className="rounded-lg bg-fuchsia-600 p-1.5 text-white">
+            <BookOpen size={14} />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-gray-900">
+              📊 法人怎麼看財報 + 預估 EPS
+            </p>
+            <p className="text-[11px] text-gray-600">
+              從營收、毛利率推到 EPS、再到目標價 — 一套<strong>機構投資人實戰流程</strong>。含<strong>欣興 / 國巨</strong>真實案例、Forward EPS + 反推法 + 景氣循環陷阱完整教學
+            </p>
+          </div>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-md bg-fuchsia-600 px-3 py-1.5 text-xs font-bold text-white group-hover:bg-fuchsia-700">
+          看教學 <ArrowRight size={11} />
+        </span>
+      </Link>
+
       {/* 🆕 2024-2026 題材輪動時間軸 */}
       <Link
         href="/topics/timeline"

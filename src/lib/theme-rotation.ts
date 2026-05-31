@@ -1202,11 +1202,15 @@ Amazon Project Kuiper 也開始大規模發射、OneWeb Gen2 補位、中國國�
 2. **Direct-to-Cell** — 手機直連衛星、台灣大 / 遠傳 已試運、聯發科出 IC、台揚 / 鐳洋 出地面整合
 3. **台灣 B5G 國防衛星** — 中科院 + 工研院主導、漢翔 / 經緯航太 / 雷虎 配套
 
-💡 **台廠供應鏈分四大塊**：
+💡 **台廠供應鏈分五大塊**：
 - **微波 / RF 元件**：昇達科 (3491、龍頭)、公準、立積、禾瑞亞
 - **高頻 PCB / CCL**：台光電、台燿、嘉聯益、欣興
 - **地面終端 + CPE**：台揚、啟碁、中磊、智易
 - **連接器 / 天線**：正崴、嘉澤、信邦、健和興、鐳洋（相位陣列天線）
+- **🧠 衛星算力 / Edge Compute**（新興）：
+  - On-board ASIC：創意電子 (3443)、世芯-KY (3661)、智原 (3035)、力旺 (3529)
+  - Direct-to-Cell SoC：聯發科 (2454、最直接)
+  - 地面站 server / BMC：廣達 (2382)、緯穎 (6669)、信驊 (5274)、譜瑞-KY (4966)
 
 電信端：中華電（與 OneWeb 合作）、遠傳、台灣大（SpaceX Direct-to-Cell）。
 `.trim(),
@@ -1249,6 +1253,15 @@ Amazon Project Kuiper 也開始大規模發射、OneWeb Gen2 補位、中國國�
       { symbol: "3094.TWO", name: "聯傑", role: "電源 IC + 衛星模組 IC (T3)" },
       { symbol: "2419.TW", name: "仲琦", role: "通訊終端代工 (T3)" },
       { symbol: "3003.TW", name: "健和興", role: "電源 + 訊號連接器 (T3)" },
+      // 🧠 衛星算力 / Edge Compute
+      { symbol: "3443.TW", name: "創意電子", role: "🧠 衛星 payload ASIC 設計服務 (T2)" },
+      { symbol: "3661.TWO", name: "世芯-KY", role: "🧠 衛星 ASIC 設計潛在客戶 (T2)" },
+      { symbol: "3035.TW", name: "智原", role: "🧠 衛星 ASIC IP / 設計服務 (T3)" },
+      { symbol: "3529.TWO", name: "力旺", role: "🧠 eFuse OTP IP、衛星 ASIC 加密 (T3)" },
+      { symbol: "2382.TW", name: "廣達", role: "🧠 地面站 AI server ODM (T2)" },
+      { symbol: "6669.TW", name: "緯穎", role: "🧠 Hyperscaler 地面站 server (T2)" },
+      { symbol: "5274.TW", name: "信驊", role: "🧠 地面站 server BMC (T2)" },
+      { symbol: "4966.TWO", name: "譜瑞-KY", role: "🧠 地面站 PCIe Retimer (T3)" },
     ],
     catalysts: [
       "Starlink V3 量產時程 + 月發射量",
@@ -1257,6 +1270,7 @@ Amazon Project Kuiper 也開始大規模發射、OneWeb Gen2 補位、中國國�
       "中華電 / 遠傳 / 台灣大 衛星合作公告",
       "中科院 / 國防部 B5G 自主衛星合約",
       "聯發科 衛星基頻 IC 出貨",
+      "創意 / 世芯 衛星 ASIC 案件公告",
     ],
     watchPoints: [
       "SpaceX 上市時程（重大事件）",
