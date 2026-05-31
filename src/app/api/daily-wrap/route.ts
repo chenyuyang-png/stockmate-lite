@@ -658,7 +658,7 @@ ${zhHeadlines.map((h, i) => `${i + 1}. ${h}`).join("\n")}
 - EVENTS：10 條重點事件編號清單`;
 
       const resp = await client.messages.create({
-        model: "claude-haiku-4-5",
+        model: "claude-sonnet-4-6", // 2026/5 升級：Haiku 4.5 → Sonnet 4.6（翻譯品質 + 族群輪動描述）
         max_tokens: 3000,
         system: [
           {

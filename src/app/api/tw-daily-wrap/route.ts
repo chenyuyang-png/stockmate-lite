@@ -555,7 +555,7 @@ ${news.map((n, i) => `${i + 1}. [${n.source}] ${n.title}`).join("\n")}
 - EVENTS：10 條重點事件編號清單`;
 
       const resp = await client.messages.create({
-        model: "claude-haiku-4-5",
+        model: "claude-sonnet-4-6", // 2026/5 升級：Haiku 4.5 → Sonnet 4.6（中文摘要 + 法人籌碼描述更準）
         max_tokens: 3000,
         system: [
           {

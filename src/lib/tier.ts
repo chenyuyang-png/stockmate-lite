@@ -148,13 +148,15 @@ export function getTierExpiry(
   return null;
 }
 
-/** 該 tier 用哪個 Claude model（控制成本） */
-// A1 優化（成本 -50%）：Premium 從 Opus 4.7 → Sonnet 4.6
-// 對短摘要 + 結構化輸出品質差異微小，但價格只剩 60%
+/** 該 tier 用哪個 Claude model */
+// 2026/5 全面升級到最新：
+// - Premium → Opus 4.7（adaptive thinking、頂級智能）
+// - Pro     → Sonnet 4.6（最新 Sonnet、性價比平衡）
+// - Free    → Sonnet 4.6（從 Haiku 升級、提升 free funnel 體驗）
 export function modelForTier(tier: Tier): string {
-  if (tier === "premium") return "claude-sonnet-4-6"; // was Opus 4.7
+  if (tier === "premium") return "claude-opus-4-7";
   if (tier === "pro") return "claude-sonnet-4-6";
-  return "claude-haiku-4-5";
+  return "claude-sonnet-4-6"; // free tier 從 haiku-4-5 升級
 }
 
 // ─── 訂閱時長：月 / 半年 / 年（適用於 Pro & Premium）─────
